@@ -1,7 +1,8 @@
 import './App.css';
+import LoginForm from './LoginForm'
 
 function App() {
-  return <h1>Hello</h1>;
+  return <LoginForm/>;
 }
 
 export default App;
