@@ -20,16 +20,16 @@ class LoginForm extends React.Component {
 
     render() {
         return (<div>
-            <div>
+            <div className = "form-floating mb-3" >
                 <label htmlFor="username">Username</label>
-                <input id="username" onChange={(e) => this.onChangeUsername(e)} value={this.state.username}/>
+                <input className="form-control" id="username" onChange={(e) => this.onChangeUsername(e)} value={this.state.username}/>
             </div>
-            <div>
+            <div className="form-floating mb-3">
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password}/>
+                <input type="password" className="form-control" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password}/>
             </div>
-            <div>
-                <input type="submit" value="Log In" onClick={() => this.onSubmit()}/>
+            <div className="form-floating mb-3">
+                <input className="btn btn-primary" type="submit" value="Log In" onClick={() => this.onSubmit()}/>
             </div>
         </div>);
     }
