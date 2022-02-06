@@ -14,24 +14,42 @@ class LoginForm extends React.Component {
         this.setState({password: e.target.value})
     }
 
-    onSubmit() {
+    onClickLogIn() {
         console.log(this.state.username + " " + this.state.password)
     }
 
+    onClickBack() {
+        console.log("Go back")
+    }
+
     render() {
-        return (<div>
-            <div className = "form-floating mb-3" >
-                <label htmlFor="username">Username</label>
-                <input className="form-control" id="username" onChange={(e) => this.onChangeUsername(e)} value={this.state.username}/>
+        const buttonStyle = {width: '30%', backgroundColor: '#8157A1', borderColor: '#8157A1'}
+        return (
+            <div className="col d-flex justify-content-center">
+                <div className="card" style={{width: '50%', borderColor: '#8157A1'}}>
+                    <div className="card-header">
+                        เข้าสู่ระบบ
+                    </div>
+                    <div className="card-body">
+                        <div className = "form-floating mb-3">
+                            <label htmlFor="username">ชื่อบัญชี</label>
+                            <input className="form-control" id="username" onChange={(e) => this.onChangeUsername(e)} value={this.state.username}/>
+                        </div>
+                        <div className="form-floating mb-3">
+                            <label htmlFor="password">รหัสผ่าน</label>
+                            <input type="password" className="form-control" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password}/>
+                        </div>
+                        <div className="form-floating mb-3 text-center">
+                            <input className="btn btn-primary" type="submit" value="เข้าสู่ระบบ" onClick={() => this.onClickLogIn() } style={buttonStyle}/>
+                        </div>
+                        <div className="form-floating mb-3 text-center">
+                            <input className="btn btn-primary" type="submit" value="ย้อนกลับ" onClick={() => this.onClickBack()} style={buttonStyle}/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="form-floating mb-3">
-                <label htmlFor="password">Password</label>
-                <input type="password" className="form-control" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password}/>
-            </div>
-            <div className="form-floating mb-3">
-                <input className="btn btn-primary" type="submit" value="Log In" onClick={() => this.onSubmit()}/>
-            </div>
-        </div>);
+            
+        );
     }
 }
 
