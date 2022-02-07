@@ -5,9 +5,9 @@ import './navbar.css'
 class Navigator extends React.Component{
     render(){
         return <div>
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="#home" className="projectName">ProjectLauncher</Navbar.Brand>
+                <Navbar.Brand href="#home">ProjectLauncher</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
