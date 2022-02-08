@@ -1,11 +1,20 @@
 import React from "react";
-import {Row, Col, Card, Button, Container} from "react-bootstrap";
+import {Row, Col, Card, Button, Container, Modal} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigator from "../../components/navigator";
 
 import './verification.css'
 
 class Verification extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            show : false,
+            fullscreen : true
+        }
+    }
+
     render(){
         return <div> 
             <Navigator/>
@@ -24,7 +33,7 @@ class Verification extends React.Component{
                                         Mr.Anon Ongsakul
                                     </Col>
                                     <Col className="d-flex justify-content-end">
-                                        <Button variant = "link">
+                                        <Button variant = "link" onClick = {()=>this.setState({show: true})}>
                                             Detail
                                         </Button>
                                     </Col>
@@ -34,6 +43,12 @@ class Verification extends React.Component{
                     ))}
                 </Row>
             </Card>
+            <Modal show={this.state.show} fullscreen={this.state.fullscreen} onHide={()=>this.setState({show: false})}>
+                <Modal.Header closeButton>
+                <Modal.Title>Modal</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Modal body content</Modal.Body>
+            </Modal>
         </div>;
     }
 }
