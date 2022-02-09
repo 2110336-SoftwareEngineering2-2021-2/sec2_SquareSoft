@@ -1,53 +1,27 @@
-import React from "react";
-import {Row, Col, Card, Button, Container, Modal} from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navigator from "../../components/navigator";
+import {Row, Col, Card, Button, Container} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-import './verification.css'
 
-class Verification extends React.Component{
+function ProjectOwnerVerification(){
 
-    constructor(props){
-        super(props);
-        this.state = {
-            show : false,
-            fullscreen : true
-        }
-    }
+    const navigate = useNavigate();
 
-    render(){
-        return <div> 
-            <Navigator/>
+    return(
+        <div>
             <Card>
-                <Card.Title>
-                    <h1>
-                        Project Owner Verification
-                    </h1>
-                </Card.Title>
-                <Row xs={1} md={1}>
-                    {Array.from({ length: 4 }).map((_, idx) => (
-                        <Card>
-                            <Container>
-                                <Row>
-                                    <Col>
-                                        Mr.Anon Ongsakul
-                                    </Col>
-                                    <Col className="d-flex justify-content-end">
-                                        <Button variant = "link" onClick = {()=>this.setState({show: true})}>
-                                            Detail
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Card>
-                    ))}
-                </Row>
-            </Card>
-            <Modal show={this.state.show} fullscreen={this.state.fullscreen} onHide={()=>this.setState({show: false})}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Mr.Anon Ongsakul</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+                <Card.Header>
+                    <Row>
+                        <Col>
+                            <Card.Title>Mr.Anon Ongsakul</Card.Title>
+                        </Col>
+                        <Col>
+                            <Button variant = "link" onClick = {()=>navigate("/project-owner-overview-verification")}>
+                                Exit
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card.Header>
+                <Card.Body>
                     <Card>
                         <Card.Title>
                             ข้อมูลส่วนบุคคล
@@ -143,14 +117,14 @@ class Verification extends React.Component{
                             </Row>
                         </Container>
                         <div align = "right">
-                            <Button variant="success" size = "sm">Primary</Button>
-                            <Button variant="danger" size = "sm">Primary</Button>
+                            <Button variant="success" size = "sm">Aprove</Button>
+                            <Button variant="danger" size = "sm">Decline</Button>
                         </div>
                     </Card>
-                </Modal.Body>
-            </Modal>
-        </div>;
-    }
+                </Card.Body>
+            </Card>
+        </div>
+    );
 }
 
-export default Verification
+export default ProjectOwnerVerification;

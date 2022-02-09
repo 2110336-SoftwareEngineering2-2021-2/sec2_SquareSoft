@@ -1,12 +1,11 @@
 import './App.css';
 
-import Navigator from './components/navigator';
-import Verification from './views/projectOwner/verification';
+import MainRoutes from './routes/mainRoute';
 
 function App() {
   return (
     <div className="App">
-      <Verification /> 
+      <MainRoutes/>
     </div>
   );
 }
