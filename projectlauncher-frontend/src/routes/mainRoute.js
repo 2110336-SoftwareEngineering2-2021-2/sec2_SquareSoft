@@ -1,10 +1,16 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import OverviewVerification from '../views/projectOwner/overviewVerification';
+import ProjectOwnerVerification from '../views/projectOwner/projectOwnerVerification';
 
 const MainRoutes = () => {
   return (
-    <Switch>
-    </Switch>
+    <BrowserRouter>
+        <Routes>
+          <Route exact path="/project-owner-overview-verification" element={<OverviewVerification />}></Route>
+          <Route exact path="/project-owner-verification" element={<ProjectOwnerVerification />} ></Route>
+        </Routes>
+    </BrowserRouter>
   );
 };
 
