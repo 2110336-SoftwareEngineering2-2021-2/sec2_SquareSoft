@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function ProjectOwnerVerification(){
 
     const navigate = useNavigate();
-
+    
     return(
         <div>
             <Card>
@@ -15,9 +15,11 @@ function ProjectOwnerVerification(){
                             <Card.Title>Mr.Anon Ongsakul</Card.Title>
                         </Col>
                         <Col>
-                            <Button variant = "link" onClick = {()=>navigate("/project-owner-overview-verification")}>
-                                Exit
-                            </Button>
+                            <div align = "right">
+                                <Button variant = "link" onClick = {()=>navigate("/project-owner")}>
+                                    Exit
+                                </Button>
+                            </div>
                         </Col>
                     </Row>
                 </Card.Header>

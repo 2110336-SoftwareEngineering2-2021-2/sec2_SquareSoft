@@ -7,8 +7,8 @@ const MainRoutes = () => {
   return (
     <BrowserRouter>
         <Routes>
-          <Route exact path="/project-owner-overview-verification" element={<OverviewVerification />}></Route>
-          <Route exact path="/project-owner-verification" element={<ProjectOwnerVerification />} ></Route>
+          <Route path="project-owner" element={<OverviewVerification />} />
+          <Route path="project-owner/specified" element={<ProjectOwnerVerification />} />
         </Routes>
     </BrowserRouter>
   );
