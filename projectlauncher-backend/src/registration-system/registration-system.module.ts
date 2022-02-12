@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RegistrationSystemController } from './registration-system.controller';
-import { UserDonatorSchema } from './registration-system.model';
+import { UserDonatorSchema, UserProjectOwnerSchema } from './registration-system.model';
 import { RegistrationSystemService } from './registration-system.service';
 
 @Module({
-  imports: [MongooseModule.forFeature([{name: 'userDonator', schema: UserDonatorSchema}]), ],
+  imports: [MongooseModule.forFeature([{name: 'userDonator', schema: UserDonatorSchema}]), MongooseModule.forFeature([{name: 'userProjectOwner', schema: UserProjectOwnerSchema}])],
   controllers: [RegistrationSystemController],
   providers: [RegistrationSystemService]
 })

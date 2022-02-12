@@ -19,4 +19,18 @@ export class RegistrationSystemController {
         }
     }
 
+    @Post('/projectOwner')
+    async registerUserProjectOwner(@Body() newRegistration) {
+        try{
+            const result = await this.productService.registerUserProjectOwner(newRegistration);
+            return result;
+        }
+        catch(err){
+            throw new HttpException({
+                "msg": "register failed: database error",
+                "err": err
+            }, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
 }
