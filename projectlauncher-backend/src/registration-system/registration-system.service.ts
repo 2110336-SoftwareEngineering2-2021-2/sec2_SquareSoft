@@ -68,5 +68,13 @@ export class RegistrationSystemService {
         return result;
     }
 
+    async getUserForLogin(username: String) {
+        let result = await this.userDonatorModel.findOne({ username: username });
+        if (!result) {
+            result = await this.userProjectOwnerModel.findOne({ username: username });
+        }
+        return result;
+    }
+
 }
 // username: string, hashpassword: string, firstname: string, lastname: string, birthdate: string, email: string, bankAccountFirstname: string, bankAccountLastname: string, bankAccountNumber: string, bankAccountBank: string
