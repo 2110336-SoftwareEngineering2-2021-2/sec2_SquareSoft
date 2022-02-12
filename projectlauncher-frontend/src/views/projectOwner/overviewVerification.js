@@ -11,22 +11,18 @@ function OverviewVerification(){
     const navigate = useNavigate();
 
     return (
-        <div> 
+        <div>
             <Navigator/>
             <Card>
                 <Card.Title>
-                    <h1>
-                        Project Owner Verification
-                    </h1>
+                    <div><h1>Project Owner Verification</h1></div>
                 </Card.Title>
                 <Row xs={1} md={1}>
-                    {Array.from({ length: 4 }).map((_, idx) => (
-                        <Card>
+                    {Array.from({ length: 30 }).map((_, idx) => (
+                        <Card className = "project-owner-overview-card">
                             <Container>
                                 <Row>
-                                    <Col>
-                                        Mr.Anon Ongsakul
-                                    </Col>
+                                    <Col>Mr.Anon Ongsakul</Col>
                                     <Col className="d-flex justify-content-end">
                                         <Button variant = "link" onClick = {()=>navigate("/project-owner/specified")}>
                                             Detail

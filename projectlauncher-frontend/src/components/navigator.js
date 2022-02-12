@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css'
 class Navigator extends React.Component{
     render(){
-        return <div>
-            <Navbar bg="dark" variant="dark">
+        return <div className="navigator">
+            <Navbar bg="dark" variant="dark" fixed = "top">
             <Container>
                 <Navbar.Brand href="#home">ProjectLauncher</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

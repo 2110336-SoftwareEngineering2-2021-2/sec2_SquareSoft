@@ -8,7 +8,7 @@ const MainRoutes = () => {
     <BrowserRouter>
         <Routes>
           <Route path="project-owner" element={<OverviewVerification />} />
-          <Route path="project-owner/specified" element={<ProjectOwnerVerification />} />
+          <Route path="project-owner/specified/:id" element={<ProjectOwnerVerification />} />
         </Routes>
     </BrowserRouter>
   );

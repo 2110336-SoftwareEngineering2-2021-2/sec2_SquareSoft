@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 function ProjectOwnerVerification(){
 
     const navigate = useNavigate();
+
+    const backPage = function BackPage(){
+        navigate("/project-owner")
+    }
     
     return(
         <div>
@@ -12,11 +16,11 @@ function ProjectOwnerVerification(){
                 <Card.Header>
                     <Row>
                         <Col>
-                            <Card.Title>Mr.Anon Ongsakul</Card.Title>
+                            <Card.Title>นายสามัคคี น้ำใจงาม Mr.Samakhee Numjaingam</Card.Title>
                         </Col>
                         <Col>
                             <div align = "right">
-                                <Button variant = "link" onClick = {()=>navigate("/project-owner")}>
+                                <Button variant = "link" onClick = {backPage}>
                                     Exit
                                 </Button>
                             </div>
@@ -28,7 +32,7 @@ function ProjectOwnerVerification(){
                         <Card.Title>
                             ข้อมูลส่วนบุคคล
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                                 <Row>
                                     <Col xs={2}>คำนำหน้า :</Col>
                                     <Col xs={2}>นาย</Col>
@@ -55,7 +59,7 @@ function ProjectOwnerVerification(){
                         <Card.Title>
                             รายละเอียดที่อยู่ 
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                             <Row>
                                 <Col xs={2}>ที่อยู่ :</Col>
                             </Row>
@@ -75,7 +79,7 @@ function ProjectOwnerVerification(){
                         <Card.Title>
                             ข้อมูลบัญชีธนาคาร 
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                             <Row>
                                 <Col xs={2}>ชื่อบัญชีธนาคาร :</Col>
                             </Row>
@@ -89,7 +93,7 @@ function ProjectOwnerVerification(){
                         <Card.Title>
                             ภาพถ่าย 
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                             <Row>
                                 <Col>
                                     <Card>
@@ -119,8 +123,9 @@ function ProjectOwnerVerification(){
                             </Row>
                         </Container>
                         <div align = "right">
-                            <Button variant="success" size = "sm">Aprove</Button>
-                            <Button variant="danger" size = "sm">Decline</Button>
+                            <Button variant="light" size = "sm" className = "button" onClick = {backPage}>Back</Button>
+                            <Button variant="success" size = "sm" className = "button">Aprove</Button>
+                            <Button variant="danger" size = "sm" className = "button">Decline</Button>
                         </div>
                     </Card>
                 </Card.Body>
