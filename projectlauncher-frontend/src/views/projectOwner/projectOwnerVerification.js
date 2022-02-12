@@ -1,11 +1,11 @@
 import {Row, Col, Card, Button, Container} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 
 
 function ProjectOwnerVerification(){
-
+    
+    const { id } = useParams();
     const navigate = useNavigate();
-
     const backPage = function BackPage(){
         navigate("/project-owner")
     }
