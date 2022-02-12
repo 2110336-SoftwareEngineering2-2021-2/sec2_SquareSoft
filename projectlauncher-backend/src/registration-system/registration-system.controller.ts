@@ -1,4 +1,5 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query, Req } from '@nestjs/common';
+import { query } from 'express';
 import { RegistrationSystemService } from './registration-system.service';
 
 @Controller('registration-system')
@@ -31,6 +32,18 @@ export class RegistrationSystemController {
                 "err": err
             }, HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+
+    @Get('/donator')
+    async getUserDonator(@Query() query) {
+        const result = await this.productService.getUserDonator(query);
+        return result;
+    }
+
+    @Get('/projectOwner')
+    async getUserProjectOwner(@Query() query) {
+        const result = await this.productService.getUserProjectOwner(query);
+        return result;
     }
 
 }
