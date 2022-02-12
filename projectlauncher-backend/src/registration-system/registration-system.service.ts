@@ -1,25 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { userDonator, userProjectOwner } from './registration-system.model';
+const bcrypt = require ('bcrypt');
 
 @Injectable()
 export class RegistrationSystemService {
     constructor(
         @InjectModel('userDonator') private readonly userDonatorModel: Model<userDonator>,
-        @InjectModel('userProjectOwner') private readonly userProjectOwnerModel: Model<userProjectOwner>
+        @InjectModel('userProjectOwner') private readonly userProjectOwnerModel: Model<userProjectOwner>,
     ) {}
 
     async registerUserDonator(newRegistration: object) {
-        const newUserDonator = new this.userDonatorModel(newRegistration);
-        const result = await newUserDonator.save();
+        const result = await this.registerUser(this.userDonatorModel, newRegistration);
         return result
     }
 
     async registerUserProjectOwner(newRegistration: object) {
-        const newUserProjectOwner = new this.userProjectOwnerModel(newRegistration);
-        const result = await newUserProjectOwner.save();
+        const result = await this.registerUser(this.userProjectOwnerModel, newRegistration);
         return result
+    }
+
+    async registerUser(model: Model<any>, newRegistration: object) {
+        if ( newRegistration["password"] === undefined ){
+            throw new HttpException({
+                "msg": "register failed: no password field"
+            }, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        newRegistration["hashpassword"]  = await bcrypt.hash(newRegistration["password"], 12);
+        delete newRegistration["password"];
+        try{
+            const newUser = new model(newRegistration);
+            const result = await newUser.save();
+            return result;
+        }
+        catch(err){
+            throw new HttpException({
+                "msg": "register failed: database error",
+                "err": err
+            }, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
     async getUserDonator(query: Object) {
