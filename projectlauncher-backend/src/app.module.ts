@@ -6,9 +6,12 @@ import { RegistrationSystemModule } from './registration-system/registration-sys
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [RegistrationSystemModule, 
-    MongooseModule.forRoot('mongodb://localhost:27017/test1'), AuthModule],
+  imports: [
+    RegistrationSystemModule,
+    MongooseModule.forRoot('mongodb://localhost:27017/test1'),
+    AuthModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
