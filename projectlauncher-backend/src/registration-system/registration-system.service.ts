@@ -69,11 +69,13 @@ export class RegistrationSystemService {
     }
 
     async getUserForLogin(username: String) {
+        let isUserDonatorModel = 1;
         let result = await this.userDonatorModel.findOne({ username: username });
         if (!result) {
             result = await this.userProjectOwnerModel.findOne({ username: username });
+            isUserDonatorModel = 0;
         }
-        return result;
+        return {result, isUserDonatorModel};
     }
 
 }
