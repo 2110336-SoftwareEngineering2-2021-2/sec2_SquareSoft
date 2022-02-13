@@ -1,4 +1,5 @@
 import './App.css';
+import LoginForm from './components/LoginForm'
 
 import MainRoutes from './routes/mainRoute';
 
