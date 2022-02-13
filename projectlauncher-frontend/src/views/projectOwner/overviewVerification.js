@@ -28,7 +28,7 @@ function OverviewVerification(){
                                         Mr.Anon Ongsakul
                                     </Col>
                                     <Col className="d-flex justify-content-end">
-                                        <Button variant = "link" onClick = {()=>navigate("/project-owner-verification")}>
+                                        <Button variant = "link" onClick = {()=>navigate("/project-owner/specified")}>
                                             Detail
                                         </Button>
                                     </Col>
