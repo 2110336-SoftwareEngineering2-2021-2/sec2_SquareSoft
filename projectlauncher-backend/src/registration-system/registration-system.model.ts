@@ -43,7 +43,10 @@ export const UserProjectOwnerSchema = new mongoose.Schema({
 
   bankAccountName: { type: String, required: true },
   bankAccountNumber: { type: String, required: true, unique: true },
-  bankAccountBank: { type: String, required: true }
+  bankAccountBank: { type: String, required: true },
+  
+  bankBookPicture: { type: String, required: true },
+  idCardPicture: { type: String, required: true }
 });
 
 export interface userProjectOwner{
@@ -63,5 +66,8 @@ export interface userProjectOwner{
 
   bankAccountName: string;
   bankAccountNumber: string;
-  bankAccountBank: string
+  bankAccountBank: string;
+
+  bankBookPicture: string;
+  idCardPicture: string;
 }
