@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     RegistrationSystemModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/test1'),
+    MongooseModule.forRoot('mongodb+srv://admin:admin@project-launcher-cluste.6tefk.mongodb.net/test'),
     AuthModule
   ],
   controllers: [AppController],
