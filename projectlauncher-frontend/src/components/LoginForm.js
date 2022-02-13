@@ -3,7 +3,7 @@ import React from 'react'
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {username: "", password: ""}
+        this.state = {username: "", password: "", isProjectOwner: false}
     }
 
     onChangeUsername(e) {
@@ -14,8 +14,12 @@ class LoginForm extends React.Component {
         this.setState({password: e.target.value})
     }
 
-    onClickLogIn() {
-        console.log(this.state.username + " " + this.state.password)
+    onChangeSwitch(e) {
+        this.setState(prevState => ({isProjectOwner: !prevState.isProjectOwner}))
+    }
+
+    onClickLogin() {
+        console.log(this.state.username + " " + this.state.password + " " + this.state.isProjectOwner)
     }
 
     onClickBack() {
@@ -28,23 +32,27 @@ class LoginForm extends React.Component {
             <div className="col d-flex justify-content-center">
                 <div className="card" style={{width: '50%', borderColor: '#8157A1'}}>
                     <div className="card-header">
-                        เข้าสู่ระบบ
+                        Log in
                     </div>
                     <div className="card-body">
-                        <div className = "form-floating mb-3">
-                            <label htmlFor="username">ชื่อบัญชี</label>
-                            <input className="form-control" id="username" onChange={(e) => this.onChangeUsername(e)} value={this.state.username}/>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <label htmlFor="password">รหัสผ่าน</label>
-                            <input type="password" className="form-control" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password}/>
-                        </div>
-                        <div className="form-floating mb-3 text-center">
-                            <input className="btn btn-primary" type="submit" value="เข้าสู่ระบบ" onClick={() => this.onClickLogIn() } style={buttonStyle}/>
-                        </div>
-                        <div className="form-floating mb-3 text-center">
-                            <input className="btn btn-primary" type="submit" value="ย้อนกลับ" onClick={() => this.onClickBack()} style={buttonStyle}/>
-                        </div>
+                            <div className = "form-group mb-3">
+                                <label htmlFor="username">Username</label>
+                                <input className="form-control" id="username" onChange={(e) => this.onChangeUsername(e)} value={this.state.username} placeholder="Username"/>
+                            </div>
+                            <div className="form-group mb-3">
+                                <label htmlFor="password">Password</label>
+                                <input type="password" className="form-control" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password} placeholder="Password"/>
+                            </div>
+                            <div className="form-check form-switch text-center mb-3">
+                                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={(e) => this.onChangeSwitch(e) } checked={this.state.isProjectOwner}/>
+                                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Log in as project owner</label>
+                            </div>
+                            <div className="form-group mb-3 text-center">
+                                <input className="btn btn-primary" type="submit" value="Log in" onClick={() => this.onClickLogin() } style={buttonStyle}/>
+                            </div>
+                            <div className="form-group mb-3 text-center">
+                                <input className="btn btn-primary" type="submit" value="Back" onClick={() => this.onClickBack()} style={buttonStyle}/>
+                            </div>
                     </div>
                 </div>
             </div>
