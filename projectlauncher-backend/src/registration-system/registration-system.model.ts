@@ -32,7 +32,7 @@ export const UserProjectOwnerSchema = new mongoose.Schema({
   hashpassword: { type: String, required: true },
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
-  idCardNumber: { type: String, required: true },
+  idCardNumber: { type: String, required: true, unique: true },
   birthdate: { type: Date, required: true },
   
   address: { type: String, required: true },

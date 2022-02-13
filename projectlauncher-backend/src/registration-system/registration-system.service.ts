@@ -32,7 +32,10 @@ export class RegistrationSystemService {
         try{
             const newUser = new model(newRegistration);
             const result = await newUser.save();
-            return result;
+            return {
+                "status": "registration successful",
+                "username": result["username"]
+            };
         }
         catch(err){
             throw new HttpException({

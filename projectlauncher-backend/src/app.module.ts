@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { RegistrationSystemModule } from './registration-system/registration-system.module';
 
 @Module({
-  imports: [RegistrationSystemModule, MongooseModule.forRoot('mongodb://localhost:27017/test1')],
+  imports: [RegistrationSystemModule, MongooseModule.forRoot('mongodb://localhost:27017/test2')],
   controllers: [AppController],
   providers: [AppService],
 })
