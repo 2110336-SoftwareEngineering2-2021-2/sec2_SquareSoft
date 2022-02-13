@@ -44,7 +44,7 @@ class LoginForm extends React.Component {
                                 <input type="password" className="form-control" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password} placeholder="Password"/>
                             </div>
                             <div className="form-check form-switch text-center mb-3">
-                                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={(e) => this.onChangeSwitch(e) } checked={this.state.isProjectOwner}/>
+                                <input className="form-check-input" style={this.state.isProjectOwner? {backgroundColor: '#8157A1'}:null} type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={(e) => this.onChangeSwitch(e) } checked={this.state.isProjectOwner}/>
                                 <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Log in as project owner</label>
                             </div>
                             <div className="form-group mb-3 text-center">
