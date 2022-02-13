@@ -9,7 +9,6 @@ import './verification.css'
 function OverviewVerification(){
 
     const navigate = useNavigate();
-
     return (
         <div>
             <Navigator/>
@@ -22,9 +21,9 @@ function OverviewVerification(){
                         <Card className = "project-owner-overview-card">
                             <Container>
                                 <Row>
-                                    <Col>Mr.Anon Ongsakul</Col>
+                                    <Col>Mr.Anon Ongsakul{idx}</Col>
                                     <Col className="d-flex justify-content-end">
-                                        <Button variant = "link" onClick = {()=>navigate("/project-owner/specified")}>
+                                        <Button variant = "link" onClick = {()=>navigate("/project-owner/specified/".concat(idx))}>
                                             Detail
                                         </Button>
                                     </Col>
