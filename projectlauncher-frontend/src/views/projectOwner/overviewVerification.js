@@ -26,11 +26,11 @@ function OverviewVerification(){
             <Navigator/>
             <Card>
                 <Card.Title>
-                    <div><h1>Project Owner Verification</h1></div>
+                    <div className = "overview-title">Project Owner Verification</div>
                 </Card.Title>
                 <Row xs={1} md={1}>
                     {Array.from({ length: data[0] }).map((_, idx) => (
-                        <Card className = "project-owner-overview-card">
+                        <Card className = "project-owner-overview-card" key = {data[1][idx]._id}>
                             <Container>
                                 <Row>
                                     <Col>{data[1][idx].username}</Col>
