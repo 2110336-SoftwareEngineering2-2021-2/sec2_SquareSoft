@@ -9,4 +9,11 @@ export class AuthController {
     async loginDonator(@Body() body) {
         return await this.authService.login(body);
     }
+
+    @Post('refresh-token')
+    async refreshToken(@Body() body) {
+        return await this.authService.refreshToken(body);
+    }
+    
+    
 }
