@@ -1,7 +1,7 @@
 import {Row, Col, Card, Button, Container} from "react-bootstrap";
 import { useNavigate, useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getProjectOwner } from "../../api/verification/projectOwner-verification-api";
+import { getProjectOwner, approveProjectOwner, rejectProjectOwner } from "../../api/verification/projectOwner/projectOwner-verification-api";
 
 
 function ProjectOwnerVerification(){
@@ -18,7 +18,6 @@ function ProjectOwnerVerification(){
             .then(res => 
                 {
                     setData(res.data); 
-                    console.log(res);
                 });
     }, []);
 
@@ -141,8 +140,8 @@ function ProjectOwnerVerification(){
                         </Container>
                         <div align = "right">
                             <Button variant="light" size = "sm" className = "button" onClick = {backPage}>Back</Button>
-                            <Button variant="success" size = "sm" className = "button">Aprove</Button>
-                            <Button variant="danger" size = "sm" className = "button">Decline</Button>
+                            <Button variant="success" size = "sm" className = "button" onClick = {() => {approveProjectOwner(id); backPage()}}>Aprove</Button>
+                            <Button variant="danger" size = "sm" className = "button" onClick = {() => {rejectProjectOwner(id); backPage()}}>Reject</Button>
                         </div>
                     </Card>
                 </Card.Body>

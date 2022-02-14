@@ -3,7 +3,7 @@ import {Row, Col, Card, Button, Container} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import Navigator from "../../components/navigator";
-import { getOverviewProjectOwner } from "../../api/verification/projectOwner-verification-api";
+import { getOverviewProjectOwner } from "../../api/verification/projectOwner/projectOwner-verification-api";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './verification.css'
