@@ -6,7 +6,7 @@ export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('login')
-    async login(@Body() dto) {
-        return await this.authService.login(dto);
+    async loginDonator(@Body() body) {
+        return await this.authService.login(body);
     }
 }

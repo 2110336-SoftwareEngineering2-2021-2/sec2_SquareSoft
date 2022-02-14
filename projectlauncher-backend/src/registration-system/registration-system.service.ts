@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { userDonator, userProjectOwner } from './registration-system.model';
@@ -9,6 +9,7 @@ export class RegistrationSystemService {
     constructor(
         @InjectModel('userDonator') private readonly userDonatorModel: Model<userDonator>,
         @InjectModel('userProjectOwner') private readonly userProjectOwnerModel: Model<userProjectOwner>,
+        @InjectModel('adminDB') private readonly adminModel: Model<any>
     ) {}
 
     async registerUserDonator(newRegistration: object) {
@@ -18,6 +19,11 @@ export class RegistrationSystemService {
 
     async registerUserProjectOwner(newRegistration: object) {
         const result = await this.registerUser(this.userProjectOwnerModel, newRegistration);
+        return result
+    }
+
+    async registerAdmin(newRegistration: object) {
+        const result = await this.registerUser(this.adminModel, newRegistration);
         return result
     }
 
@@ -71,14 +77,21 @@ export class RegistrationSystemService {
         return result;
     }
 
-    async getUserForLogin(username: String) {
-        let isUserDonatorModel = 1;
-        let result = await this.userDonatorModel.findOne({ username: username });
-        if (!result) {
-            result = await this.userProjectOwnerModel.findOne({ username: username });
-            isUserDonatorModel = 0;
+    async getUserForLogin(username: String, role: string) {
+        let result = undefined;
+        if ( role === "Donator" ) {
+            result = await this.userDonatorModel.findOne({ username: username });
         }
-        return {result, isUserDonatorModel};
+        else if ( role === "ProjectOwner" ) {
+            result = await this.userProjectOwnerModel.findOne({ username: username });
+        }
+        else if ( role === "Admin" ) {
+            result = await this.adminModel.findOne({ username: username });
+        }
+        else {
+            throw new BadRequestException("Role can be only 'Donator', 'ProjectOwner' or 'Admin' not '" + role + "'");
+        }
+        return result;
     }
 
 }

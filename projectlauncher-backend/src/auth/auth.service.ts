@@ -11,17 +11,19 @@ export class AuthService {
     ) { }
 
     async login(dto: Object) {
-        const result = await this.registrationSystemService.getUserForLogin(dto["username"]);
-        const user = result["result"];
-        const isUserDonator = result["isUserDonatorModel"];
+        const user = await this.registrationSystemService.getUserForLogin(dto["username"], dto["role"]);
 
         if (!user) {
             throw new BadRequestException("Incorrect username or password.");
         } else {
             const isMatch = await compare(dto["password"], user["hashpassword"]);
             if (isMatch) {
-                const payload = { username: user["username"], role: (isUserDonator ? "Donator" : "ProjectOwner") }
-                return this.jwtService.sign(payload);
+                const payload = { username: user["username"], role: dto["role"] };
+                return {
+                    "status": "login successful",
+                    "tokenType": "JWT",
+                    "accessToken": this.jwtService.sign(payload)
+                }
             } else {
                 throw new BadRequestException("Incorrect username or password.");
             }

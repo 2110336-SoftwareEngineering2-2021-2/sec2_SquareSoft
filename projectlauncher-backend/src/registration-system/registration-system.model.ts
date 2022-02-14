@@ -71,3 +71,8 @@ export interface userProjectOwner{
   bankBookPicture: string;
   idCardPicture: string;
 }
+
+export const AdminSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  hashpassword: { type: String, required: true }
+});
