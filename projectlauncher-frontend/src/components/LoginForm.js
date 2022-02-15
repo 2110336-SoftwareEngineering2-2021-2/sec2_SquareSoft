@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -22,12 +23,9 @@ class LoginForm extends React.Component {
         console.log(this.state.username + " " + this.state.password + " " + this.state.isProjectOwner)
     }
 
-    onClickBack() {
-        console.log("Go back")
-    }
-
     render() {
         const buttonStyle = {width: '30%', backgroundColor: '#8157A1', borderColor: '#8157A1'}
+
         return (
             <div className="col d-flex justify-content-center">
                 <div className="card" style={{width: '50%', borderColor: '#8157A1'}}>
@@ -51,7 +49,9 @@ class LoginForm extends React.Component {
                                 <input className="btn btn-primary" type="submit" value="Log in" onClick={() => this.onClickLogin() } style={buttonStyle}/>
                             </div>
                             <div className="form-group mb-3 text-center">
-                                <input className="btn btn-primary" type="submit" value="Back" onClick={() => this.onClickBack()} style={buttonStyle}/>
+                                <Link to="/">
+                                    <input className="btn btn-primary" type="submit" value="Back" style={buttonStyle}/>
+                                </Link>
                             </div>
                     </div>
                 </div>
