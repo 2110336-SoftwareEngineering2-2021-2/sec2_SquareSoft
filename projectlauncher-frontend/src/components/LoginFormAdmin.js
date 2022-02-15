@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import Cookies from 'js-cookie'
+import {adminLogin} from "../api/login/login.js"
 
 class LoginFormAdmin extends React.Component {
     constructor(props) {
@@ -16,7 +17,8 @@ class LoginFormAdmin extends React.Component {
     }
 
     onClickLogin() {
-        console.log(this.state.username + " " + this.state.password)
+        Cookies.set('username', this.state.username)
+        Cookies.set('token', adminLogin(this.state.username, this.state.password))
     }
 
     render() {
@@ -39,11 +41,6 @@ class LoginFormAdmin extends React.Component {
                             </div>
                             <div className="form-group mb-3 text-center">
                                 <input className="btn btn-primary" type="submit" value="Log in" onClick={() => this.onClickLogin() } style={buttonStyle}/>
-                            </div>
-                            <div className="form-group mb-3 text-center">
-                                <Link to="/">
-                                    <input className="btn btn-primary" type="submit" value="Back" style={buttonStyle}/>
-                                </Link>
                             </div>
                     </div>
                 </div>

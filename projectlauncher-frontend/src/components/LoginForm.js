@@ -1,10 +1,12 @@
 import React from 'react'
+import Cookies from 'js-cookie'
 import { Link } from "react-router-dom";
+import {userLogin} from "../api/login/login.js"
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {username: "", password: "", isProjectOwner: false}
+        this.state = {username: "", password: ""}
     }
 
     onChangeUsername(e) {
@@ -20,7 +22,8 @@ class LoginForm extends React.Component {
     }
 
     onClickLogin() {
-        console.log(this.state.username + " " + this.state.password + " " + this.state.isProjectOwner)
+        Cookies.set('username', this.state.username)
+        Cookies.set('token', userLogin(this.state.username, this.state.password, this.state.isProjectOwner))
     }
 
     render() {
