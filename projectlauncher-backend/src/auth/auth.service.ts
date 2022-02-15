@@ -22,33 +22,6 @@ export class AuthService {
 
     async login(user: any) {
         const payload = { username: user.username, role: user.role };
-        return {
-            status: "login successful",
-            tokenType: "JWT",
-            access_token: this.jwtService.sign(payload),
-        };
-    }
-
-    verifyToken(token: string) {
-        const res = this.jwtService.verify(token);
-        // console.log(res);
-        return res;
-    }
-
-    refreshToken(dto: Object) {
-        const token = dto['token'];
-        // console.log("START",token);
-        const username = this.verifyToken(token)['username'];
-        const role = this.verifyToken(token)['role'];
-        // console.log(username,role);
-        if (username && role) {
-            const payload = { username: username, role: role };
-            return {
-                "status": "refresh token successful!",
-                "tokenType": "JWT",
-                "accessToken": this.jwtService.sign(payload)
-            }
-        }
-        else throw new BadRequestException("Token error!");
+        return { access_token: this.jwtService.sign(payload) };
     }
 }
