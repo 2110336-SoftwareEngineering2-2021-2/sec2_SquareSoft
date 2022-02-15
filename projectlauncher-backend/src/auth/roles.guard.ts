@@ -31,6 +31,8 @@ export class RolesGuard implements CanActivate {
             const user = this.jwtService.verify(token);
             return requiredRoles?.includes(user['role']);
         } catch (err) {
+            // Error in this part are either from expired JWT, incorrect JWT, or no JWT at all.
+            // Usually caused by not properly signing in.
             throw new HttpException("Please login.", 401);
         }
 
