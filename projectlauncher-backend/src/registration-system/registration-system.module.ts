@@ -7,6 +7,7 @@ import { RegistrationSystemService } from './registration-system.service';
 @Module({
   imports: [MongooseModule.forFeature([{name: 'userDonator', schema: UserDonatorSchema}]), MongooseModule.forFeature([{name: 'userProjectOwner', schema: UserProjectOwnerSchema}])],
   controllers: [RegistrationSystemController],
-  providers: [RegistrationSystemService]
+  providers: [RegistrationSystemService],
+  exports: [RegistrationSystemService]
 })
 export class RegistrationSystemModule {}
