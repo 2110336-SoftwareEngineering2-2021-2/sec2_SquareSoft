@@ -1,11 +1,12 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 import {adminLogin} from "../api/login/login.js"
+import { Link, Navigate } from "react-router-dom";
 
 class LoginFormAdmin extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {username: "", password: ""}
+        this.state = {username: "", password: "", isLoginCompleted: false}
     }
 
     onChangeUsername(e) {
@@ -17,8 +18,9 @@ class LoginFormAdmin extends React.Component {
     }
 
     onClickLogin() {
-        Cookies.set('username', this.state.username)
+        Cookies.set('username', this.state.username) // May change to using api
         Cookies.set('token', adminLogin(this.state.username, this.state.password))
+        this.setState({isLoginCompleted: true}) // EDIT
     }
 
     render() {
@@ -41,6 +43,7 @@ class LoginFormAdmin extends React.Component {
                             </div>
                             <div className="form-group mb-3 text-center">
                                 <input className="btn btn-primary" type="submit" value="Log in" onClick={() => this.onClickLogin() } style={buttonStyle}/>
+                                {(this.state.isLoginCompleted)? <Navigate to="/home" replace={true}/>: null}
                             </div>
                     </div>
                 </div>

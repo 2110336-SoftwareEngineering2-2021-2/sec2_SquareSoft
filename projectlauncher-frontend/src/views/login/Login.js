@@ -1,20 +1,35 @@
 import React from "react";
 import Navigator from "../../components/navigator";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import LoginForm from "../../components/LoginForm";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Login(){
+import Cookies from 'js-cookie'
 
-    const navigate = useNavigate();
+class Login extends React.Component{
 
-    return (
-        <div>
-            <Navigator/>
-            <LoginForm />
-        </div>
-    );
+    constructor(props) {
+        super(props)
+        this.state = {isLoggedin: false}
+    }
+
+    componentDidMount() {
+        if (Cookies.get('token')) {
+            this.setState({isLoggedin: true})
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <Navigator/>
+                <LoginForm />
+                {(this.state.isLoggedin)? <Navigate to="/home" replace={true}/>: null}
+            </div>
+        );
+    }
+    
 }
 
 export default Login
