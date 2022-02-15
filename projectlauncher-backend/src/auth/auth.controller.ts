@@ -6,7 +6,7 @@ export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('login')
-    async loginDonator(@Body() body) {
+    async login(@Body() body) {
         return await this.authService.login(body);
     }
 
@@ -14,6 +14,4 @@ export class AuthController {
     async refreshToken(@Body() body) {
         return await this.authService.refreshToken(body);
     }
-    
-    
 }
