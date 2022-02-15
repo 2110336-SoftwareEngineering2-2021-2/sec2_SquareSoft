@@ -17,6 +17,12 @@ class Navigator extends React.Component{
         }
     }
 
+    onClickLogOut() {
+        this.setState({isLoggedin: false})
+        Cookies.remove('token')
+        Cookies.remove('username')
+    }
+
     render(){
         return <div>
             <Navbar bg="light" variant="light">
@@ -28,8 +34,13 @@ class Navigator extends React.Component{
                     {(this.state.isLoggedin)? <NavDropdown title={this.state.username} id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">Log out</NavDropdown.Item>
-                    </NavDropdown>: <Nav.Link href="login">Log in</Nav.Link>}
+                        <NavDropdown.Item onClick={() => this.onClickLogOut()}>Log out</NavDropdown.Item>
+                    </NavDropdown>: 
+                    <Nav>
+                        <Nav.Link href="register">Register</Nav.Link>
+                        <Nav.Link href="login">Log in</Nav.Link>
+                    </Nav>
+                        }
                 </Nav>
                 </Navbar.Collapse>
             </Container>
