@@ -18,6 +18,8 @@ class LoginFormAdmin extends React.Component {
     }
 
     onClickLogin() {
+        // Use login API
+
         Cookies.set('username', this.state.username) // May change to using api
         Cookies.set('token', adminLogin(this.state.username, this.state.password))
         this.setState({isLoginCompleted: true}) // EDIT

@@ -15,6 +15,7 @@ class Login extends React.Component{
     }
 
     componentDidMount() {
+        // Check if logged in
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
         }

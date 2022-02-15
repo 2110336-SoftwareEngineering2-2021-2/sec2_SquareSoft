@@ -11,6 +11,7 @@ class Navigator extends React.Component{
     }
 
     componentDidMount() {
+        // Check if logged in
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
             this.setState({username: Cookies.get('username')})
@@ -18,6 +19,7 @@ class Navigator extends React.Component{
     }
 
     onClickLogOut() {
+        // remove token
         this.setState({isLoggedin: false})
         Cookies.remove('token')
         Cookies.remove('username')
