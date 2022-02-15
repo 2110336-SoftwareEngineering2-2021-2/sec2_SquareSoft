@@ -46,7 +46,9 @@ export const UserProjectOwnerSchema = new mongoose.Schema({
   bankAccountBank: { type: String, required: true },
   
   bankBookPicture: { type: String, required: true },
-  idCardPicture: { type: String, required: true }
+  idCardPicture: { type: String, required: true },
+
+  verification_status: { type: String, required: true }
 });
 
 export interface userProjectOwner{
@@ -70,6 +72,8 @@ export interface userProjectOwner{
 
   bankBookPicture: string;
   idCardPicture: string;
+
+  verification_status: string; //Submitted Verified Rejected
 }
 
 export const AdminSchema = new mongoose.Schema({
