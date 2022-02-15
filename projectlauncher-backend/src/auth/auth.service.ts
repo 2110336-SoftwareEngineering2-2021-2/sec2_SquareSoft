@@ -10,25 +10,35 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
-    async login(dto: Object) {
-        const user = await this.registrationSystemService.getUserForLogin(dto["username"], dto["role"]);
-
-        if (!user) {
-            throw new BadRequestException("Incorrect username or password.");
-        } else {
-            const isMatch = await compare(dto["password"], user["hashpassword"]);
-            if (isMatch) {
-                const payload = { username: user["username"], role: dto["role"] };
-                return {
-                    "status": "login successful",
-                    "tokenType": "JWT",
-                    "accessToken": this.jwtService.sign(payload)
-                }
-            } else {
-                throw new BadRequestException("Incorrect username or password.");
-            }
+    async validateUser(role: string, username: string, password: string): Promise<any> {
+        const user = await this.registrationSystemService.getUserForLogin(username, role);
+        if (user && compare(password, user.hashpassword)) {
+            const { hashpassword, ...result } = user;
+            return result;
         }
+        return null;
     }
+
+    // async login(dto: Object) {
+    //     const user = await this.registrationSystemService.getUserForLogin(dto["username"], dto["role"]);
+
+    //     if (!user) {
+    //         throw new BadRequestException("Incorrect username or password.");
+    //     } else {
+    //         const isMatch = await compare(dto["password"], user["hashpassword"]);
+    //         if (isMatch) {
+    //             const payload = { username: user["username"], role: dto["role"] };
+    //             return {
+    //                 "status": "login successful",
+    //                 "tokenType": "JWT",
+    //                 "accessToken": this.jwtService.sign(payload)
+    //             }
+    //         } else {
+    //             throw new BadRequestException("Incorrect username or password.");
+    //         }
+    //     }
+    // }
+
     verifyToken(token: string) {
         const res = this.jwtService.verify(token);
         // console.log(res);
