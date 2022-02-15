@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, HttpException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { ROLES_KEY } from 'src/decorators/roles.decorator';
@@ -22,12 +22,17 @@ export class RolesGuard implements CanActivate {
 
         const reqeust = context.switchToHttp().getRequest();
 
-        console.log(reqeust.user)
+        // console.log(reqeust.user)
 
-        const token = reqeust.headers.authorization.replace('Bearer ', '');
-        const user = this.jwtService.decode(token);
-        // console.log(user['role'])
+        try {
+            const token = reqeust.headers.authorization.replace('Bearer ', '');
+            // console.log(user['role'])
 
-        return requiredRoles?.includes(user['role']);
+            const user = this.jwtService.verify(token);
+            return requiredRoles?.includes(user['role']);
+        } catch (err) {
+            throw new HttpException("Please login.", 401);
+        }
+
     }
 }
