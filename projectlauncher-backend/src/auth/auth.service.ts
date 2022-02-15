@@ -12,32 +12,22 @@ export class AuthService {
 
     async validateUser(role: string, username: string, password: string): Promise<any> {
         const user = await this.registrationSystemService.getUserForLogin(username, role);
-        if (user && compare(password, user.hashpassword)) {
-            const { hashpassword, ...result } = user;
+        if (user && await compare(password, user.hashpassword)) {
+            const { hashpassword, ...result } = user.toObject();
+            result.role = role;
             return result;
         }
         return null;
     }
 
-    // async login(dto: Object) {
-    //     const user = await this.registrationSystemService.getUserForLogin(dto["username"], dto["role"]);
-
-    //     if (!user) {
-    //         throw new BadRequestException("Incorrect username or password.");
-    //     } else {
-    //         const isMatch = await compare(dto["password"], user["hashpassword"]);
-    //         if (isMatch) {
-    //             const payload = { username: user["username"], role: dto["role"] };
-    //             return {
-    //                 "status": "login successful",
-    //                 "tokenType": "JWT",
-    //                 "accessToken": this.jwtService.sign(payload)
-    //             }
-    //         } else {
-    //             throw new BadRequestException("Incorrect username or password.");
-    //         }
-    //     }
-    // }
+    async login(user: any) {
+        const payload = { username: user.username, role: user.role };
+        return {
+            status: "login successful",
+            tokenType: "JWT",
+            access_token: this.jwtService.sign(payload),
+        };
+    }
 
     verifyToken(token: string) {
         const res = this.jwtService.verify(token);
