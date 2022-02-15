@@ -25,7 +25,7 @@ function OverviewVerification(){
         <div>
             <Navigator/>
             <Card>
-                <Card.Title>
+                <Card.Title >
                     <div className = "overview-title">Project Owner Verification</div>
                 </Card.Title>
                 <Row xs={1} md={1}>
