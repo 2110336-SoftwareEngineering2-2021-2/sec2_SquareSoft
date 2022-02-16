@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
                 this.setState({isLoginCompleted: true})
             }
         }).catch(res => {
-            console.log('unable to log in')
+            alert('unable to log in')
         })
     }
 
