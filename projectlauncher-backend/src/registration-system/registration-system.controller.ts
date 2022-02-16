@@ -18,6 +18,12 @@ export class RegistrationSystemController {
         return result;
     }
 
+    @Post('/admin')
+    async registerAdmin(@Body() newRegistration) {
+        const result = await this.productService.registerAdmin(newRegistration);
+        return result;
+    }
+
     @Get('/donator')
     async getUserDonator(@Query() query) {
         const result = await this.productService.getUserDonator(query);
