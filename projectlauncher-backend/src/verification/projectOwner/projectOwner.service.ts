@@ -15,11 +15,8 @@ export class ProjectOwnerVerificationService {
   }
 
   async getVerificationList(start: number, end: number): Promise<[number, userProjectOwner[]]> {
-    const queryBlock = []
 
-    queryBlock.push({ $or: [{ verification_status: "Submitted" }] })
-
-    let user = await this.userModel.find({ $and: queryBlock }, { _id: 1, name_en: 1, surname_en: 1, username: 1, name_th: 1, surname_th: 1 })
+    let user = await this.userModel.find({ verification_status: "Submitted" }, { _id: 1, firstname: 1, lastname: 1})
     const length = user.length
     if (start !== undefined) {
       start = Number(start)
@@ -45,15 +42,4 @@ export class ProjectOwnerVerificationService {
     return user
   }
 
-  async setPaymentstatus(id: string, isApprove: boolean, newExpiredDate?: Date): Promise<userProjectOwner> {
-    if (isApprove && newExpiredDate === null) throw new HttpException("Cannot find newExpiredDate in req.body", HttpStatus.BAD_REQUEST)
-
-    const setBlock = isApprove ? { document_status: "NotSubmitted", account_expiration_date: newExpiredDate } : { document_status: "Rejected" }
-
-    const user = await this.userModel.findByIdAndUpdate(id, { $set: setBlock }, { new: true, strict: false })
-
-    if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND)
-
-    return user
-  }
 }
