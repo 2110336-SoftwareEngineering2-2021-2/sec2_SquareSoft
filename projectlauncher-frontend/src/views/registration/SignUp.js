@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
-import {Redirect} from 'react-router-dom'
+import {Navigate, Redirect} from 'react-router-dom'
+import { register } from '../../api/registration/registration';
 import Navigator from "../../components/navigator";
-import "./SignUp.css"
+import {useNavigate} from 'react-router-dom'
 
 function AccountName(){
     return (
@@ -15,7 +16,7 @@ function Password(){
     return (
         <div className="mb-3">
             <label className="form-label">Password</label>
-            <input name="password" className="form-control" id="password"/>
+            <input type="password" name="password" className="form-control" id="password"/>
         </div>
     );
 }
@@ -23,7 +24,7 @@ function ConfirmPassword(){
     return (
         <div className="mb-3">
             <label className="form-label">Comfirm Password</label>
-            <input name="comfirmPassword" className="form-control" id="comfirmPassword"/>
+            <input name="comfirmPassword" type="password" className="form-control" id="comfirmPassword"/>
         </div>
     );
 }
@@ -55,7 +56,7 @@ function Birthdate(){
     return (
         <div className="mb-3">
             <label className="form-label">Birthdate</label>
-            <input name="date" className="form-control" id="date" placeholder="DD/MM/YYYY"/>
+            <input name="date" type = "date" className="form-control" id="date" placeholder="DD/MM/YYYY"/>
         </div>
     );
 }
@@ -76,36 +77,45 @@ function BankAccountSurname(){
     );
 }
 
-const SignUp = () =>{
-    const handleSubmit = (e) => {
+const SignUp = (props) =>{
+    const handleSubmit = async (e) => {
+        //const navigate = useNavigate();
         e.preventDefault();
-        const accountName = e.target[0].value
-        const password = e.target[1].value
-        const confirmPassword = e.target[2].value
-        const email = e.target[3].value
-        const name = e.target[4].value
-        const surname = e.target[5].value
-        const birthdate = e.target[6].value
-        const bankAccountName = e.target[7].value
-        const bankAccountSurname = e.target[8].value
-        const bankAccountNumber = e.target[9].value
-        const bankName = e.target[10].value
-        //console.log(accountName)
-        //console.log(password)
-        //console.log(confirmPassword)
-        //console.log(email)
-        //console.log(name)
-        //console.log(surname)
-        //console.log(birthdate)
-        //console.log(bankAccountName)
-        //console.log(bankAccountSurname)
-        //console.log(bankAccountNumber)
-        //console.log(bankName)
-        // for(var i=0;i<11;i++)
-        //     console.log(e.target[i].value)
+        let err = ""
+        let state = true;
+        for(var i=0;i<11;i++)
+            if(e.target[i].value == "") state = false
+        if(!state) err+= "Fill in the missing information.\n"
+        let accountName = e.target[0].value
+        let password = e.target[1].value
+        let confirmPassword = e.target[2].value
+        let email = e.target[3].value
+        let name = e.target[4].value
+        let surname = e.target[5].value
+        let birthdate = e.target[6].value
+        let bankAccountName = e.target[7].value
+        let bankAccountSurname = e.target[8].value
+        let bankAccountNumber = e.target[9].value
+        let bankName = e.target[10].value
+        if (confirmPassword!=password){
+            state = false;
+            err += "Password isn't equal to Confirm Password\n"
+        }
+        if(state){
+            let result = await register("donator",accountName,password,name,surname,birthdate,email,bankAccountName,bankAccountSurname,bankAccountNumber,bankName);
+            if(result.status == "succeed"){
+                alert("succeed")
+                props.navigate("/login")
+            }else{
+                alert(result.message)
+            }
+        }else 
+            alert(err)
     }
-    const handleBack =()=> {
+    const handleBack =(props)=> {
         console.log("back complete")
+        console.log(props)
+        props.navigate("/login");
     }   
 
     return (
@@ -127,13 +137,13 @@ const SignUp = () =>{
                 <BankAccountSurname/>
                 <div className="mb-3">
                     <label className="form-label">Bank Account Number</label>
-                    <input name="bankAccountNumber" className="form-control" id="bankAccountNumber" />
+                    <input type="number" name="bankAccountNumber" className="form-control" id="bankAccountNumber" />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Bank Name</label>
                     <input name="bankName" className="form-control" id="bankName" />
                 </div>
-                <button type="button" className="btn btn-outline-primary"  onClick={handleBack} >Back</button>
+                <button type="button" className="btn btn-outline-primary"  onClick={() => handleBack(props)} >Back</button>
                 <button type="submit" className="btn btn-outline-primary">Submit</button>
             </form>
             </div>
@@ -141,4 +151,9 @@ const SignUp = () =>{
         </>
     )
 }
-export default SignUp;
+function NavigateSignUp(){
+    let navigate = useNavigate();
+    return <SignUp navigate={navigate}/>;
+}
+
+export default NavigateSignUp;
