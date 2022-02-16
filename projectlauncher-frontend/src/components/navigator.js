@@ -2,16 +2,35 @@ import React from "react";
 import {Navbar, Container, NavDropdown, Nav} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css'
+import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 import {useCookies, CookiesProvider, withCookies, Cookies } from "react-cookie";
 class Navigator extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {username: null, isLoggedin: false}
+    }
+
+    componentDidMount() {
+        // Check if logged in
+        if (Cookies.get('token')) {
+            this.setState({isLoggedin: true})
+            this.setState({username: Cookies.get('username')})
+        }
+    }
+
+    onClickLogOut() {
+        // remove token
+        this.setState({isLoggedin: false})
+        Cookies.remove('token')
+        Cookies.remove('username')
+    }
     logout(){
-        Cookies.remove("user");
         this.props.navigate('/login')
     }
     render(){
         return <div>
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="light" variant="light">
             <Container>
                 <Navbar.Brand href="#home">ProjectLauncher</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
