@@ -3,7 +3,6 @@ import { basedURL, getToken} from '../..';
 
 async function getOverviewProjectOwner() {
     const token = getToken();
-    console.log(token);
     const config = {
         headers: {
            Authorization: "Bearer " + token
