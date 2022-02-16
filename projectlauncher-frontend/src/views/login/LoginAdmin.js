@@ -1,13 +1,12 @@
 import React from "react";
 import Navigator from "../../components/navigator";
 import { Navigate } from "react-router-dom";
-import LoginForm from "../../components/LoginForm";
+import LoginFormAdmin from "../../components/LoginFormAdmin";
+import Cookies from 'js-cookie'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Cookies from 'js-cookie'
-
-class Login extends React.Component{
+class LoginAdmin extends React.Component{
 
     constructor(props) {
         super(props)
@@ -25,12 +24,13 @@ class Login extends React.Component{
         return (
             <div>
                 <Navigator/>
-                <LoginForm />
+                <LoginFormAdmin />
                 {(this.state.isLoggedin)? <Navigate to="/home" replace={true}/>: null}
             </div>
         );
     }
+
     
 }
 
-export default Login
+export default LoginAdmin

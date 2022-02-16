@@ -1,22 +1,39 @@
 import {Row, Col, Card, Button, Container} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getProjectOwner, approveProjectOwner, rejectProjectOwner } from "../../../api/verification/projectOwner/projectOwner-verification-api";
 
 
 function ProjectOwnerVerification(){
-
-    const navigate = useNavigate();
     
+    const { id } = useParams();
+    const overviewURL = "/admin/project-owner";
+    const navigate = useNavigate();
+    const backPage = function BackPage(){
+        navigate(overviewURL)
+    }
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        getProjectOwner(id)
+            .then(res => {setData(res.data);})
+            .catch((err) =>{navigate("/")});
+    }, []);
+
+    if(!data){
+        return (<p>loading...</p>);
+    }
+
     return(
         <div>
             <Card>
                 <Card.Header>
                     <Row>
                         <Col>
-                            <Card.Title>Mr.Anon Ongsakul</Card.Title>
+                            <Card.Title>{data.firstname} {data.lastname}</Card.Title>
                         </Col>
                         <Col>
                             <div align = "right">
-                                <Button variant = "link" onClick = {()=>navigate("/project-owner")}>
+                                <Button variant = "link" onClick = {backPage}>
                                     Exit
                                 </Button>
                             </div>
@@ -28,68 +45,69 @@ function ProjectOwnerVerification(){
                         <Card.Title>
                             ข้อมูลส่วนบุคคล
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                                 <Row>
                                     <Col xs={2}>คำนำหน้า :</Col>
                                     <Col xs={2}>นาย</Col>
                                 </Row>
                                 <Row>
                                     <Col xs={2}>ชื่อ :</Col>
-                                    <Col xs={2}>สามัคคี</Col>
+                                    <Col xs={2}>{data.firstname}</Col>
                                     <Col xs={2}>นามสกุล :</Col>
-                                    <Col xs={2}>น้ำใจงาม</Col>
+                                    <Col xs={2}>{data.lastname}</Col>
                                 </Row>
                                 <Row>
                                     <Col xs={2}>Name:</Col>
-                                    <Col xs={2}>Samakhee</Col>
+                                    <Col xs={2}>{data.firstname}</Col>
                                     <Col xs={2}>Surname :</Col>
-                                    <Col xs={2}>Numjaingam</Col>
+                                    <Col xs={2}>{data.lastname}</Col>
                                 </Row>
                                 <Row>
                                     <Col xs={2}>เลขบัตรประชาชน :</Col>
-                                    <Col xs={2}>1234567890123</Col>
+                                    <Col xs={2}>{data.idCardNumber}</Col>
                                     <Col xs={2}>วันเดือนปีเกิด :</Col>
-                                    <Col xs={2}>00/00/0000</Col>
+                                    <Col xs={2}>{data.birthdate.slice(0, 10)}</Col>
                                 </Row>
                         </Container>
                         <Card.Title>
                             รายละเอียดที่อยู่ 
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                             <Row>
                                 <Col xs={2}>ที่อยู่ :</Col>
                             </Row>
                             <Row>
                                 <Col xs={2}>จังหวัด :</Col>
-                                <Col xs={2}>กรุงเทพ</Col>
+                                <Col xs={2}>{data.province}</Col>
                                 <Col xs={2}>อำเภอ/เขต :</Col>
-                                <Col xs={2}>ปทุมวัน</Col>
+                                <Col xs={2}>{data.district}</Col>
                             </Row>
                             <Row>
-                                <Col xs={2}>แขวง :</Col>
-                                <Col xs={2}>วังใหม่</Col>
+                                <Col xs={2}>ตำบล/แขวง :</Col>
+                                <Col xs={2}>{data.subdistrict}</Col>
                                 <Col xs={2}>รหัสไปรษณีย์ :</Col>
-                                <Col xs={2}>10330</Col>
+                                <Col xs={2}>{data.postcode}</Col>
                             </Row>
                         </Container>
                         <Card.Title>
                             ข้อมูลบัญชีธนาคาร 
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                             <Row>
                                 <Col xs={2}>ชื่อบัญชีธนาคาร :</Col>
+                                <Col xs={2}>{data.bankAccountName}</Col>
                             </Row>
                             <Row>
-                                <Col xs={2}>เบขที่ปัญชี :</Col>
-                                <Col xs={2}></Col>
+                                <Col xs={2}>เลขที่ปัญชี :</Col>
+                                <Col xs={2}>{data.bankAccountNumber}</Col>
                                 <Col xs={2}>ธนาคาร :</Col>
-                                <Col xs={2}>กสิกรไทย</Col>
+                                <Col xs={2}>{data.bankAccountBank}</Col>
                             </Row>
                         </Container>
                         <Card.Title>
                             ภาพถ่าย 
                         </Card.Title>
-                        <Container>
+                        <Container className="detail-container">
                             <Row>
                                 <Col>
                                     <Card>
@@ -119,8 +137,9 @@ function ProjectOwnerVerification(){
                             </Row>
                         </Container>
                         <div align = "right">
-                            <Button variant="success" size = "sm">Aprove</Button>
-                            <Button variant="danger" size = "sm">Decline</Button>
+                            <Button variant="light" size = "sm" className = "button" onClick = {backPage}>Back</Button>
+                            <Button variant="success" size = "sm" className = "button" onClick = {() => {approveProjectOwner(id); backPage()}}>Aprove</Button>
+                            <Button variant="danger" size = "sm" className = "button" onClick = {() => {rejectProjectOwner(id); backPage()}}>Reject</Button>
                         </div>
                     </Card>
                 </Card.Body>
