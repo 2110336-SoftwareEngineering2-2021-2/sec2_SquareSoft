@@ -3,7 +3,13 @@ import { basedURL, getToken} from '../..';
 
 async function getOverviewProjectOwner() {
     const token = getToken();
-    const response = await axios.get(basedURL.concat('projectOwner'));
+    const config = {
+        headers: {
+           Authorization: "Bearer " + token
+        }
+     }
+     
+    const response = await axios.get(basedURL.concat('projectOwner'), config);
     return await response;
 }
 
