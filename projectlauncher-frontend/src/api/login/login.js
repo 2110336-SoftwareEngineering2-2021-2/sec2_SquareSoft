@@ -1,36 +1,24 @@
 import axios from 'axios'
 import {
     basedURL
-} from '../..';
+} from '../index.js';
 
-function userLogin(username, password, isProjectOwner) {
-    // const response = await axios.post(basedURL.concat('auth/login'), {
-    //     username: username,
-    //     password: password,
-    //     role: (isProjectOwner) ? 'ProjectOwner' : 'Donator'
-    // })
-    // return await response;
-    // return {
-    //     username: username,
-    //     password: password,
-    //     role: (isProjectOwner) ? 'ProjectOwner' : 'Donator'
-    // }
-    return "thisistokenforuser"
+async function userLogin(username, password, isProjectOwner) {
+    const response = await axios.post(basedURL.concat('auth/login'), {
+        username: username,
+        password: password,
+        role: (isProjectOwner) ? 'ProjectOwner' : 'Donator'
+    })
+    return await response;
 }
 
-function adminLogin(username, password) {
-    // const response = await axios.post(basedURL.concat('auth/login'), {
-    //     username: username,
-    //     password: password,
-    //     role: 'Admin'
-    // })
-    // return await response;
-    // return {
-    //     username: username,
-    //     password: password,
-    //     role: 'Admin'
-    // }
-    return "thisistokenadmin"
+async function adminLogin(username, password) {
+    const response = await axios.post(basedURL.concat('auth/login'), {
+        username: username,
+        password: password,
+        role: 'Admin'
+    })
+    return await response
 }
 
 export {
