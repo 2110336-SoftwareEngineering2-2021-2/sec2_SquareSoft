@@ -11,7 +11,7 @@ function Login(){
 
     return (
         <div>
-            <Navigator/>
+            <Navigator />
             <LoginForm />
         </div>
     );

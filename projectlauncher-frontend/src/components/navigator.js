@@ -2,7 +2,12 @@ import React from "react";
 import {Navbar, Container, NavDropdown, Nav} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css'
+import { useNavigate } from "react-router-dom";
+
 class Navigator extends React.Component{
+    logout(){
+        this.props.navigate('/login')
+    }
     render(){
         return <div>
             <Navbar bg="dark" variant="dark">
@@ -16,7 +21,7 @@ class Navigator extends React.Component{
                     <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                    {(this.props.logoutbutton)&&<NavDropdown.Item onClick = {() => this.logout()}>Log out</NavDropdown.Item>}
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
@@ -28,4 +33,13 @@ class Navigator extends React.Component{
     }
 }
 
-export default Navigator;
+function WithNavigate(props){
+    let navigate = useNavigate();
+    let logout = props.logoutbutton;
+    if(props.logoutbutton === undefined){
+        logout = false;
+    }
+    return <Navigator {...props} navigate= {navigate} logoutbutton = {logout}/>
+}
+
+export default WithNavigate;

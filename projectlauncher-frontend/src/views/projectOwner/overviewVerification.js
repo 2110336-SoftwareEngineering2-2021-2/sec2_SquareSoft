@@ -12,7 +12,7 @@ function OverviewVerification(){
 
     return (
         <div> 
-            <Navigator/>
+            <Navigator logoutbutton= {true}/>
             <Card>
                 <Card.Title>
                     <h1>

@@ -1,3 +1,11 @@
-.projectName{
-    color: #8157A1;
+.projectName {
+  color: #8157a1;
+}
+.bar {
+  position: relative;
+}
+.dropdown {
+  position: absolute;
+  top: 8px;
+  right: 70px;
 }
