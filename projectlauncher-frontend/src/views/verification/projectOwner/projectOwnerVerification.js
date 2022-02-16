@@ -1,7 +1,7 @@
 import {Row, Col, Card, Button, Container} from "react-bootstrap";
 import { useNavigate, useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getProjectOwner, approveProjectOwner, rejectProjectOwner } from "../../api/verification/projectOwner/projectOwner-verification-api";
+import { getProjectOwner, approveProjectOwner, rejectProjectOwner } from "../../../api/verification/projectOwner/projectOwner-verification-api";
 
 
 function ProjectOwnerVerification(){

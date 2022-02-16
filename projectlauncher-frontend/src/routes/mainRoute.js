@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import OverviewVerification from '../views/projectOwner/overviewVerification';
-import ProjectOwnerVerification from '../views/projectOwner/projectOwnerVerification';
+import OverviewVerification from '../views/verification/projectOwner/overviewVerification';
+import ProjectOwnerVerification from '../views/verification/projectOwner/projectOwnerVerification';
 import Home from '../views/home/Home'
 import Login from '../views/login/Login'
 import LoginAdmin from '../views/login/LoginAdmin'
