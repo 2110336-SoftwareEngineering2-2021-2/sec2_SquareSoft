@@ -7,18 +7,16 @@ import { getProjectOwner, approveProjectOwner, rejectProjectOwner } from "../../
 function ProjectOwnerVerification(){
     
     const { id } = useParams();
+    const overviewURL = "/admin/project-owner";
     const navigate = useNavigate();
     const backPage = function BackPage(){
-        navigate("/project-owner")
+        navigate(overviewURL)
     }
-
     const [data, setData] = useState(null);
     useEffect(() => {
         getProjectOwner(id)
-            .then(res => 
-                {
-                    setData(res.data); 
-                });
+            .then(res => {setData(res.data);})
+            .catch((err) =>{navigate("/")});
     }, []);
 
     if(!data){

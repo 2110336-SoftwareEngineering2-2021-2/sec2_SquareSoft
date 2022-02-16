@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Row, Col, Card, Button, Container} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
 
 import Navigator from "../../components/navigator";
 import { getOverviewProjectOwner } from "../../api/verification/projectOwner/projectOwner-verification-api";
@@ -12,13 +13,12 @@ function OverviewVerification(){
 
     const navigate = useNavigate();
     const [data, setData] = useState([0, [{"username" : "", "_id" : ""}]]);
+    const specifiedRoute = "/admin/project-owner/specified/";
 
     useEffect(() => {
         getOverviewProjectOwner()
-            .then(res => 
-                {
-                    setData(res.data)
-                });
+            .then(res => {setData(res.data)})
+            .catch((err) =>{navigate("/")});
     }, []);
 
     return (
@@ -33,9 +33,9 @@ function OverviewVerification(){
                         <Card className = "project-owner-overview-card" key = {data[1][idx]._id}>
                             <Container>
                                 <Row>
-                                    <Col>{data[1][idx].username}</Col>
+                                    <Col>{data[1][idx].firstname} {data[1][idx].lastname}</Col>
                                     <Col className="d-flex justify-content-end">
-                                        <Button variant = "link" onClick = {()=>navigate("/project-owner/specified/".concat(data[1][idx]._id))}>
+                                        <Button variant = "link" onClick = {()=>navigate(specifiedRoute.concat(data[1][idx]._id))}>
                                             Detail
                                         </Button>
                                     </Col>
