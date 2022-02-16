@@ -78,7 +78,7 @@ export class RegistrationSystemService {
         return result;
     }
 
-    async getUserForLogin(username: string, role: string): Promise<any> {
+    async findByUsername(username: string, role: string): Promise<any> {
         let result = undefined;
         if (role === Role.Donator) {
             result = await this.userDonatorModel.findOne({ username: username });
