@@ -17,9 +17,9 @@ export class ProjectOwnerVerificationService {
   async getVerificationList(start: number, end: number): Promise<[number, userProjectOwner[]]> {
     const queryBlock = []
 
-    queryBlock.push({ $or: [{ verification_status: "Submitted" }] })
+    queryBlock.push({ $and: [{ verification_status: "Submitted" }] })
 
-    let user = await this.userModel.find({ $and: queryBlock }, { _id: 1, name_en: 1, surname_en: 1, username: 1, name_th: 1, surname_th: 1 })
+    let user = await this.userModel.find({ $and: queryBlock }, { _id: 1, firtname:1, lastname:1})
     const length = user.length
     if (start !== undefined) {
       start = Number(start)
