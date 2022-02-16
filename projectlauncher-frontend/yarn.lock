@@ -7275,6 +7275,11 @@
   dependencies:
     "history" "^5.2.0"
 
+"react-script@^2.0.5":
+  "integrity" "sha1-nawg+Xz/H7QPW0CE4/RLguMAFXI="
+  "resolved" "https://registry.npmjs.org/react-script/-/react-script-2.0.5.tgz"
+  "version" "2.0.5"
+
 "react-scripts@^5.0.0":
   "integrity" "sha512-3i0L2CyIlROz7mxETEdfif6Sfhh9Lfpzi10CtcGs1emDQStmZfWjJbAIMtRD0opVUjQuFWqHZyRZ9PPzKCFxWg=="
   "resolved" "https://registry.npmjs.org/react-scripts/-/react-scripts-5.0.0.tgz"
