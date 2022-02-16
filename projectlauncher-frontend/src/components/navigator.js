@@ -18,14 +18,11 @@ class Navigator extends React.Component{
             this.setState({username: Cookies.get('username')})
         }
     }
-
     onClickLogOut() {
         // remove token
         this.setState({isLoggedin: false})
         Cookies.remove('token')
         Cookies.remove('username')
-    }
-    logout(){
         this.props.navigate('/login')
     }
     render(){
@@ -41,7 +38,7 @@ class Navigator extends React.Component{
                     <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.logout()}>Log out</NavDropdown.Item>}
+                    {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogout()}>Log out</NavDropdown.Item>}
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
