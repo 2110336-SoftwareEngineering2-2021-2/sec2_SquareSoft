@@ -66,12 +66,8 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
-<<<<<<<<< Temporary merge branch 1
     "typescript": "^4.3.5",
     "yarn-upgrade-all": "^0.6.1"
-=========
-    "typescript": "^4.5.5"
->>>>>>>>> Temporary merge branch 2
   },
   "jest": {
     "moduleFileExtensions": [

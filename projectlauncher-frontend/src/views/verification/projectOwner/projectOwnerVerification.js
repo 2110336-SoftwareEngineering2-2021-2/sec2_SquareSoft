@@ -16,7 +16,6 @@ function ProjectOwnerVerification(){
     useEffect(() => {
         getProjectOwner(id)
             .then(res => {setData(res.data);})
-            .catch((err) =>{navigate("/")});
     }, []);
 
     if(!data){

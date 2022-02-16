@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Row, Col, Card, Button, Container} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie'
 
-import Navigator from "../../components/navigator";
-import { getOverviewProjectOwner } from "../../api/verification/projectOwner/projectOwner-verification-api";
+import Navigator from "../../../components/navigator";
+import { getOverviewProjectOwner } from "../../../api/verification/projectOwner/projectOwner-verification-api";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './verification.css'
@@ -18,8 +17,8 @@ function OverviewVerification(){
     useEffect(() => {
         getOverviewProjectOwner()
             .then(res => {setData(res.data)})
-            .catch((err) =>{navigate("/")});
     }, []);
+    console.log(data);
 
     return (
         <div>

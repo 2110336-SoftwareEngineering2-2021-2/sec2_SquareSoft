@@ -15,11 +15,11 @@ import { jwtConstants } from './auth/constants';
     MongooseModule.forRoot('mongodb+srv://admin:admin@project-launcher-cluste.6tefk.mongodb.net/test'),
     ProjectOwnerVerificationModule,
     RegistrationSystemModule,
-    AuthModule
+    AuthModule,
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: jwtConstants.signOptions.expiresIn },
-    }),
+    })
   ],
   controllers: [AppController],
   providers: [
