@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Redirect} from 'react-router-dom'
 import Navigator from "../../components/navigator";
+import "./SignUp.css"
 
 function AccountName(){
     return (
@@ -89,17 +90,17 @@ const SignUp = () =>{
         const bankAccountSurname = e.target[8].value
         const bankAccountNumber = e.target[9].value
         const bankName = e.target[10].value
-        console.log(accountName)
-        console.log(password)
-        console.log(confirmPassword)
-        console.log(email)
-        console.log(name)
-        console.log(surname)
-        console.log(birthdate)
-        console.log(bankAccountName)
-        console.log(bankAccountSurname)
-        console.log(bankAccountNumber)
-        console.log(bankName)
+        //console.log(accountName)
+        //console.log(password)
+        //console.log(confirmPassword)
+        //console.log(email)
+        //console.log(name)
+        //console.log(surname)
+        //console.log(birthdate)
+        //console.log(bankAccountName)
+        //console.log(bankAccountSurname)
+        //console.log(bankAccountNumber)
+        //console.log(bankName)
         // for(var i=0;i<11;i++)
         //     console.log(e.target[i].value)
     }
