@@ -27,7 +27,7 @@ class Navigator extends React.Component{
     }
     render(){
         return <div>
-            <Navbar bg="light" variant="light">
+            <Navbar bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href="#home">ProjectLauncher</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
