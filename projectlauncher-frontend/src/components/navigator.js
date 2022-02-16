@@ -38,10 +38,10 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                    <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    {(this.props.logoutbutton)&&<NavDropdown.Item onClick = {() => this.logout()}>Log out</NavDropdown.Item>}
+                    {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.logout()}>Log out</NavDropdown.Item>}
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
@@ -55,11 +55,7 @@ class Navigator extends React.Component{
 
 function WithNavigate(props){
     let navigate = useNavigate();
-    let logout = props.logoutbutton;
-    if(props.logoutbutton === undefined){
-        logout = false;
-    }
-    return <Navigator {...props} navigate= {navigate} logoutbutton = {logout}/>
+    return <Navigator {...props} navigate= {navigate}/>
 }
 
 export default WithNavigate;
