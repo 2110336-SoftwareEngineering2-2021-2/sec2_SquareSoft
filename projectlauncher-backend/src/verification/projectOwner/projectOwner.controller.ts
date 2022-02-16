@@ -1,9 +1,8 @@
 import { Controller, Get, Param, Patch, Body, Query, UseGuards } from "@nestjs/common"
+import * as RoleGuard from "src/auth/jwt-auth.guard"
 import { ProjectOwnerVerificationService } from "./projectOwner.service"
-import { AdminGuard } from "src/auth/jwt.guard"
-import { ApproveDTO, RejectDTO, SearchResultDTO, SetStatusDTO } from "./projectOwner.dto"
 
-// @UseGuards(AdminGuard)
+@UseGuards(RoleGuard.AdminGuard)
 @Controller("projectOwner")
 export class ProjectOwnerVerificationController {
   constructor(private readonly projectOwnerService: ProjectOwnerVerificationService) { }
