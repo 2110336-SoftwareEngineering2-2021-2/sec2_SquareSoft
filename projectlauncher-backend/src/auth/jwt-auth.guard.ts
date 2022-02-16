@@ -15,15 +15,15 @@ export class DonatorGuard extends AuthGuard("jwt") {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const valid = await super.canActivate(context);
         if (!valid) throw new UnauthorizedException();
-        
+
         // check role in jwt
         const payload = context.switchToHttp().getRequest().user;
         if (payload.role != Role.Donator && payload.role != Role.Admin) throw new ForbiddenException();
-        
+
         // check if user exists
-        const user = await this.registrationSystemService.getUserForLogin(payload.username, payload.role);
-        if (!user) throw new UnauthorizedException();
-        
+        const user = await this.registrationSystemService.findByID(payload._id, payload.role);
+        if (!user || user.username != payload.username) throw new UnauthorizedException();
+
         return true
     }
 }
@@ -37,15 +37,15 @@ export class ProjectOwnerGuard extends AuthGuard("jwt") {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const valid = await super.canActivate(context);
         if (!valid) throw new UnauthorizedException();
-        
+
         // check role in jwt
         const payload = context.switchToHttp().getRequest().user;
         if (payload.role != Role.ProjectOwner && payload.role != Role.Admin) throw new ForbiddenException();
-        
+
         // check if user exists
-        const user = await this.registrationSystemService.getUserForLogin(payload.username, payload.role);
-        if (!user) throw new UnauthorizedException();
-        
+        const user = await this.registrationSystemService.findByID(payload._id, payload.role);
+        if (!user || user.username != payload.username) throw new UnauthorizedException();
+
         return true
     }
 }
@@ -59,15 +59,15 @@ export class AdminGuard extends AuthGuard("jwt") {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const valid = await super.canActivate(context);
         if (!valid) throw new UnauthorizedException();
-        
+
         // check role in jwt
         const payload = context.switchToHttp().getRequest().user;
         if (payload.role != Role.Admin) throw new ForbiddenException();
-        
+
         // check if user exists
-        const user = await this.registrationSystemService.getUserForLogin(payload.username, payload.role);
-        if (!user) throw new UnauthorizedException();
-        
+        const user = await this.registrationSystemService.findByID(payload._id, payload.role);
+        if (!user || user.username != payload.username) throw new UnauthorizedException();
+
         return true
     }
 }
@@ -81,15 +81,15 @@ export class AllRoleGuard extends AuthGuard("jwt") {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const valid = await super.canActivate(context);
         if (!valid) throw new UnauthorizedException();
-        
+
         // check role in jwt
         const payload = context.switchToHttp().getRequest().user;
         if (payload.role != Role.Donator && payload.role != Role.ProjectOwner && payload.role != Role.Admin) throw new ForbiddenException();
-        
+
         // check if user exists
-        const user = await this.registrationSystemService.getUserForLogin(payload.username, payload.role);
-        if (!user) throw new UnauthorizedException();
-        
+        const user = await this.registrationSystemService.findByID(payload._id, payload.role);
+        if (!user || user.username != payload.username) throw new UnauthorizedException();
+
         return true
     }
 }
