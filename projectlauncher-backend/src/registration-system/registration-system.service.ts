@@ -1,15 +1,17 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { userDonator, userProjectOwner } from './registration-system.model';
-const bcrypt = require ('bcrypt');
+import { Role } from '../enums/role.enum';
+import * as bcrypt from 'bcryptjs'
 
 @Injectable()
 export class RegistrationSystemService {
     constructor(
         @InjectModel('userDonator') private readonly userDonatorModel: Model<userDonator>,
         @InjectModel('userProjectOwner') private readonly userProjectOwnerModel: Model<userProjectOwner>,
-    ) {}
+        @InjectModel('adminDB') private readonly adminModel: Model<any>
+    ) { }
 
     async registerUserDonator(newRegistration: object) {
         const result = await this.registerUser(this.userDonatorModel, newRegistration);
@@ -21,15 +23,20 @@ export class RegistrationSystemService {
         return result
     }
 
+    async registerAdmin(newRegistration: object) {
+        const result = await this.registerUser(this.adminModel, newRegistration);
+        return result
+    }
+
     async registerUser(model: Model<any>, newRegistration: object) {
-        if ( newRegistration["password"] === undefined ){
+        if (newRegistration["password"] === undefined) {
             throw new HttpException({
                 "msg": "register failed: no password field"
             }, HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        newRegistration["hashpassword"]  = await bcrypt.hash(newRegistration["password"], 12);
+        newRegistration["hashpassword"] = await bcrypt.hash(newRegistration["password"], 12);
         delete newRegistration["password"];
-        try{
+        try {
             const newUser = new model(newRegistration);
             const result = await newUser.save();
             return {
@@ -37,7 +44,7 @@ export class RegistrationSystemService {
                 "username": result["username"]
             };
         }
-        catch(err){
+        catch (err) {
             throw new HttpException({
                 "msg": "register failed: database error",
                 "err": err
@@ -50,20 +57,20 @@ export class RegistrationSystemService {
         return result;
     }
 
-    async getUserProjectOwner(query: Object){
+    async getUserProjectOwner(query: Object) {
         const result = await this.getUser(this.userProjectOwnerModel, query);
         return result;
     }
 
     async getUser(model: Model<any>, query: Object) {
-        Object.keys(query).forEach(function(el){
+        Object.keys(query).forEach(function (el) {
             query[el] = 1;
         })
-        if(Object.keys(query).length > 0){
+        if (Object.keys(query).length > 0) {
             delete query["hashpassword"];
             delete query["__v"];
         }
-        else{
+        else {
             query["hashpassword"] = 0;
             query["__v"] = 0;
         }
@@ -71,14 +78,21 @@ export class RegistrationSystemService {
         return result;
     }
 
-    async getUserForLogin(username: String) {
-        let isUserDonatorModel = 1;
-        let result = await this.userDonatorModel.findOne({ username: username });
-        if (!result) {
-            result = await this.userProjectOwnerModel.findOne({ username: username });
-            isUserDonatorModel = 0;
+    async getUserForLogin(username: string, role: string) {
+        let result = undefined;
+        if (role === Role.Donator) {
+            result = await this.userDonatorModel.findOne({ username: username });
         }
-        return {result, isUserDonatorModel};
+        else if (role === Role.ProjectOwner) {
+            result = await this.userProjectOwnerModel.findOne({ username: username });
+        }
+        else if (role === Role.Admin) {
+            result = await this.adminModel.findOne({ username: username });
+        }
+        else {
+            throw new BadRequestException("Role can be only '" + Role.Donator + "', '" + Role.ProjectOwner + "' or '" + Role.Admin + "' not '" + role + "'");
+        }
+        return result;
     }
 
 }
