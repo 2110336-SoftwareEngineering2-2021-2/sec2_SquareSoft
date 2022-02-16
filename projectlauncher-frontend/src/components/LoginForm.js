@@ -23,10 +23,16 @@ class LoginForm extends React.Component {
 
     onClickLogin() {
         // Use login API
-
-        Cookies.set('username', this.state.username) // May change to using api (token -> user details)
-        Cookies.set('token', userLogin(this.state.username, this.state.password, this.state.isProjectOwner))
-        this.setState({isLoginCompleted: true}) // EDIT
+        const response = userLogin(this.state.username, this.state.password, this.state.isProjectOwner)
+        response.then(res => {
+            if (res.data.access_token) {
+                Cookies.set('username', this.state.username)
+                Cookies.set('token', res.data.access_token)
+                this.setState({isLoginCompleted: true})
+            }
+        }).catch(res => {
+            alert('unable to log in')
+        })
     }
 
     render() {
