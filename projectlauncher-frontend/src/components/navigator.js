@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css'
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
-
+//
 class Navigator extends React.Component{
     constructor(props) {
         super(props);
