@@ -1,12 +1,12 @@
 import React from 'react'
 import Cookies from 'js-cookie'
+import {adminLogin} from "../../api/login/login.js"
 import { Link, Navigate } from "react-router-dom";
-import {userLogin} from "../api/login/login.js"
 
-class LoginForm extends React.Component {
+class LoginFormAdmin extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {username: "", password: "", isProjectOwner: false, isLoginCompleted: false}
+        this.state = {username: "", password: "", isLoginCompleted: false}
     }
 
     onChangeUsername(e) {
@@ -17,13 +17,8 @@ class LoginForm extends React.Component {
         this.setState({password: e.target.value})
     }
 
-    onChangeSwitch() {
-        this.setState(prevState => ({isProjectOwner: !prevState.isProjectOwner}))
-    }
-
     onClickLogin() {
-        // Use login API
-        const response = userLogin(this.state.username, this.state.password, this.state.isProjectOwner)
+        const response = adminLogin(this.state.username, this.state.password)
         response.then(res => {
             if (res.data.access_token) {
                 Cookies.set('username', this.state.username)
@@ -42,7 +37,7 @@ class LoginForm extends React.Component {
             <div className="col d-flex justify-content-center">
                 <div className="card" style={{width: '50%', borderColor: '#8157A1'}}>
                     <div className="card-header">
-                        Log in
+                        Log in as admin
                     </div>
                     <div className="card-body">
                             <div className = "form-group mb-3">
@@ -53,20 +48,10 @@ class LoginForm extends React.Component {
                                 <label htmlFor="password">Password</label>
                                 <input type="password" className="form-control" id="password" onChange={(e) => this.onChangePassword(e)} value={this.state.password} placeholder="Password"/>
                             </div>
-                            <div className="form-check form-switch text-center mb-3">
-                                <input className="form-check-input" style={this.state.isProjectOwner? {backgroundColor: '#8157A1'}:null} type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={() => this.onChangeSwitch() } checked={this.state.isProjectOwner}/>
-                                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Log in as project owner</label>
-                            </div>
                             <div className="form-group mb-3 text-center">
                                 <input className="btn btn-primary" type="submit" value="Log in" onClick={() => this.onClickLogin() } style={buttonStyle}/>
-                                {(this.state.isLoginCompleted)? <Navigate to="/home" replace={true}/>: null}
+                                {(this.state.isLoginCompleted)? <Navigate to="/admin/project-owner" replace={true}/>: null}
                             </div>
-                            <div className="form-group mb-3 text-center">
-                                <Link to="/">
-                                    <input className="btn btn-primary" type="submit" value="Back" style={buttonStyle}/>
-                                </Link>
-                            </div>
-                            
                     </div>
                 </div>
             </div>
@@ -75,4 +60,4 @@ class LoginForm extends React.Component {
     }
 }
 
-export default LoginForm;
+export default LoginFormAdmin;
