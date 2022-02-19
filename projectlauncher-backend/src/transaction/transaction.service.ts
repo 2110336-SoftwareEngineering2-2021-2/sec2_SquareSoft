@@ -14,6 +14,14 @@ export class TransactionService {
             recieveTID
         })
     }
+    
+    async newRecieve(username: any, fromUsername: string, objective: TransactionObjective, amount: number, transferTID: any) {
+        return await this.newTransaction(new Date(), username, TransactionType.Recieve, amount, {
+            fromUsername,
+            objective,
+            transferTID
+        })
+    }
 
     async newTransaction(timestamp: Date, username: any, type: TransactionType, amount: number, data: object, status: TransactionStatus = TransactionStatus.Pending) {
         try {

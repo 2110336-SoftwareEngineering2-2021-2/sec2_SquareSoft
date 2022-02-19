@@ -5,7 +5,8 @@ export const TransactionSchema = new mongoose.Schema({
     username: { type: String, required: true },
     type: { type: String, required: true },
     amount: { type: Number, required: true },
-    status: { type: String, required: true }
+    status: { type: String, required: true },
+    data: { type: Object }
 });
 
 export interface TransactionDTO{
@@ -41,7 +42,7 @@ export interface TransactionDTO{
 
 export enum TransactionObjective {
     Donate = "Donate",
-    getDonation = "getDonation"
+    GetDonation = "getDonation"
 }
 
 export enum TransactionType {
@@ -53,7 +54,7 @@ export enum TransactionType {
 }
 
 export enum TransactionStatus {
-    Pending = "Transfer", 
+    Pending = "Pending", 
     Processing = "Processing", 
     Completed = "Completed", 
     Canceled = "Canceled", 
