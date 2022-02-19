@@ -13,16 +13,17 @@ export interface TransactionDTO{
     username: string;
     type: string; // transfer, recieve, deposit, withdraw, fee
     status: string; // pending, processing, completed, canceled, rejected
+    amount: number;
     data: object;
     /*
     transfer: {
         toUsername: string,
-        for: [donate, ],
+        objective: [donate, ],
         recieveTID: id
     }
     recieve: {
         fromUsername: string,
-        for: [getDonation, ],
+        objective: [getDonation, ],
         transferTID: id
     }
     deposit: {
@@ -36,4 +37,25 @@ export interface TransactionDTO{
         txid: string
     }
     */
+}
+
+export enum TransactionObjective {
+    Donate = "Donate",
+    getDonation = "getDonation"
+}
+
+export enum TransactionType {
+    Transfer = "Transfer", 
+    Recieve = "Recieve", 
+    Deposit = "Deposit", 
+    Withdraw = "Withdraw", 
+    Fee = "Fee"
+}
+
+export enum TransactionStatus {
+    Pending = "Transfer", 
+    Processing = "Processing", 
+    Completed = "Completed", 
+    Canceled = "Canceled", 
+    Rejected = "Rejected"
 }
