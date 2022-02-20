@@ -55,7 +55,23 @@ function getFilteredProjects(searchValue, status, type, category) {
     ]
 }
 
+function getMyProjects(token) {
+    console.log(token)
+    return [{
+            title: "My project 1",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            title: "My project 2",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        }
+    ]
+}
+
 export {
     getAllProjects,
-    getFilteredProjects
+    getFilteredProjects,
+    getMyProjects
 };

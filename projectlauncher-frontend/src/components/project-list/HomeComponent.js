@@ -68,7 +68,7 @@ class HomeComponent extends React.Component {
                         filterCategoryOnChange={this.filterCategoryOnChange}
                         searchOnSubmit={this.searchOnSubmit}
                     />
-                    <ProjectList projectList={this.state.projectList}/>
+                    <ProjectList projectList={this.state.projectList} isOwner={false}/>
                 </VStack>
             </Center>
         );
