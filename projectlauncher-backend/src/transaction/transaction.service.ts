@@ -7,28 +7,50 @@ import { TransactionDTO, TransactionObjective, TransactionStatus, TransactionTyp
 export class TransactionService {
     constructor(@InjectModel("transaction") private readonly transactionModel: Model<TransactionDTO>) {}
     
-    async newTransfer(username: any, toUsername: string, objective: TransactionObjective, amount: number, recieveTID: any) {
+    async newTransfer(username: any, toUsername: string, objective: TransactionObjective, 
+                        amount: number, recieveTXID: any, status: TransactionStatus = TransactionStatus.Pending) {
         return await this.newTransaction(new Date(), username, TransactionType.Transfer, amount, {
             toUsername,
             objective,
-            recieveTID
-        })
+            recieveTXID
+        }, status)
     }
     
-    async newRecieve(username: any, fromUsername: string, objective: TransactionObjective, amount: number, transferTID: any) {
+    async newRecieve(username: any, fromUsername: string, objective: TransactionObjective, amount: number, 
+                        transferTXID: any, status: TransactionStatus = TransactionStatus.Pending) {
         return await this.newTransaction(new Date(), username, TransactionType.Recieve, amount, {
             fromUsername,
             objective,
-            transferTID
-        })
+            transferTXID
+        }, status)
     }
 
-    async newTransaction(timestamp: Date, username: any, type: TransactionType, amount: number, data: object, status: TransactionStatus = TransactionStatus.Pending) {
+    async newDeposit(username: any, amount: number, txid: string, paymentMethod: string, 
+                        bank: string, status: TransactionStatus = TransactionStatus.Pending) {
+        return await this.newTransaction(new Date(), username, TransactionType.Deposit, amount, {
+            paymentMethod,
+            bank,
+            txid
+        }, status)
+    }
+
+    async newWithdraw(username: any, amount: number, txid: string, paymentMethod: string, 
+                        bank: string, status: TransactionStatus = TransactionStatus.Pending) {
+        return await this.newTransaction(new Date(), username, TransactionType.Withdraw, amount, {
+            paymentMethod,
+            bank,
+            txid
+        }, status)
+    }
+
+
+    async newTransaction(timestamp: Date, username: any, type: TransactionType, amount: number, 
+                            data: object, status: TransactionStatus = TransactionStatus.Pending) {
         try {
             const newTransaction = new this.transactionModel({timestamp, username, type, amount, status, data});
             const result = await newTransaction.save();
             return {
-                "status": "registration successful",
+                "status": "new transaction pending",
                 "transaction": result
             };
         }
