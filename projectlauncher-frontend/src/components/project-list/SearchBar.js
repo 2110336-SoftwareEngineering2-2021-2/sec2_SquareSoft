@@ -1,10 +1,9 @@
 import React from 'react'
 import { Center, Box, Container, HStack, InputGroup, Input, InputRightElement, Button } from '@chakra-ui/react'
-import FilterPopover from './FilterPopover';
 import FilterModal from './FilterModal';
 
 
-function SearchBar() {
+function SearchBar(props) {
 
   return (
       <Center>
@@ -13,14 +12,24 @@ function SearchBar() {
                     <Input
                         pr='4.5rem'
                         placeholder='Search for projects'
+                        value={props.searchValue}
+                        onChange={props.searchOnChange}
                     />
                     <InputRightElement width='4.5rem'>
-                        <FilterModal/>
+                        <FilterModal
+                            filterStatusValue={props.filterStatusValue}
+                            filterStatusOnChange={props.filterStatusOnChange}
+                            filterTypeValue={props.filterTypeValue}
+                            filterTypeOnChange={props.filterTypeOnChange}
+                            filterCategoryValue={props.filterCategoryValue}
+                            filterCategoryOnChange={props.filterCategoryOnChange}
+                            searchOnSubmit={props.searchOnSubmit}
+                        />
                     </InputRightElement>
                 </InputGroup>
-                <Box as='Button' borderRadius='md' bg='purple' color='white' px={4} h={8} mt='4' w='10%'>
-                    Search
-                </Box>
+                <Button borderRadius='md' px={4} h={8} mt='5' w='10%' colorScheme='purple' variant='solid' onClick={() => props.searchOnSubmit()}>
+                        Search
+                </Button>
         </HStack>
       </Center>
       
