@@ -17,4 +17,16 @@ export class TransactionController {
         const result = await this.transactionService.newRecieve(body.username, body.fromUsername, TransactionObjective.GetDonation, body.amount, null);
         return result;
     }
+
+    @Post('/deposit')
+    async deposit(@Body() body: any) {
+        const result = await this.transactionService.newDeposit(body.username, body.amount, null, body.paymentMethod,  body.bank);
+        return result;
+    }
+
+    @Post('/withdraw')
+    async withdraw(@Body() body: any) {
+        const result = await this.transactionService.newWithdraw(body.username, body.amount, null, body.paymentMethod,  body.bank);
+        return result;
+    }
 }
