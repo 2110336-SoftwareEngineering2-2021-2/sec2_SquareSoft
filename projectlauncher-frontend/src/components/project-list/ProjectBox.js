@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Center, Image } from '@chakra-ui/react'
+import { Box, Center, Image, Button } from '@chakra-ui/react'
 
 function ProjectBox(props) {
     
@@ -21,9 +21,10 @@ function ProjectBox(props) {
                 </Box>
                 
                 <Center>
-                    <Box as='Button' borderRadius='md' bg='purple' color='white' px={4} h={8} mt='5' w='100%'>
-                        {(props.isOwner)? 'Edit Project': 'View Project'}
-                    </Box>
+                    <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid'>
+                        {(props.isOwner)? 'Edit Project': 'View Project'} 
+                        {/* navigate */}
+                    </Button>
                 </Center>
             </Box>
         </Box>
