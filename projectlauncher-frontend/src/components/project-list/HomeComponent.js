@@ -5,7 +5,7 @@ import { HStack, VStack, ChakraProvider, Box, Grid, GridItem, Center, Flex, exte
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProjectList from "./ProjectList";
 import SearchBar from "./SearchBar";
-import {getProjectList} from "../../api/project-list/project-list-api"
+import {getAllProjects, getFilteredProjects} from "../../api/project-list/project-list-api"
 
 class HomeComponent extends React.Component {
 
@@ -26,33 +26,8 @@ class HomeComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({projectList: [
-            {
-                title: "Project 1",
-                description: "description1 description1 description1 description1 description1 description1 description1 ",
-                imageUrl: 'https://picsum.photos/500/300?random=1'
-            },
-            {
-                title: "Project 2",
-                description: "description1 description1 description1 description1 description1 description1 description1 ",
-                imageUrl: 'https://picsum.photos/500/300?random=1'
-            },
-            {
-                title: "Project 3",
-                description: "description1 description1 description1 description1 description1 description1 description1 ",
-                imageUrl: 'https://picsum.photos/500/300?random=1'
-            },
-            {
-                title: "Project 4",
-                description: "description1 description1 description1 description1 description1 description1 description1 ",
-                imageUrl: 'https://picsum.photos/500/300?random=1'
-            },
-            {
-                title: "Project 5",
-                description: "description1 description1 description1 description1 description1 description1 description1 ",
-                imageUrl: 'https://picsum.photos/500/300?random=1'
-            },
-        ]})
+        const projectList = getAllProjects()
+        this.setState({projectList: projectList})
     }
 
     searchOnChange(e) {
@@ -62,7 +37,7 @@ class HomeComponent extends React.Component {
     }
 
     searchOnSubmit() {
-        const projectList = getProjectList(this.state.searchValue, this.state.filterStatusValue, this.state.filterTypeValue, this.state.filterCategoryValue)
+        const projectList = getFilteredProjects(this.state.searchValue, this.state.filterStatusValue, this.state.filterTypeValue, this.state.filterCategoryValue)
         this.setState({projectList: projectList})
     }
 

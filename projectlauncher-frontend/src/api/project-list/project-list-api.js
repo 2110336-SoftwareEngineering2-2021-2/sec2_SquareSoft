@@ -3,7 +3,36 @@ import {
     basedURL
 } from '../index.js';
 
-function getProjectList(searchValue, status, type, category) {
+function getAllProjects() {
+    return [{
+            title: "Project 1",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            title: "Project 2",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            title: "Project 3",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            title: "Project 4",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            title: "Project 5",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+    ]
+}
+
+function getFilteredProjects(searchValue, status, type, category) {
     console.log(searchValue)
     console.log(status)
     console.log(type)
@@ -27,5 +56,6 @@ function getProjectList(searchValue, status, type, category) {
 }
 
 export {
-    getProjectList
+    getAllProjects,
+    getFilteredProjects
 };
