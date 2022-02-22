@@ -23,15 +23,13 @@ class HomeComponent extends React.Component {
         } else {
             alert('pls log in')
         }
-        
-        
     }
 
     render() {
         return (
             <Center mt='5'>
                 <VStack align='stretch' spacing='20px' w='80%'>
-                    <Center><Heading>My project</Heading></Center>
+                    <Center><Heading>My projects</Heading></Center>
                     <ProjectList projectList={this.state.projectList} isOwner={true}/>
                 </VStack>
             </Center>
