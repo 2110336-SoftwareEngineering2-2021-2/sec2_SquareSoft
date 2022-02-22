@@ -13,9 +13,9 @@ class HomeComponent extends React.Component {
         super(props)
         this.state = {
             searchValue: '', 
-            filterStatusValue: 'All',
-            filterTypeValue: 'All',
-            filterCategoryValue: [],
+            filterStatusValue: 'all',
+            filterTypeValue: 'all',
+            filterCategoryValue: ['art', 'food', 'music', 'technology', 'fashion', 'health', 'research', 'social'],
             projectList: []
         }
         this.searchOnChange = this.searchOnChange.bind(this)

@@ -28,16 +28,16 @@ function FilterModal(props) {
                             <RadioGroup onChange={(e) => {props.filterStatusOnChange(e)}} value={props.filterStatusValue}>
                                 <Grid templateColumns='repeat(4, 1fr)' gap={5} bg='white'>
                                     <GridItem>
-                                        <Radio value='All'>All</Radio>
+                                        <Radio value='all'>All</Radio>
                                     </GridItem>
                                     <GridItem>
-                                        <Radio value='2'>Second</Radio>
+                                        <Radio value='incoming'>Incoming</Radio>
                                     </GridItem>
                                     <GridItem>
-                                        <Radio value='3'>Third</Radio>
+                                        <Radio value='in-progress'>In progress</Radio>
                                     </GridItem>
                                     <GridItem>
-                                        <Radio value='4'>Forth</Radio>
+                                        <Radio value='successful'>Successful</Radio>
                                     </GridItem>
                                 </Grid>
                             </RadioGroup>
@@ -48,13 +48,13 @@ function FilterModal(props) {
                             <RadioGroup onChange={(e) => {props.filterTypeOnChange(e)}} value={props.filterTypeValue}>
                                 <Grid templateColumns='repeat(4, 1fr)' gap={5} bg='white'>
                                     <GridItem>
-                                        <Radio value='All'>All</Radio>
+                                        <Radio value='all'>All</Radio>
                                     </GridItem>
                                     <GridItem>
-                                        <Radio value='2'>Second</Radio>
+                                        <Radio value='non-profit'>Non-profit</Radio>
                                     </GridItem>
                                     <GridItem>
-                                        <Radio value='3'>Third</Radio>
+                                        <Radio value='commercial'>Commercial</Radio>
                                     </GridItem>
                                 </Grid>
                             </RadioGroup>
@@ -65,28 +65,28 @@ function FilterModal(props) {
                             <CheckboxGroup isInline onChange={(e) => props.filterCategoryOnChange(e)} value={props.filterCategoryValue}>
                                 <Grid templateColumns='repeat(4, 1fr)' gap={5} bg='white'>
                                     <GridItem>
-                                        <Checkbox value='kakashi1'>kakashi</Checkbox>
+                                        <Checkbox value='art'>Art</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='kakashi2'>kakashi</Checkbox>
+                                        <Checkbox value='food'>Food</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='kakashi3'>b</Checkbox>
+                                        <Checkbox value='music'>Music</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='kakashi4'>a</Checkbox>
+                                        <Checkbox value='technology'>Technology</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='kakashi5'>kakashi</Checkbox>
+                                        <Checkbox value='fashion'>Fashion</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='kakashi6'>kakashi</Checkbox>
+                                        <Checkbox value='health'>Health</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='kakashi7'>kakashi</Checkbox>
+                                        <Checkbox value='research'>Research</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='kakashi8'>kakashi</Checkbox>
+                                        <Checkbox value='social'>Social</Checkbox>
                                     </GridItem>
                                 </Grid>
                             </CheckboxGroup>
