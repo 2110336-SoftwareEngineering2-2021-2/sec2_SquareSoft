@@ -35,7 +35,7 @@ function TansactionVerification(){
                 <Flex px = {20} alignContent = "center">
                     <Center w='full' py = {5}>
                         <VStack>
-                            <Text fontSize='3xl'>Transaction Verification</Text>
+                            <Text fontSize='3xl' fontWeight="bold" >Transaction Verification</Text>
                             <VerificcationBox/>
                             <VerificcationBox/>
                         </VStack>
