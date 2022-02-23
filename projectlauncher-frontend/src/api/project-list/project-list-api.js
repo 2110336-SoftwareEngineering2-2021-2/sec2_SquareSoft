@@ -70,8 +70,34 @@ function getMyProjects(token) {
     ]
 }
 
+function getProjectsOfAnOwner(ownerid, token) {
+    const l = [{
+            title: ownerid + "'s project 1",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            title: ownerid + "'s project 2",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        }
+    ]
+    if (token) {
+        console.log(token)
+        return {
+            projectList: l,
+            isOwner: true
+        }
+    }
+    return {
+        projectList: l,
+        isOwner: false
+    }
+}
+
 export {
     getAllProjects,
     getFilteredProjects,
-    getMyProjects
+    getMyProjects,
+    getProjectsOfAnOwner
 };
