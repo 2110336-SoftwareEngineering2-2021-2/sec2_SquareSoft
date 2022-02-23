@@ -1,7 +1,7 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 import { Link, Navigate } from "react-router-dom";
-import {userLogin} from "../api/login/login.js"
+import {userLogin} from "../../api/login/login.js"
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -39,7 +39,7 @@ class LoginForm extends React.Component {
         const buttonStyle = {width: '30%', backgroundColor: '#8157A1', borderColor: '#8157A1'}
 
         return (
-            <div className="col d-flex justify-content-center">
+            <div className="col d-flex justify-content-center" style={{marginTop: 100}}>
                 <div className="card" style={{width: '50%', borderColor: '#8157A1'}}>
                     <div className="card-header">
                         Log in
@@ -61,11 +61,11 @@ class LoginForm extends React.Component {
                                 <input className="btn btn-primary" type="submit" value="Log in" onClick={() => this.onClickLogin() } style={buttonStyle}/>
                                 {(this.state.isLoginCompleted)? <Navigate to="/home" replace={true}/>: null}
                             </div>
-                            <div className="form-group mb-3 text-center">
+                            {/* <div className="form-group mb-3 text-center">
                                 <Link to="/">
                                     <input className="btn btn-primary" type="submit" value="Back" style={buttonStyle}/>
                                 </Link>
-                            </div>
+                            </div> */}
                             
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import {adminLogin} from "../api/login/login.js"
+import {adminLogin} from "../../api/login/login.js"
 import { Link, Navigate } from "react-router-dom";
 
 class LoginFormAdmin extends React.Component {
@@ -34,7 +34,7 @@ class LoginFormAdmin extends React.Component {
         const buttonStyle = {width: '30%', backgroundColor: '#8157A1', borderColor: '#8157A1'}
 
         return (
-            <div className="col d-flex justify-content-center">
+            <div div className = "col d-flex justify-content-center" style={{marginTop: 100}}>
                 <div className="card" style={{width: '50%', borderColor: '#8157A1'}}>
                     <div className="card-header">
                         Log in as admin
