@@ -36,6 +36,12 @@ export class TransactionController {
         return result;
     }
 
+    @Patch('/adminConfirmDeposit')
+    async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO) {
+        const result = await this.transactionService.adminConfirmDeposit(body.username, body.internalTXID);
+        return result;
+    }
+
     // @Post('/withdraw')
     // async withdraw(@Body() body: any) {
     //     const result = await this.transactionService.newWithdraw(body.username, body.amount, null, body.paymentMethod,  body.bank);

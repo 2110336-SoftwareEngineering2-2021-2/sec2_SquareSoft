@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Role } from 'src/enums/role.enum';
 import { userDonator, userProjectOwner } from 'src/registration-system/registration-system.model';
 import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
 import { TransactionDTO, TransactionObjective, TransactionStatus, TransactionType, TransactionUserEntity } from './transaction.model';
@@ -10,7 +11,8 @@ export class TransactionService {
     constructor(
         @InjectModel("transaction") private readonly transactionModel: Model<TransactionDTO>,
         @InjectModel('userDonator') private readonly userDonatorModel: Model<userDonator>,
-        @InjectModel('userProjectOwner') private readonly userProjectOwnerModel: Model<userProjectOwner>
+        @InjectModel('userProjectOwner') private readonly userProjectOwnerModel: Model<userProjectOwner>,
+        private registrationSystemService: RegistrationSystemService,
     ) { }
 
     async newUserDeposit(username: TransactionUserEntity, amount: number, paymentMethod: string, bank: string){
@@ -25,6 +27,14 @@ export class TransactionService {
     async updateUserTXRef(username: TransactionUserEntity, internalTXID: string, txRef: string){
         const result = await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: TransactionStatus.InProgress});
         return result;
+    }
+
+    async adminConfirmDeposit(username: TransactionUserEntity, internalTXID: string){
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        let tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Completed});
+        user.balance += tx.result.amount;
+        user.save()
+        return user;
     }
 
     async updateTransaction(username: TransactionUserEntity, internalTXID: string, update: Object){
@@ -59,7 +69,7 @@ export class TransactionService {
 
     updateField(obj: any, update: Object){
         for (const [key, value] of Object.entries(update)) {
-            console.log(key, value)
+            //console.log(key, value)
             if ((typeof value) == (typeof {})) {
                 this.updateField(obj[key], value)
             }
