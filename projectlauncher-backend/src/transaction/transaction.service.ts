@@ -19,22 +19,15 @@ export class TransactionService {
         return await this.newDeposit(username, amount, null, paymentMethod, bank)
     }
 
-    async markUserDepositAsInProgress(username: TransactionUserEntity, internalTXID: string){
-        const result = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.InProgress})
-        return result;
-    }
-
     async updateUserTXRef(username: TransactionUserEntity, internalTXID: string, txRef: string){
         let tx = await this.getUserTransactionByTXID(username, internalTXID);
-        if (
-                tx.status === TransactionStatus.Completed || 
-                tx.status === TransactionStatus.Canceled ||
-                tx.status === TransactionStatus.Rejected
-            ){
-            throw new HttpException({
-                "msg": "TXRef change is not allow in finished transaction"
-            }, HttpStatus.UNPROCESSABLE_ENTITY); 
-        }
+        this.validateTX(
+            tx, 
+            [TransactionType.Deposit, TransactionType.Withdraw],
+            "TXRef can update in only Deposit and Withdraw transaction",
+            [TransactionStatus.Pending, TransactionStatus.InProgress],
+            "TXRef change is not allow in finished transaction"
+        )
         await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: TransactionStatus.InProgress});
         return {
             "status": "update TXRef successful",
@@ -44,14 +37,16 @@ export class TransactionService {
         }
     }
 
-    async adminConfirmDeposit(username: TransactionUserEntity, internalTXID: string){
+    async adminConfirmTX(username: TransactionUserEntity, internalTXID: string){
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
         let tx = await this.getUserTransactionByTXID(username, internalTXID);
-        if (tx.status !== TransactionStatus.InProgress){
-            throw new HttpException({
-                "msg": "transaction is not InProgress"
-            }, HttpStatus.UNPROCESSABLE_ENTITY); 
-        }
+        this.validateTX(
+            tx, 
+            [TransactionType.Deposit, TransactionType.Withdraw],
+            "TXRef can confirm in only Deposit and Withdraw transaction",
+            [TransactionStatus.InProgress],
+            "transaction is not InProgress"
+        )
         tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Completed});
         user.balance += tx.result.amount;
         user.save()
@@ -59,13 +54,53 @@ export class TransactionService {
             "status": "deposit successful",
             "username": username,
             internalTXID,
+            "TXStatus": tx.status,
             "amount": tx.result.amount,
             "balance": user.balance
         }
     }
 
+    async adminRejectTX(username: TransactionUserEntity, internalTXID: string){
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+        this.validateTX(
+            tx, 
+            [TransactionType.Deposit, TransactionType.Withdraw],
+            "TXRef can reject in only Deposit and Withdraw transaction",
+            [TransactionStatus.InProgress],
+            "transaction is not InProgress"
+        )
+        tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Rejected});
+        return {
+            "status": "deposit rejected",
+            "username": username,
+            internalTXID,
+            "TXStatus": tx.status,
+            "amount": tx.result.amount,
+            "balance": user.balance
+        }
+    }
+
+    validateTX(tx: any, types: Array<TransactionType>, typeErrorMsg: string, status: Array<TransactionStatus>, statusErrorMsg: string): boolean{
+        for (let type of types){
+            if (type === tx.type){
+                for (let s of status){
+                    if (s === tx.status){
+                        return true
+                    }
+                }
+                throw new HttpException({
+                    "msg": statusErrorMsg
+                }, HttpStatus.UNPROCESSABLE_ENTITY); 
+            }
+        }
+        throw new HttpException({
+            "msg": typeErrorMsg
+        }, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
     async getUserTransaction(username: TransactionUserEntity, limit: number){
-        const result = await this.transactionModel.find({'username': username}).sort('-timestamp').limit(limit)
+        const result = await this.transactionModel.find({'username': username}).sort('-timestamp').limit(limit);
         return result
     }
 

@@ -24,12 +24,6 @@ export class TransactionController {
         return result;
     }
 
-    @Patch('/markUserDepositAsInProgress')
-    async markUserDepositAsInProgress(@Body() body: UserTransactionAccessDTO) {
-        const result = await this.transactionService.markUserDepositAsInProgress(body.username, body.internalTXID);
-        return result;
-    }
-
     @Patch('/updateUserTXRef')
     async updateUserTXRef(@Body() body: UpdateUserTXrefDTO) {
         const result = await this.transactionService.updateUserTXRef(body.username, body.internalTXID, body.txRef);
@@ -38,7 +32,13 @@ export class TransactionController {
 
     @Patch('/adminConfirmDeposit')
     async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO) {
-        const result = await this.transactionService.adminConfirmDeposit(body.username, body.internalTXID);
+        const result = await this.transactionService.adminConfirmTX(body.username, body.internalTXID);
+        return result;
+    }
+
+    @Patch('/adminRejectDeposit')
+    async adminRejectDeposit(@Body() body: UserTransactionAccessDTO) {
+        const result = await this.transactionService.adminRejectTX(body.username, body.internalTXID);
         return result;
     }
 
