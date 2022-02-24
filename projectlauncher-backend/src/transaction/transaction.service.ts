@@ -37,13 +37,34 @@ export class TransactionService {
         }
     }
 
+    async userCancelTX(username: TransactionUserEntity, internalTXID: string){
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+        this.validateTX(
+            tx, 
+            [TransactionType.Deposit, TransactionType.Withdraw],
+            "TXRef can reject in only Deposit and Withdraw transaction",
+            [TransactionStatus.Pending, TransactionStatus.InProgress],
+            "transaction is not InProgress"
+        )
+        tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Canceled});
+        return {
+            "status": "deposit canceled",
+            "username": username,
+            internalTXID,
+            "TXStatus": tx.status,
+            "amount": tx.result.amount,
+            "balance": user.balance
+        }
+    }
+
     async adminConfirmTX(username: TransactionUserEntity, internalTXID: string){
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
         let tx = await this.getUserTransactionByTXID(username, internalTXID);
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
-            "TXRef can confirm in only Deposit and Withdraw transaction",
+            "TX can confirm in only Deposit and Withdraw transaction",
             [TransactionStatus.InProgress],
             "transaction is not InProgress"
         )
@@ -66,7 +87,7 @@ export class TransactionService {
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
-            "TXRef can reject in only Deposit and Withdraw transaction",
+            "TX can reject in only Deposit and Withdraw transaction",
             [TransactionStatus.InProgress],
             "transaction is not InProgress"
         )

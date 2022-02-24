@@ -30,6 +30,12 @@ export class TransactionController {
         return result;
     }
 
+    @Patch('/userCancelTX')
+    async userCancelTX(@Body() body: UserTransactionAccessDTO) {
+        const result = await this.transactionService.userCancelTX(body.username, body.internalTXID);
+        return result;
+    }
+
     @Patch('/adminConfirmDeposit')
     async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO) {
         const result = await this.transactionService.adminConfirmTX(body.username, body.internalTXID);
