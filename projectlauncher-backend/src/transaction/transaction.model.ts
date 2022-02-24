@@ -22,12 +22,22 @@ export interface TransactionDTO{
     /*
     transfer: {
         toUsername: string,
-        objective: [donate, ],
+        objective: {
+            objective: donate, 
+            data: {
+                projectID: 
+            }
+        },
         recieveTID: id
     }
     recieve: {
         fromUsername: string,
-        objective: [getDonation, ],
+        objective: {
+            objective: getDonation, 
+            data: {
+                projectID: 
+            }
+        },
         transferTID: id
     }
     deposit: {
