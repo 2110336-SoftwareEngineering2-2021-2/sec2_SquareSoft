@@ -25,16 +25,43 @@ export class TransactionService {
     }
 
     async updateUserTXRef(username: TransactionUserEntity, internalTXID: string, txRef: string){
-        const result = await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: TransactionStatus.InProgress});
-        return result;
+        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+        if (
+                tx.status === TransactionStatus.Completed || 
+                tx.status === TransactionStatus.Canceled ||
+                tx.status === TransactionStatus.Rejected
+            ){
+            throw new HttpException({
+                "msg": "TXRef change is not allow in finished transaction"
+            }, HttpStatus.UNPROCESSABLE_ENTITY); 
+        }
+        await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: TransactionStatus.InProgress});
+        return {
+            "status": "update TXRef successful",
+            "username": username,
+            internalTXID,
+            txRef
+        }
     }
 
     async adminConfirmDeposit(username: TransactionUserEntity, internalTXID: string){
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
-        let tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Completed});
+        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+        if (tx.status !== TransactionStatus.InProgress){
+            throw new HttpException({
+                "msg": "transaction is not InProgress"
+            }, HttpStatus.UNPROCESSABLE_ENTITY); 
+        }
+        tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Completed});
         user.balance += tx.result.amount;
         user.save()
-        return user;
+        return {
+            "status": "deposit successful",
+            "username": username,
+            internalTXID,
+            "amount": tx.result.amount,
+            "balance": user.balance
+        }
     }
 
     async getUserTransaction(username: TransactionUserEntity, limit: number){
@@ -42,7 +69,7 @@ export class TransactionService {
         return result
     }
 
-    async updateTransaction(username: TransactionUserEntity, internalTXID: string, update: Object){
+    async getUserTransactionByTXID(username: TransactionUserEntity, internalTXID: string){
         let tx = undefined
         try{
             tx = await this.transactionModel.findById(internalTXID);
@@ -60,9 +87,13 @@ export class TransactionService {
         if ( tx.username.username !== username.username || tx.username.role !== username.role ){
             throw new HttpException({
                 "msg": "this user has no permission on this internalTXID"
-            }, HttpStatus.UNAUTHORIZED);
+            }, HttpStatus.FORBIDDEN);
         }
+        return tx;
+    }
 
+    async updateTransaction(username: TransactionUserEntity, internalTXID: string, update: Object){
+        let tx = await this.getUserTransactionByTXID(username, internalTXID);
         tx = this.updateField(tx, update);
 
         const result = await tx.save();
