@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { query } from 'express';
 import { Model } from 'mongoose';
 import { Role } from 'src/enums/role.enum';
 import { userDonator, userProjectOwner } from 'src/registration-system/registration-system.model';
@@ -178,8 +179,15 @@ export class TransactionService {
         }, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    async getUserTransaction(username: TransactionUserEntity, limit: number){
-        const result = await this.transactionModel.find({'username': username}).sort('-timestamp').limit(limit);
+    async getUserTransaction(username: TransactionUserEntity, limit: number = 10, type: TransactionType|null = null, status: TransactionStatus = null){
+        let q = {'username': username}
+        if (type){
+            q["type"] = type;
+        }
+        if (status){
+            q["status"] = status;
+        }
+        const result = await this.transactionModel.find(q).sort('-timestamp').limit(limit);
         return result
     }
 

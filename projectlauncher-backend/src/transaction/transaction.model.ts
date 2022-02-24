@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsNumber, IsUrl, IS_ALPHA, Validate, ValidateNested } from 'class-validator';
+import { IsEnum, IsIn, IsNotEmpty, IsNumber, IsOptional, IsUrl, IS_ALPHA, Validate, ValidateNested } from 'class-validator';
 import * as mongoose from 'mongoose';
 import { Role } from 'src/enums/role.enum';
 
@@ -104,7 +104,16 @@ export class UpdateUserTXrefDTO extends UserTransactionAccessDTO{
 
 export class GetListDTO extends TransactionUserDTO{
     @IsNumber()
+    @IsOptional()
     limit: number;
+
+    @IsEnum(TransactionType)
+    @IsOptional()
+    type: TransactionType;
+
+    @IsEnum(TransactionStatus)
+    @IsOptional()
+    status: TransactionStatus;
 }
 
 export class NewUserWithdrawDTO extends TransactionUserDTO{

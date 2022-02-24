@@ -50,7 +50,7 @@ export class TransactionController {
 
     @Get('/getUserTransaction')
     async getUserTransaction(@Body() body: GetListDTO) {
-        const result = await this.transactionService.getUserTransaction(body.username, body.limit);
+        const result = await this.transactionService.getUserTransaction(body.username, body.limit, body.type, body.status);
         return result;
     }
 
