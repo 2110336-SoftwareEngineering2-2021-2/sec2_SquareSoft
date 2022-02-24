@@ -191,6 +191,21 @@ export class TransactionService {
         return result
     }
 
+    async getUnfinishedUserTX(limit: number = 10){
+        const result = await this.transactionModel.find({
+            $or:[
+                {
+                    type: TransactionType.Deposit, 
+                    $or:[{status:TransactionStatus.Pending}, {status:TransactionStatus.InProgress}]
+                }, {
+                    type: TransactionType.Withdraw,
+                    $or:[{status:TransactionStatus.Pending}, {status:TransactionStatus.InProgress}]
+                }
+            ],}).sort('+timestamp').limit(limit);
+        return result
+    }
+
+
     async getUserTransactionByTXID(username: TransactionUserEntity, internalTXID: string){
         let tx = undefined
         try{

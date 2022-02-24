@@ -121,3 +121,9 @@ export class NewUserWithdrawDTO extends TransactionUserDTO{
     @IsNumber()
     amount: number;
 }
+
+export class AdminMarkTxAsInProgressDTO{
+    @IsNumber()
+    @IsOptional()
+    limit: number;
+}
