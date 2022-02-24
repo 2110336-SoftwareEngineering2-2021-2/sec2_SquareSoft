@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
-import { GetListDTO, newUserDepositDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
+import { GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 
 @Controller('transaction')
@@ -24,9 +24,9 @@ export class TransactionController {
         return result;
     }
 
-    @Patch('/updateUserTXRef')
-    async updateUserTXRef(@Body() body: UpdateUserTXrefDTO) {
-        const result = await this.transactionService.updateUserTXRef(body.username, body.internalTXID, body.txRef);
+    @Patch('/updateUserDepositRef')
+    async updateUserDepositRef(@Body() body: UpdateUserTXrefDTO) {
+        const result = await this.transactionService.updateUserDepositRef(body.username, body.internalTXID, body.txRef);
         return result;
     }
 
@@ -42,8 +42,8 @@ export class TransactionController {
         return result;
     }
 
-    @Patch('/adminRejectDeposit')
-    async adminRejectDeposit(@Body() body: UserTransactionAccessDTO) {
+    @Patch('/adminRejectTX')
+    async adminRejectTX(@Body() body: UserTransactionAccessDTO) {
         const result = await this.transactionService.adminRejectTX(body.username, body.internalTXID);
         return result;
     }
@@ -51,6 +51,24 @@ export class TransactionController {
     @Get('/getUserTransaction')
     async getUserTransaction(@Body() body: GetListDTO) {
         const result = await this.transactionService.getUserTransaction(body.username, body.limit);
+        return result;
+    }
+
+    @Post('/newUserWithdraw')
+    async newUserWithdraw(@Body() body: NewUserWithdrawDTO) {
+        const result = await this.transactionService.newUserWithdraw(body.username, body.amount);
+        return result;
+    }
+
+    @Patch('/adminMarkTxAsInProgress')
+    async adminMarkTxAsInProgress(@Body() body: UserTransactionAccessDTO) {
+        const result = await this.transactionService.adminMarkTxAsInProgress(body.username, body.internalTXID);
+        return result;
+    }
+
+    @Patch('/adminConfirmWithdraw')
+    async adminConfirmWithdraw(@Body() body: UpdateUserTXrefDTO) {
+        const result = await this.transactionService.adminConfirmWithdraw(body.username, body.internalTXID, body.txRef);
         return result;
     }
 

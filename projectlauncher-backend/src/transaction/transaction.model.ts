@@ -106,3 +106,9 @@ export class GetListDTO extends TransactionUserDTO{
     @IsNumber()
     limit: number;
 }
+
+export class NewUserWithdrawDTO extends TransactionUserDTO{
+    @IsNotEmpty()
+    @IsNumber()
+    amount: number;
+}

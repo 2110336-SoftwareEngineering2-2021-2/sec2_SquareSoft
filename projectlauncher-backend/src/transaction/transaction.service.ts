@@ -19,16 +19,16 @@ export class TransactionService {
         return await this.newDeposit(username, amount, null, paymentMethod, bank)
     }
 
-    async updateUserTXRef(username: TransactionUserEntity, internalTXID: string, txRef: string){
+    async updateUserDepositRef(username: TransactionUserEntity, internalTXID: string, txRef: string, status: TransactionStatus = TransactionStatus.InProgress){
         let tx = await this.getUserTransactionByTXID(username, internalTXID);
         this.validateTX(
             tx, 
-            [TransactionType.Deposit, TransactionType.Withdraw],
-            "TXRef can update in only Deposit and Withdraw transaction",
+            [TransactionType.Deposit],
+            "TXRef can update in only Deposit transaction",
             [TransactionStatus.Pending, TransactionStatus.InProgress],
-            "TXRef change is not allow in finished transaction"
+            "TXRef change is allow in only unfinished transaction"
         )
-        await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: TransactionStatus.InProgress});
+        await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: status});
         return {
             "status": "update TXRef successful",
             "username": username,
@@ -44,15 +44,19 @@ export class TransactionService {
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
             "TXRef can reject in only Deposit and Withdraw transaction",
-            [TransactionStatus.Pending, TransactionStatus.InProgress],
-            "transaction is not InProgress"
+            [TransactionStatus.Pending],
+            "transaction is not Pending"
         )
         tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Canceled});
+        if ( tx.result.type === TransactionType.Withdraw ){
+            user.balance += tx.result.amount;
+            user.save();
+        }
         return {
             "status": "deposit canceled",
             "username": username,
             internalTXID,
-            "TXStatus": tx.status,
+            "TXStatus": tx.result.status,
             "amount": tx.result.amount,
             "balance": user.balance
         }
@@ -75,7 +79,7 @@ export class TransactionService {
             "status": "deposit successful",
             "username": username,
             internalTXID,
-            "TXStatus": tx.status,
+            "TXStatus": tx.result.status,
             "amount": tx.result.amount,
             "balance": user.balance
         }
@@ -92,15 +96,69 @@ export class TransactionService {
             "transaction is not InProgress"
         )
         tx = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.Rejected});
+        if ( tx.result.type === TransactionType.Withdraw ){
+            user.balance += tx.result.amount;
+            user.save();
+        }
         return {
             "status": "deposit rejected",
             "username": username,
             internalTXID,
-            "TXStatus": tx.status,
+            "TXStatus": tx.result.status,
             "amount": tx.result.amount,
             "balance": user.balance
         }
     }
+
+    async newUserWithdraw(username: TransactionUserEntity, amount: number){
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        if (user.balance < amount){
+            throw new HttpException({
+                "msg": "insufficient balance to withdraw"
+            }, HttpStatus.UNPROCESSABLE_ENTITY); 
+        }
+        let result = await this.newWithdraw(username, amount, null, "bank transfer", user.bankAccountBank);
+        user.balance -= amount;
+        user.save();
+        return result; //await this.newDeposit(username, amount, null, user., bank)
+    }
+
+    async adminMarkTxAsInProgress(username: TransactionUserEntity, internalTXID: string){
+        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+        this.validateTX(
+            tx, 
+            [TransactionType.Deposit, TransactionType.Withdraw],
+            "TX can reject in only Deposit and Withdraw transaction",
+            [TransactionStatus.Pending],
+            "transaction is not Pending"
+        )
+        let result = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.InProgress});
+        return {
+            "status": "tx is InProgress",
+            "username": username,
+            internalTXID,
+            "txStatus": result.result.status
+        }
+    }
+
+    async adminConfirmWithdraw(username: TransactionUserEntity, internalTXID: string, txRef: string){
+        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+        this.validateTX(
+            tx, 
+            [TransactionType.Withdraw],
+            "TXRef can update in only Withdraw transaction",
+            [TransactionStatus.InProgress],
+            "TXRef change is allow in only InProgress transaction"
+        )
+        await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: TransactionStatus.Completed});
+        return {
+            "status": "withdraw successful",
+            "username": username,
+            internalTXID,
+            txRef
+        }
+    }
+
 
     validateTX(tx: any, types: Array<TransactionType>, typeErrorMsg: string, status: Array<TransactionStatus>, statusErrorMsg: string): boolean{
         for (let type of types){
