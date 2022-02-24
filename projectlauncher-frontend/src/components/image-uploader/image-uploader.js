@@ -1,6 +1,7 @@
 import Dropzone, { useDropzone } from 'react-dropzone'
 import React, { useCallback, useState, useEffect } from 'react'
 import { Image } from '@chakra-ui/react'
+import uploadImage from '../../api/file-uploader/file-uploader';
 
 function ImageUploader(){
     const [path, setPath] = useState("");
@@ -12,6 +13,7 @@ function ImageUploader(){
     const onDrop = useCallback((acceptedFiles) => {
         const file = acceptedFiles?.[0];
         if(file){
+            uploadImage(file);
             setDrop(true);
             setFile(file);
             setSrcImg(URL.createObjectURL(file));
@@ -21,27 +23,16 @@ function ImageUploader(){
     const {getRootProps, getInputProps, open} = useDropzone({ onDrop });
 
     return (
-        <>
+        <Dropzone onDrop={onDrop}>
+            {({getRootProps, getInputProps}) => (
             <section className="container">
                 <div {...getRootProps({className: 'dropzone'})}>
-                { 
-                    !drop ? 
-                    (
-                    <>
-                        <input {...getInputProps()} type = {"file"}/>
-                        <button type="button" onClick={open}> Open File Dialog </button>
-                    </>
-                    ) : 
-                    (
-                    <>
-                        <Image src = {srcImg}></Image>
-                        <button type="button" onClick={open}> Open File Dialog </button>
-                    </>
-                    )
-                }
+                    <input {...getInputProps()} />
+                    <p>Drag 'n' drop some files here, or click to select files</p>
                 </div>
             </section>
-        </>
+            )}
+      </Dropzone>
     );
 }
 
