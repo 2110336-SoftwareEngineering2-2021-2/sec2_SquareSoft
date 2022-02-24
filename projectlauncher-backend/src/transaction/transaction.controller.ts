@@ -1,5 +1,5 @@
-import { Body, Controller, Patch, Post } from '@nestjs/common';
-import { newUserDepositDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { GetListDTO, newUserDepositDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 
 @Controller('transaction')
@@ -39,6 +39,12 @@ export class TransactionController {
     @Patch('/adminConfirmDeposit')
     async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO) {
         const result = await this.transactionService.adminConfirmDeposit(body.username, body.internalTXID);
+        return result;
+    }
+
+    @Get('/getUserTransaction')
+    async getUserTransaction(@Body() body: GetListDTO) {
+        const result = await this.transactionService.getUserTransaction(body.username, body.limit);
         return result;
     }
 

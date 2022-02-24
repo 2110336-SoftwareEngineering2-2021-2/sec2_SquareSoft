@@ -101,3 +101,8 @@ export class UpdateUserTXrefDTO extends UserTransactionAccessDTO{
     @IsUrl()
     txRef: string;
 }
+
+export class GetListDTO extends TransactionUserDTO{
+    @IsNumber()
+    limit: number;
+}

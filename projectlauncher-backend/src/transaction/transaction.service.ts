@@ -37,6 +37,11 @@ export class TransactionService {
         return user;
     }
 
+    async getUserTransaction(username: TransactionUserEntity, limit: number){
+        const result = await this.transactionModel.find({'username': username}).sort('-timestamp').limit(limit)
+        return result
+    }
+
     async updateTransaction(username: TransactionUserEntity, internalTXID: string, update: Object){
         let tx = undefined
         try{
