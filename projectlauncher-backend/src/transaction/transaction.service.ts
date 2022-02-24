@@ -18,11 +18,16 @@ export class TransactionService {
     }
 
     async markUserDepositAsInProgress(username: TransactionUserEntity, internalTXID: string){
-        const result = await this.UpdateTransaction(username, internalTXID, {status: TransactionStatus.InProgress})
+        const result = await this.updateTransaction(username, internalTXID, {status: TransactionStatus.InProgress})
         return result;
     }
 
-    async UpdateTransaction(username: TransactionUserEntity, internalTXID: string, update: Object){
+    async updateUserTXRef(username: TransactionUserEntity, internalTXID: string, txRef: string){
+        const result = await this.updateTransaction(username, internalTXID, {data:{"txRef": txRef}, status: TransactionStatus.InProgress});
+        return result;
+    }
+
+    async updateTransaction(username: TransactionUserEntity, internalTXID: string, update: Object){
         let tx = undefined
         try{
             tx = await this.transactionModel.findById(internalTXID);
@@ -43,14 +48,26 @@ export class TransactionService {
             }, HttpStatus.UNAUTHORIZED);
         }
 
-        for (const [key, value] of Object.entries(update)) {
-            tx.status = TransactionStatus.InProgress;
-        }
+        tx = this.updateField(tx, update);
+
         const result = await tx.save();
         return {
             status: "transaction update success",
             result
         }
+    }
+
+    updateField(obj: any, update: Object){
+        for (const [key, value] of Object.entries(update)) {
+            console.log(key, value)
+            if ((typeof value) == (typeof {})) {
+                this.updateField(obj[key], value)
+            }
+            else {
+                obj[key] = value;
+            }
+        }
+        return new this.transactionModel(obj);
     }
     
     async newTransfer(username: TransactionUserEntity, toUsername: string, objective: TransactionObjective, 
@@ -71,21 +88,21 @@ export class TransactionService {
         }, status)
     }
 
-    async newDeposit(username: TransactionUserEntity, amount: number, txid: string, paymentMethod: string, 
+    async newDeposit(username: TransactionUserEntity, amount: number, txRef: string, paymentMethod: string, 
                         bank: string, status: TransactionStatus = TransactionStatus.Pending) {
         return await this.newTransaction(new Date(), username, TransactionType.Deposit, amount, {
             paymentMethod,
             bank,
-            txid
+            txRef
         }, status)
     }
 
-    async newWithdraw(username: TransactionUserEntity, amount: number, txid: string, paymentMethod: string, 
+    async newWithdraw(username: TransactionUserEntity, amount: number, txRef: string, paymentMethod: string, 
                         bank: string, status: TransactionStatus = TransactionStatus.Pending) {
         return await this.newTransaction(new Date(), username, TransactionType.Withdraw, amount, {
             paymentMethod,
             bank,
-            txid
+            txRef
         }, status)
     }
 

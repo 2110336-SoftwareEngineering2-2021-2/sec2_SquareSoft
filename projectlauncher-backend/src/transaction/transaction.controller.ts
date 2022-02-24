@@ -1,5 +1,5 @@
 import { Body, Controller, Patch, Post } from '@nestjs/common';
-import { newUserDepositDTO, TransactionObjective, TransactionUserEntity, UserTransactionAccessDTO } from './transaction.model';
+import { newUserDepositDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 
 @Controller('transaction')
@@ -27,6 +27,12 @@ export class TransactionController {
     @Patch('/markUserDepositAsInProgress')
     async markUserDepositAsInProgress(@Body() body: UserTransactionAccessDTO) {
         const result = await this.transactionService.markUserDepositAsInProgress(body.username, body.internalTXID);
+        return result;
+    }
+
+    @Patch('/updateUserTXRef')
+    async updateUserTXRef(@Body() body: UpdateUserTXrefDTO) {
+        const result = await this.transactionService.updateUserTXRef(body.username, body.internalTXID, body.txRef);
         return result;
     }
 

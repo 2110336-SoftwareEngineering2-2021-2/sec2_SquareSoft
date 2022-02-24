@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsNumber, IS_ALPHA, Validate, ValidateNested } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsUrl, IS_ALPHA, Validate, ValidateNested } from 'class-validator';
 import * as mongoose from 'mongoose';
 import { Role } from 'src/enums/role.enum';
 
@@ -33,12 +33,12 @@ export interface TransactionDTO{
     deposit: {
         paymentMethod: mobileBanking, bankTransfer, promptpay etc.,
         bank: string,
-        txid: string
+        txRef: string
     }
     deposit: {
         paymentMethod: mobileBanking, bankTransfer, promptpay etc.,
         bank: string,
-        txid: string
+        txRef: string
     }
     */
 }
@@ -94,4 +94,10 @@ export class newUserDepositDTO extends TransactionUserDTO{
 export class UserTransactionAccessDTO extends TransactionUserDTO{
     @IsNotEmpty()
     internalTXID: string;
+}
+
+export class UpdateUserTXrefDTO extends UserTransactionAccessDTO{
+    @IsNotEmpty()
+    @IsUrl()
+    txRef: string;
 }
