@@ -2,7 +2,6 @@ import axios from 'axios'
 import {
     basedURL
 } from '../index.js';
-import { encode, decode } from 'base-64'
 
 async function uploadImage(image) {
     const formData = new FormData()
@@ -11,4 +10,9 @@ async function uploadImage(image) {
     return await response;
 }
 
-export default uploadImage;
+async function getFileURL(fileName) {
+    const response = axios.get(basedURL.concat('file-uploader/').concat(fileName)); 
+    return await response;
+}
+
+export {uploadImage, getFileURL};
