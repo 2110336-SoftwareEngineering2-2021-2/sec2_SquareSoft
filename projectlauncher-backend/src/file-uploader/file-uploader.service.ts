@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from "aws-sdk";
-import { encode } from "base-64";
 
 @Injectable()
 export class FileUploaderService {
