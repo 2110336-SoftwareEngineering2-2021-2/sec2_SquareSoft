@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AllRoleGuard } from 'src/auth/jwt-auth.guard';
 import { FileUploaderService } from './file-uploader.service';
 
+@UseGuards(AllRoleGuard)
 @Controller('file-uploader')
 export class FileUploaderController {
 
