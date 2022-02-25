@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
-import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserDonateProjectDTO, UserTransactionAccessDTO } from './transaction.model';
+import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserDTO, TransactionUserEntity, UpdateUserTXrefDTO, UserDonateProjectDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 
 @Controller('transaction')
@@ -60,6 +60,12 @@ export class TransactionController {
             body.limit = 10;
         }
         const result = await this.transactionService.getUnfinishedUserTX(body.limit);
+        return result;
+    }
+
+    @Get('/getUserBalance')
+    async getUserBalance(@Body() body: TransactionUserDTO) {
+        const result = await this.transactionService.getUserBalance(body.username);
         return result;
     }
 

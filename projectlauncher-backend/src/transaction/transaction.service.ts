@@ -239,6 +239,14 @@ export class TransactionService {
         return result
     }
 
+    async getUserBalance(username: TransactionUserEntity){
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        return {
+            username,
+            "balance": user.balance
+        }
+    }
+
 
     async getUserTransactionByTXID(username: TransactionUserEntity, internalTXID: string){
         let tx = undefined
