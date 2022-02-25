@@ -1,6 +1,6 @@
 import Dropzone, { useDropzone } from 'react-dropzone'
 import React, { useCallback, useState, useEffect } from 'react'
-import { Image } from '@chakra-ui/react'
+import { Image, Box, Button, Center, VStack, Text, Flex } from '@chakra-ui/react'
 import { uploadImage } from '../../api/file-uploader/file-uploader';
 
 function dec2hex (dec) {
@@ -12,7 +12,7 @@ function generateId (len) {
     return Array.from(arr, dec2hex).join('')
 }
 
-function ImageUploader({ upload, setImageName }){
+function ImageUploader({ upload, setImageName, width = 500, height = 200}){
     const [drop, setDrop] = useState(false);
     const [file, setFile] = useState(null);
     const [srcImg, setSrcImg] = useState(null);
@@ -39,17 +39,24 @@ function ImageUploader({ upload, setImageName }){
     const { open } = useDropzone({ onDrop });
 
     return (
-        <Dropzone onDrop={onDrop}>
-            {({getRootProps, getInputProps}) => (
-            <section className="container">
-                <div {...getRootProps({className: 'dropzone'})}>
-                    {drop && <Image src = {srcImg}></Image>}
-                    <input {...getInputProps()} />
-                    <p>Drag 'n' drop some files here, or click to select files</p>
-                </div>
-            </section>
-            )}
-      </Dropzone>
+            <Dropzone onDrop={onDrop}>
+                {({getRootProps, getInputProps}) => (
+                <section className="container">
+                    <Flex {...getRootProps({className: 'dropzone'})} w={width} h={height} borderWidth="2px" borderRadius="md" color='gray.500' justifyContent="space-around">
+                        <Center>
+                            <VStack>
+                                {drop && <Image src = {srcImg} p = "2px" m = "2px" maxW={0.75*width} maxH={0.2*height}></Image>}
+                                <input {...getInputProps()} />
+                                {!drop &&  <Text p = "5px">Drag 'n' drop some files here, or click to select files</Text>}
+                                <Button onClick = {open} p = "2px" h={0.02*height} colorScheme='teal' variant='outline'>
+                                    <Text size={0.01*height}>Browse</Text>
+                                </Button>
+                            </VStack>
+                        </Center>
+                    </Flex>
+                </section>
+                )}
+            </Dropzone>
     );
 }
 
