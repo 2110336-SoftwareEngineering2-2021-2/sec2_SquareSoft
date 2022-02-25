@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEnum, IsIn, IsNotEmpty, IsNumber, IsOptional, IsUrl, IS_ALPHA, Validate, ValidateNested } from 'class-validator';
+import { IsEnum, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, IS_ALPHA, Min, Validate, ValidateNested } from 'class-validator';
 import * as mongoose from 'mongoose';
 import { Role } from 'src/enums/role.enum';
 
@@ -21,24 +21,18 @@ export interface TransactionDTO{
     data: object;
     /*
     transfer: {
-        toUsername: string,
-        objective: {
-            objective: donate, 
-            data: {
-                projectID: 
-            }
-        },
-        recieveTID: id
+        type: TransferType,
+        data: {
+            // Donate
+            toProjectID: projectID
+        }
     }
     recieve: {
-        fromUsername: string,
-        objective: {
-            objective: getDonation, 
-            data: {
-                projectID: 
-            }
-        },
-        transferTID: id
+        type: RecieveType,
+        data: {
+            // GetDonation
+            fromUsername: TransactionUserEntity
+        }
     }
     deposit: {
         paymentMethod: mobileBanking, bankTransfer, promptpay etc.,
@@ -51,6 +45,16 @@ export interface TransactionDTO{
         txRef: string
     }
     */
+}
+
+export enum TransferType{
+    Donate = "Donate",
+    UserTransfer = "UserTransfer"
+}
+
+export enum RecieveType{
+    GetDonation = "GetDonation",
+    UserRecieve = "UserRecieve"
 }
 
 export enum TransactionObjective {
@@ -92,6 +96,7 @@ export class TransactionUserDTO{
 export class newUserDepositDTO extends TransactionUserDTO{
     @IsNotEmpty()
     @IsNumber()
+    @Min(0.01)
     amount: number;
 
     @IsNotEmpty()
@@ -129,6 +134,7 @@ export class GetListDTO extends TransactionUserDTO{
 export class NewUserWithdrawDTO extends TransactionUserDTO{
     @IsNotEmpty()
     @IsNumber()
+    @Min(0.01)
     amount: number;
 }
 
@@ -136,4 +142,10 @@ export class AdminMarkTxAsInProgressDTO{
     @IsNumber()
     @IsOptional()
     limit: number;
+}
+
+export class UserDonateProjectDTO extends NewUserWithdrawDTO{
+    @IsNotEmpty()
+    @IsString()
+    projectID: string;
 }

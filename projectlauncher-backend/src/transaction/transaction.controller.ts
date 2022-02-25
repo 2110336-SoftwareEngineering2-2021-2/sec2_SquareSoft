@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
-import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
+import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserDonateProjectDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 
 @Controller('transaction')
@@ -78,6 +78,12 @@ export class TransactionController {
     @Patch('/adminConfirmWithdraw')
     async adminConfirmWithdraw(@Body() body: UpdateUserTXrefDTO) {
         const result = await this.transactionService.adminConfirmWithdraw(body.username, body.internalTXID, body.txRef);
+        return result;
+    }
+
+    @Post('/userDonateProject')
+    async userDonateProject(@Body() body: UserDonateProjectDTO) {
+        const result = await this.transactionService.userDonateProject(body.username, body.projectID, body.amount);
         return result;
     }
 
