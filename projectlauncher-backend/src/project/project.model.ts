@@ -12,6 +12,7 @@ export const ProjectSchema = new mongoose.Schema({
   projectOwnerID: { type: String, required: true },
   projectPicture: { type: String, required: true },
   projectVideo: { type: String, required: true },
+  projectPublishStatus: { type: String, required: true },
 });
 
 export interface project{
@@ -25,6 +26,6 @@ export interface project{
   fundingMoneyStatus: string;
   projectOwnerID: string;
   projectPicture: string;
-  projectOwner: string;
+  projectPublishStatus: string;
 }
 
