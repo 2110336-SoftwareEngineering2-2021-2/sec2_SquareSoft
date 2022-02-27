@@ -7,7 +7,8 @@ import Login from '../views/login/Login'
 import LoginAdmin from '../views/login/LoginAdmin'
 import SignUp from '../views/registration/SignUp';
 import SignUpProjectOwner from '../views/registration/SignUpProjectOwner';
-import ProjectListOfAnOwner from '../views/project-list/ProjectListOfAnOwner'
+import ProjectListOfAnOwner from '../views/project-list/ProjectListOfAnOwner';
+import MyProject from '../views/project-list/MyProject';
 
 const MainRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const MainRoutes = () => {
           <Route path="" element={<Home />}></Route>
           <Route path="home" element={<Home />}></Route>
           <Route path="login" element={<Login />}></Route>
+          <Route path="projects/my-project" element={<MyProject />}></Route>
           <Route path="projects/:ownerid" element={<ProjectListOfAnOwner />}></Route>
           <Route path="admin/login" element={<LoginAdmin />}></Route>
           <Route path="admin/project-owner" element={<OverviewVerification />} />
