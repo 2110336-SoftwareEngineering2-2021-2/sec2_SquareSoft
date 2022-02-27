@@ -6,23 +6,24 @@ import { project } from './project.model';
 @Injectable()
 export class ProjectService {
     
-   
-    
     constructor(
         @InjectModel('project') private readonly projectModel: Model<project>
     ) { }
     
-    async findByOwnerUnpublish(body: any) {
-        const result=await this.projectModel.find({ projectOwnerID: body['projectOwnerID'], projectPublishStatus:'unpublished'}).exec();
-        return result;
-    }
-    async findByOwnerPublish(body: any) {
-        const result=await this.projectModel.find({ projectOwnerID: body['projectOwnerID'], projectPublishStatus:'published'}).exec();
-        return result;
-    }
-    async findByProjectOwnerID(body: any) {
-        const result=await this.projectModel.find({ projectOwnerID: body['projectOwnerID']}).exec();
-        return result;
+    async findByProjectOwnerID(body: any,projectPublishStatus:String) {
+        try{
+            let queryBlock={ projectOwnerID: body['projectOwnerID']}
+
+            if(projectPublishStatus)
+                queryBlock['projectPublishStatus']=projectPublishStatus
+            
+            const result=await this.projectModel.find(queryBlock,{projectName:1,description:1,projectPicture:1}).exec();
+            return result;
+        }
+        catch(err){
+            throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+        
     }
 
     async findByNamePublishStatus(body: any) {

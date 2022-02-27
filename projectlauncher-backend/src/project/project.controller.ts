@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post ,UseGuards} from '@nestjs/common';
 import { resourceLimits } from 'worker_threads';
 import { ProjectService } from './project.service';
+import * as RoleGuard from "src/auth/jwt-auth.guard"
 
 @Controller('project')
 export class ProjectController {
@@ -13,21 +14,16 @@ export class ProjectController {
         return results;
     }
 
-    @Get('find-by-owner')
-    async findByProjectOwnerID(@Body () body) {
-        const results=this.projectService.findByProjectOwnerID(body);
-        return results;
-    }
-
     @Get('find-by-owner-publish')
     async findByOwnerPublish(@Body () body) {
-        const results=this.projectService.findByOwnerPublish(body);
+        const results=this.projectService.findByProjectOwnerID(body,"published");
         return results;
     }
 
-    @Get('find-by-owner-unpublish')
-    async findByOwnerUnpublish(@Body () body) {
-        const results=this.projectService.findByOwnerUnpublish(body);
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    @Get('find-by-owner')
+    async findByOwnerId(@Body () body) {
+        const results=this.projectService.findByProjectOwnerID(body,null);
         return results;
     }
 
