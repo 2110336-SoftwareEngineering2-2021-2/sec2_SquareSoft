@@ -12,16 +12,15 @@ class ProjectListOfAnOwnerComponent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            projectList: [],
-            isOwner: null
+            projectList: []
         }
     }
 
-    componentDidMount() {
-        const {projectList, isOwner} = getProjectsOfAnOwner(this.props.ownerid, Cookies.get('token'))
+    async componentDidMount() {
+        const projectList = await getProjectsOfAnOwner(this.props.ownerid, Cookies.get('token'))
+        console.log(projectList)
         this.setState({
-            projectList: projectList,
-            isOwner: isOwner
+            projectList: projectList
         })
     }
 
@@ -29,7 +28,7 @@ class ProjectListOfAnOwnerComponent extends React.Component {
         return (
             <Center mt='5'>
                 <VStack align='stretch' spacing='20px' w='80%'>
-                    <ProjectList projectList={this.state.projectList} isOwner={this.state.isOwner}/>
+                    <ProjectList projectList={this.state.projectList} isOwner={false}/>
                 </VStack>
             </Center>
         );

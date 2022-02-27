@@ -70,29 +70,17 @@ function getMyProjects(token) {
     ]
 }
 
-function getProjectsOfAnOwner(ownerid, token) {
-    const l = [{
-            title: ownerid + "'s project 1",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            title: ownerid + "'s project 2",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        }
-    ]
-    if (token) {
-        console.log(token)
+async function getProjectsOfAnOwner(ownerid, token) {
+    const response = await axios.get(basedURL.concat(`project/find-by-owner-publish?projectOwnerID=${ownerid}`))
+    console.log(response.data)
+    const projectList = response.data.map(e => {
         return {
-            projectList: l,
-            isOwner: true
+            title: e.projectName,
+            description: e.description,
+            imageUrl: 'https://picsum.photos/500/300?random=1'
         }
-    }
-    return {
-        projectList: l,
-        isOwner: false
-    }
+    })
+    return projectList
 }
 
 export {
