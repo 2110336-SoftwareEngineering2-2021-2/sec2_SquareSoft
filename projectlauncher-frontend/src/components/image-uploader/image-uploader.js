@@ -12,7 +12,7 @@ function generateId (len) {
     return Array.from(arr, dec2hex).join('')
 }
 
-function ImageUploader({ upload, setImageName, width = 500, height = 200}){
+function ImageUploader({ upload, setImageName, setUploaded, width = 500, height = 200}){
     const [drop, setDrop] = useState(false);
     const [file, setFile] = useState(null);
     const [srcImg, setSrcImg] = useState(null);
@@ -32,7 +32,11 @@ function ImageUploader({ upload, setImageName, width = 500, height = 200}){
         if(upload && isImg){
             const temp_file = new File([file], generateId() + "." + file.type.split("/")[1]);
             setImageName(temp_file.name);
-            uploadImage(temp_file);
+            uploadImage(temp_file).then((res)=>{
+                if(res){
+                    setUploaded(true);
+                }
+            });
         }
     },[upload]);
 
