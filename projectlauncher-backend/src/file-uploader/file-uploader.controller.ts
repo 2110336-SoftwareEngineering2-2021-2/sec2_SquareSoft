@@ -3,7 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { AllRoleGuard } from 'src/auth/jwt-auth.guard';
 import { FileUploaderService } from './file-uploader.service';
 
-@UseGuards(AllRoleGuard)
+//@UseGuards(AllRoleGuard)
 @Controller('file-uploader')
 export class FileUploaderController {
 
