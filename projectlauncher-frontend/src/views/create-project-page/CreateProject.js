@@ -11,12 +11,14 @@ class CreateProject extends React.Component {
     this.state = { isProjectOwner: false };
   }
 
-  ProjectOwnerPass() {
-    this.setState({
-      isProjectOwner: !Cookies.get("token")
-        ? false
-        : ["ProjectOwner", "Admin"].includes(jwt(Cookies.get("token")).role)
-    });
+  componentDidMount() {
+    if (Cookies.get("token")) { // Check if token exist in Cookies (not null)
+      this.setState({
+        isProjectOwner: ["ProjectOwner", "Admin"].includes(
+          jwt(Cookies.get("token")).role
+        ),
+      });
+    }
   }
 
   render() {
@@ -24,7 +26,6 @@ class CreateProject extends React.Component {
       <div>
         <Navigator />
         <CreateProjectForm />
-        {this.ProjectOwnerPass}
         {!this.state.isProjectOwner && <Navigate to="/home" replace={true} />}
       </div>
     );
