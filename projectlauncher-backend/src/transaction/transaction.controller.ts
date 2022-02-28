@@ -1,5 +1,7 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
-import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
+import { Body, Controller, Get, Headers, Patch, Post, UseGuards,Request } from '@nestjs/common';
+import { getUnpackedSettings } from 'http2';
+import {AdminGuard, AllRoleGuard, DonPOGuard,ProjectOwnerGuard } from 'src/auth/jwt-auth.guard';
+import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserDTO, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 
 @Controller('transaction')
@@ -17,44 +19,55 @@ export class TransactionController {
     //     const result = await this.transactionService.newRecieve(body.username, body.fromUsername, TransactionObjective.GetDonation, body.amount, null);
     //     return result;
     // }
+    
 
     @Post('/newUserDeposit')
-    async newUserDeposit(@Body() body: newUserDepositDTO) {
-        const result = await this.transactionService.newUserDeposit(body.username, body.amount, body.paymentMethod, body.bank);
+    @UseGuards(DonPOGuard)
+    async newUserDeposit(@Body() body: newUserDepositDTO, @Request() req: Request) {
+        // let username = await getUser(header.authorization.split(" ")[1])
+        const result = await this.transactionService.newUserDeposit(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.amount, body.paymentMethod, body.bank);
         return result;
     }
 
     @Patch('/updateUserDepositRef')
-    async updateUserDepositRef(@Body() body: UpdateUserTXrefDTO) {
-        const result = await this.transactionService.updateUserDepositRef(body.username, body.internalTXID, body.txRef);
+    @UseGuards(DonPOGuard)
+    async updateUserDepositRef(@Body() body: UpdateUserTXrefDTO, @Request() req: Request) {
+        const result = await this.transactionService.updateUserDepositRef(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID, body.txRef);
         return result;
     }
 
     @Patch('/userCancelTX')
-    async userCancelTX(@Body() body: UserTransactionAccessDTO) {
-        const result = await this.transactionService.userCancelTX(body.username, body.internalTXID);
+    @UseGuards(DonPOGuard)
+    async userCancelTX(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
+        const result = await this.transactionService.userCancelTX(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID);
         return result;
     }
 
     @Patch('/adminConfirmDeposit')
-    async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO) {
-        const result = await this.transactionService.adminConfirmTX(body.username, body.internalTXID);
+    @UseGuards(AdminGuard)
+    async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
+        const result = await this.transactionService.adminConfirmTX(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID);
         return result;
     }
 
     @Patch('/adminRejectTX')
-    async adminRejectTX(@Body() body: UserTransactionAccessDTO) {
-        const result = await this.transactionService.adminRejectTX(body.username, body.internalTXID);
+    @UseGuards(AdminGuard)
+    async adminRejectTX(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
+        const result = await this.transactionService.adminRejectTX(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID);
         return result;
     }
 
     @Get('/getUserTransaction')
-    async getUserTransaction(@Body() body: GetListDTO) {
-        const result = await this.transactionService.getUserTransaction(body.username, body.limit, body.type, body.status);
+    @UseGuards(DonPOGuard)
+    async getUserTransaction(@Body() body: GetListDTO, @Request() req: Request) {
+        const result = await this.transactionService.getUserTransaction(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.limit, body.type, body.status);
         return result;
     }
 
+
+
     @Get('/adminGetUnfinishedUserTX')
+    @UseGuards(AdminGuard)
     async adminGetUnfinishedUserTX(@Body() body: AdminMarkTxAsInProgressDTO) {
         if (!body.limit){
             body.limit = 10;
@@ -64,20 +77,23 @@ export class TransactionController {
     }
 
     @Post('/newUserWithdraw')
-    async newUserWithdraw(@Body() body: NewUserWithdrawDTO) {
-        const result = await this.transactionService.newUserWithdraw(body.username, body.amount);
+    @UseGuards(DonPOGuard)
+    async newUserWithdraw(@Body() body: NewUserWithdrawDTO, @Request() req: Request) {
+        const result = await this.transactionService.newUserWithdraw(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.amount);
         return result;
     }
 
     @Patch('/adminMarkTxAsInProgress')
-    async adminMarkTxAsInProgress(@Body() body: UserTransactionAccessDTO) {
-        const result = await this.transactionService.adminMarkTxAsInProgress(body.username, body.internalTXID);
+    @UseGuards(AdminGuard)
+    async adminMarkTxAsInProgress(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
+        const result = await this.transactionService.adminMarkTxAsInProgress(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID);
         return result;
     }
 
     @Patch('/adminConfirmWithdraw')
-    async adminConfirmWithdraw(@Body() body: UpdateUserTXrefDTO) {
-        const result = await this.transactionService.adminConfirmWithdraw(body.username, body.internalTXID, body.txRef);
+    @UseGuards(AdminGuard)
+    async adminConfirmWithdraw(@Body() body: UpdateUserTXrefDTO, @Request() req: Request) {
+        const result = await this.transactionService.adminConfirmWithdraw(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID, body.txRef);
         return result;
     }
 
