@@ -8,11 +8,15 @@ import Cookies from "js-cookie";
 class CreateProject extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { isProjectOwner: false };
+  }
+
+  ProjectOwnerPass() {
+    this.setState({
       isProjectOwner: !Cookies.get("token")
         ? false
-        : ["ProjectOwner", "Admin"].includes(jwt(Cookies.get("token")).role),
-    };
+        : ["ProjectOwner", "Admin"].includes(jwt(Cookies.get("token")).role)
+    });
   }
 
   render() {
@@ -20,6 +24,7 @@ class CreateProject extends React.Component {
       <div>
         <Navigator />
         <CreateProjectForm />
+        {this.ProjectOwnerPass}
         {!this.state.isProjectOwner && <Navigate to="/home" replace={true} />}
       </div>
     );
