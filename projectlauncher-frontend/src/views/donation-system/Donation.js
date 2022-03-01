@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 import Navigator from "../../components/navigator";
-import TansactionVerification from './admin/transactionVerification'
 import { Flex, Center, Text, Container, VStack } from '@chakra-ui/react'
-import VerificcationBox from '../../../components/donation-system/admin/transaction-verification';
+import VerificcationBox from '../../components/donation-system/admin/transaction-verification';
 import { useEffect } from 'react';
 
 
