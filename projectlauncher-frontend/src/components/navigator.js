@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css'
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
+import coinIcon from './coin-icon.png';
 //
 class Navigator extends React.Component{
     constructor(props) {
@@ -35,6 +36,8 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
+                    <Nav.Link href='#'>100</Nav.Link>
+                    <Nav.Link href='#'><img src={coinIcon} alt="" width="28" height="28"/></Nav.Link>
                     <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
