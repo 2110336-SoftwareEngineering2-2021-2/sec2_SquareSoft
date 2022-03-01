@@ -256,6 +256,7 @@ function CreateProjectForm() {
           colorScheme="purple"
           variant="solid"
           w="200px"
+          borderRadius="12px"
           onClick={() => {
             navigate("/home");
           }}
@@ -270,6 +271,7 @@ function CreateProjectForm() {
           colorScheme="purple"
           variant="solid"
           w="200px"
+          borderRadius="12px"
           onClick={() => {
             console.log([
               projectName,
