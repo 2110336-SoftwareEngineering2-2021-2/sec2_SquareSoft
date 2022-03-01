@@ -76,7 +76,7 @@ export class TransactionController {
 
     @Get('/getUserBalance')
     @UseGuards(DonPOGuard)
-    async getUserBalance(@Body() body: TransactionUserDTO, @Request() req: Request) {
+    async getUserBalance(@Body() body: any, @Request() req: Request) {
         const result = await this.transactionService.getUserBalance(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}));
         return result;
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Navbar, Container, NavDropdown, Nav} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css'
@@ -7,16 +7,17 @@ import { useNavigate } from "react-router-dom";
 import coinIcon from './coin-icon.png';
 import axios from 'axios'
 import {basedURL} from '../api/index.js';
+import {getToken} from '../api/index.js'
 //
 async function numCoins(token){
     try{
-        const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {}, {
-            headers: { Authorization: `Bearer ${token}` }
+        const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {
+            headers: { Authorization: "Bearer " + token }
         })
         console.log(response)
-        return response
+        return response.data.balance;
     }catch(err){
-        console.log("asdfasdfadf")
+        console.log(err)
         // console.log("sdfdfdf")
         // console.log(err.response.status)
         // console.log(err.response.data)
@@ -25,7 +26,7 @@ async function numCoins(token){
         //     if(data['err']['code'] == 11000 ){
         //         return { status:"error", message:Object.keys(data['err']['keyPattern'])[0] + " used"}
         //     }}
-        console.log("error")
+        // console.log("error")
         
     }
 }
@@ -33,7 +34,7 @@ async function numCoins(token){
 class Navigator extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {username: null, isLoggedin: false}
+        this.state = {username: null, isLoggedin: false, balance: 0}
     }
 
     componentDidMount() {
@@ -41,8 +42,14 @@ class Navigator extends React.Component{
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
             this.setState({username: Cookies.get('username')})
+            this.interval = setInterval(() => this.tick(), 1000);
         }
+        
     }
+    componentWillUnmount(){
+        clearInterval(this.interval)
+    }
+
     onClickLogOut() {
         // remove token
         this.setState({isLoggedin: false})
@@ -50,8 +57,16 @@ class Navigator extends React.Component{
         Cookies.remove('username')
         this.props.navigate('/login')
     }
+    async tick(){
+        this.setState({
+            balance: await numCoins(getToken())
+        });
+    }
+
     render(){
+        
         return <div>
+            
             <Navbar bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href="#home">ProjectLauncher</Navbar.Brand>
@@ -60,8 +75,7 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    {/* {(this.state.isLoggedin)&&<Nav.Link href='#'>{numCoins(Cookies.get("token"))}</Nav.Link>} */}
-                    {(this.state.isLoggedin)&&<Nav.Link href='#'><img src={coinIcon} alt="" width="28" height="28"/></Nav.Link>}
+                    {(this.state.isLoggedin)&&<Nav.Link href='#'>{this.state.balance} <img src={coinIcon} alt="" width="28" height="28"/></Nav.Link>}
                     <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
@@ -74,7 +88,7 @@ class Navigator extends React.Component{
                 </Navbar.Collapse>
             </Container>
             </Navbar>
-            <div>{(numCoins(Cookies.get("token"))).toString()}</div>
+            {/* <div>{(numCoins(getToken())).toString()}</div> */}
         </div>;
     }
 }
