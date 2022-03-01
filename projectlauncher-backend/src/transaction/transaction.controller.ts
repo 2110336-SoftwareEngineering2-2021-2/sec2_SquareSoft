@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Headers, Patch, Post, UseGuards,Request } from '@nestjs/common';
 import { getUnpackedSettings } from 'http2';
 import {AdminGuard, AllRoleGuard, DonPOGuard,ProjectOwnerGuard } from 'src/auth/jwt-auth.guard';
-import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserDTO, TransactionUserEntity, UpdateUserTXrefDTO, UserTransactionAccessDTO } from './transaction.model';
+import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserDTO, TransactionUserEntity, UpdateUserTXrefDTO, UserDonateProjectDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 
 @Controller('transaction')
@@ -46,14 +46,14 @@ export class TransactionController {
     @Patch('/adminConfirmDeposit')
     @UseGuards(AdminGuard)
     async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminConfirmTX(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID);
+        const result = await this.transactionService.adminConfirmTX(body.username, body.internalTXID);
         return result;
     }
 
     @Patch('/adminRejectTX')
     @UseGuards(AdminGuard)
     async adminRejectTX(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminRejectTX(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID);
+        const result = await this.transactionService.adminRejectTX(body.username, body.internalTXID);
         return result;
     }
 
@@ -63,8 +63,6 @@ export class TransactionController {
         const result = await this.transactionService.getUserTransaction(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.limit, body.type, body.status);
         return result;
     }
-
-
 
     @Get('/adminGetUnfinishedUserTX')
     @UseGuards(AdminGuard)
@@ -76,9 +74,17 @@ export class TransactionController {
         return result;
     }
 
+    @Get('/getUserBalance')
+    @UseGuards(DonPOGuard)
+    async getUserBalance(@Body() body: TransactionUserDTO, @Request() req: Request) {
+        const result = await this.transactionService.getUserBalance(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}));
+        return result;
+    }
+
     @Post('/newUserWithdraw')
     @UseGuards(DonPOGuard)
-    async newUserWithdraw(@Body() body: NewUserWithdrawDTO, @Request() req: Request) {
+    async newUserWithdraw(@Body() body: 
+    NewUserWithdrawDTO, @Request() req: Request) {
         const result = await this.transactionService.newUserWithdraw(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.amount);
         return result;
     }
@@ -94,6 +100,13 @@ export class TransactionController {
     @UseGuards(AdminGuard)
     async adminConfirmWithdraw(@Body() body: UpdateUserTXrefDTO, @Request() req: Request) {
         const result = await this.transactionService.adminConfirmWithdraw(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID, body.txRef);
+        return result;
+    }
+
+    @Post('/userDonateProject')
+    @UseGuards(DonPOGuard)
+    async userDonateProject(@Body() body: UserDonateProjectDTO, @Request() req: Request) {
+        const result = await this.transactionService.userDonateProject(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.projectID, body.amount);
         return result;
     }
 

@@ -3,9 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { query } from 'express';
 import { Model } from 'mongoose';
 import { Role } from 'src/enums/role.enum';
+import { project } from 'src/project/project.model';
 import { userDonator, userProjectOwner } from 'src/registration-system/registration-system.model';
 import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
-import { TransactionDTO, TransactionObjective, TransactionStatus, TransactionType, TransactionUserEntity } from './transaction.model';
+import { TransactionDTO, TransactionObjective, TransactionStatus, TransactionType, TransactionUserEntity, TransferType } from './transaction.model';
 
 @Injectable()
 export class TransactionService {
@@ -13,6 +14,7 @@ export class TransactionService {
         @InjectModel("transaction") private readonly transactionModel: Model<TransactionDTO>,
         @InjectModel('userDonator') private readonly userDonatorModel: Model<userDonator>,
         @InjectModel('userProjectOwner') private readonly userProjectOwnerModel: Model<userProjectOwner>,
+        @InjectModel('project') private readonly projectModel: Model<project>,
         private registrationSystemService: RegistrationSystemService,
     ) { }
 
@@ -160,6 +162,38 @@ export class TransactionService {
         }
     }
 
+    async userDonateProject(username: TransactionUserEntity, projectID: string, amount: number){
+        let project = undefined
+        try{
+            project = await this.projectModel.findById(projectID);   
+        }
+        catch(err){
+            throw new HttpException({
+                "msg": "invalid projectID"
+            }, HttpStatus.BAD_REQUEST);
+        }
+        if ( project === null ){
+            throw new HttpException({
+                "msg": "project not found"
+            }, HttpStatus.NOT_FOUND);
+        }
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        if (user.balance < amount){
+            throw new HttpException({
+                "msg": "insufficient balance to donate"
+            }, HttpStatus.UNPROCESSABLE_ENTITY); 
+        }
+        project.fundingMoneyStatus += amount;
+        await project.save();
+        user.balance -= amount;
+        await user.save();
+        let result = await this.newTransfer(username, amount, TransferType.Donate, projectID, TransactionStatus.Completed);
+        return {
+            "status": "donate successful",
+            "username": username,
+            "txResult": result
+        }
+    }
 
     validateTX(tx: any, types: Array<TransactionType>, typeErrorMsg: string, status: Array<TransactionStatus>, statusErrorMsg: string): boolean{
         for (let type of types){
@@ -203,6 +237,14 @@ export class TransactionService {
                 }
             ],}).sort('+timestamp').limit(limit);
         return result
+    }
+
+    async getUserBalance(username: TransactionUserEntity){
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        return {
+            username,
+            "balance": user.balance
+        }
     }
 
 
@@ -253,13 +295,15 @@ export class TransactionService {
         return new this.transactionModel(obj);
     }
     
-    async newTransfer(username: TransactionUserEntity, toUsername: string, objective: TransactionObjective, 
-                        amount: number, recieveTXID: any, status: TransactionStatus = TransactionStatus.Pending) {
-        return await this.newTransaction(new Date(), username, TransactionType.Transfer, amount, {
-            toUsername,
-            objective,
-            recieveTXID
-        }, status)
+    async newTransfer(username: TransactionUserEntity, amount: number,
+                        transferType: TransferType, toProjectID: string|null = null, 
+                        status: TransactionStatus = TransactionStatus.Pending) {
+        let data = {}
+        data["transferType"] = transferType;
+        if (transferType === TransferType.Donate){
+            data["data"] = {toProjectID};
+        }
+        return await this.newTransaction(new Date(), username, TransactionType.Transfer, amount, data, status)
     }
     
     async newRecieve(username: TransactionUserEntity, fromUsername: string, objective: TransactionObjective, amount: number, 
