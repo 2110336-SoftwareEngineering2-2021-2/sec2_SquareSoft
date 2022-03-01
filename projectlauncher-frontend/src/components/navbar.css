@@ -1,0 +1,14 @@
+.projectName {
+  color: #8157a1;
+}
+.navigator {
+  margin-bottom: 60px;
+}
+.bar {
+  position: relative;
+}
+.dropdown {
+  position: absolute;
+  top: 8px;
+  right: 90px;
+}
