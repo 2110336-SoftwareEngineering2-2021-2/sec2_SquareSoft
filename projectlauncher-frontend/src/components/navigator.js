@@ -18,14 +18,11 @@ class Navigator extends React.Component{
             this.setState({username: Cookies.get('username')})
         }
     }
-
     onClickLogOut() {
         // remove token
         this.setState({isLoggedin: false})
         Cookies.remove('token')
         Cookies.remove('username')
-    }
-    logout(){
         this.props.navigate('/login')
     }
     render(){
@@ -38,10 +35,11 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    {(this.props.logoutbutton)&&<NavDropdown.Item onClick = {() => this.logout()}>Log out</NavDropdown.Item>}
+                    <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
+                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
+                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
+                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up-projectOwner')}}>Sign Up-PO</NavDropdown.Item>}
+                    {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogOut()}>Log out</NavDropdown.Item>}
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
@@ -55,11 +53,7 @@ class Navigator extends React.Component{
 
 function WithNavigate(props){
     let navigate = useNavigate();
-    let logout = props.logoutbutton;
-    if(props.logoutbutton === undefined){
-        logout = false;
-    }
-    return <Navigator {...props} navigate= {navigate} logoutbutton = {logout}/>
+    return <Navigator {...props} navigate= {navigate}/>
 }
 
 export default WithNavigate;

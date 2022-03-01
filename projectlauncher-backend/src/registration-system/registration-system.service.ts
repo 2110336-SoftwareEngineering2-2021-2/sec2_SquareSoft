@@ -78,7 +78,7 @@ export class RegistrationSystemService {
         return result;
     }
 
-    async getUserForLogin(username: string, role: string) {
+    async findByUsername(username: string, role: string): Promise<any> {
         let result = undefined;
         if (role === Role.Donator) {
             result = await this.userDonatorModel.findOne({ username: username });
@@ -93,6 +93,23 @@ export class RegistrationSystemService {
             throw new BadRequestException("Role can be only '" + Role.Donator + "', '" + Role.ProjectOwner + "' or '" + Role.Admin + "' not '" + role + "'");
         }
         return result;
+    }
+
+    async findByID(userID: string, role: string): Promise<any> {
+        let user = undefined;
+        if (role === Role.Donator) {
+            user = await this.userDonatorModel.findById(userID);
+        }
+        else if (role === Role.ProjectOwner) {
+            user = await this.userProjectOwnerModel.findById(userID);
+        }
+        else if (role === Role.Admin) {
+            user = await this.adminModel.findById(userID);
+        }
+        else {
+            throw new BadRequestException("Role can be only '" + Role.Donator + "', '" + Role.ProjectOwner + "' or '" + Role.Admin + "' not '" + role + "'");
+        }
+        return user;
     }
 
 }

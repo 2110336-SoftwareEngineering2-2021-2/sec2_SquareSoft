@@ -17,8 +17,8 @@ function OverviewVerification(){
     useEffect(() => {
         getOverviewProjectOwner()
             .then(res => {setData(res.data)})
+            .catch(() => {navigate("/")})
     }, []);
-    console.log(data);
 
     return (
         <div>
