@@ -15,7 +15,6 @@ const MainRoutes = () => {
     <BrowserRouter>
         <Routes>
           <Route path="" element={<Home />}></Route>
-          <Route path="home" element={<Home />}></Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="projects/my-project" element={<MyProject />}></Route>
           <Route path="projects/project-owner/:ownerid" element={<ProjectListOfAnOwner />}></Route>

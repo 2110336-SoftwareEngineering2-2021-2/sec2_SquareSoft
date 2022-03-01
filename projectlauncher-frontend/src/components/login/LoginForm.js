@@ -60,7 +60,7 @@ class LoginForm extends React.Component {
                             </div>
                             <div className="form-group mb-3 text-center">
                                 <input className="btn btn-primary" type="submit" value="Log in" onClick={() => this.onClickLogin() } style={buttonStyle}/>
-                                {(this.state.isLoginCompleted)? <Navigate to="/home" replace={true}/>: null}
+                                {(this.state.isLoginCompleted)? <Navigate to="/" replace={true}/>: null}
                             </div>
                             {/* <div className="form-group mb-3 text-center">
                                 <Link to="/">
