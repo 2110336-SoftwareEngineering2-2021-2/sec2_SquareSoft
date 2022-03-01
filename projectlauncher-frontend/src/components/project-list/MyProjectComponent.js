@@ -16,8 +16,8 @@ class MyProjectComponent extends React.Component {
         }
     }
 
-    componentDidMount() {
-        const projectList = getMyProjects(Cookies.get('token'))
+    async componentDidMount() {
+        const projectList = await getMyProjects(Cookies.get('token'))
         this.setState({
             projectList: projectList
         })

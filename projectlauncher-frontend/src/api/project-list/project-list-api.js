@@ -55,24 +55,24 @@ function getFilteredProjects(searchValue, status, type, category) {
     ]
 }
 
-function getMyProjects(token) {
-    console.log(token)
-    return [{
-            title: "My project 1",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            title: "My project 2",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
+async function getMyProjects(token) {
+    const response = await axios.get(basedURL.concat(`project/find-by-owner`), {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    const projectList = response.data.map(e => {
+        return {
+            title: e.projectName,
+            description: e.description,
             imageUrl: 'https://picsum.photos/500/300?random=1'
         }
-    ]
+    })
+    return projectList
 }
 
 async function getProjectsOfAnOwner(ownerid, token) {
     const response = await axios.get(basedURL.concat(`project/find-by-owner-publish?projectOwnerID=${ownerid}`))
-    console.log(response.data)
     const projectList = response.data.map(e => {
         return {
             title: e.projectName,
