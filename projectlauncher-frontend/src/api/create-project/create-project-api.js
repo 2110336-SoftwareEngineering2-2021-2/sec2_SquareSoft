@@ -1,5 +1,7 @@
 import axios from "axios";
 import { basedURL } from "../index";
+import jwt from "jwt-decode";
+import Cookies from "js-cookie";
 
 async function createProject(
   name,
@@ -12,16 +14,20 @@ async function createProject(
   image,
   videoLink
 ) {
+  const projectOwnerID = await jwt(Cookies.get("token"))._id;
   const response = await axios.post(basedURL.concat("create-project"), {
-    name: name,
-    purpose: purpose,
+    projectName: name,
+    objective: purpose,
     describtion: describtion,
-    type: type,
+    fundingType: type,
     category: category,
-    endDate: endDate,
-    targetAmount: targetAmount,
-    image: image,
-    videoLink: videoLink,
+    deadline: endDate,
+    fundingGoal: targetAmount,
+    fundingMoneyStatus: 0,
+    projectOwnerID: projectOwnerID,
+    projectPicture: image,
+    projectVideo: videoLink,
+    projectPublishStatus: "unpublished",
   });
   return await response;
 }
