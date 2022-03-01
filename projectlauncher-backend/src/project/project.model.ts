@@ -22,8 +22,8 @@ export interface project{
   fundingType: string;
   category: string;
   deadline: string;
-  fundingGoal: string;
-  fundingMoneyStatus: string;
+  fundingGoal: number;
+  fundingMoneyStatus: number;
   projectOwnerID: string;
   projectPicture: string;
   projectPublishStatus: string;
