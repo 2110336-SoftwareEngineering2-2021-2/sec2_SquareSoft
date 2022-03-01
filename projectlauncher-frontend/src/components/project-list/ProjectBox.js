@@ -1,9 +1,11 @@
 import React from 'react'
 import { Box, Center, Image, Button, VStack } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
 
 function ProjectBox(props) {
     
-    
+    const navigate = useNavigate();
+
     return (
         <Box maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
             <Center><Image src={props.imageUrl} /></Center>
@@ -33,7 +35,7 @@ function ProjectBox(props) {
                                 </Button>
                             </VStack>
                             :
-                            <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid'>
+                            <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/${props._id}`)}>
                                 View Project
                             </Button>
                     }
