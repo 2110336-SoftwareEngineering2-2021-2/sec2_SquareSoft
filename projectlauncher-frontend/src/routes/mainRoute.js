@@ -18,7 +18,7 @@ const MainRoutes = () => {
           <Route path="home" element={<Home />}></Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="projects/my-project" element={<MyProject />}></Route>
-          <Route path="projects/:ownerid" element={<ProjectListOfAnOwner />}></Route>
+          <Route path="projects/project-owner/:ownerid" element={<ProjectListOfAnOwner />}></Route>
           <Route path="admin/login" element={<LoginAdmin />}></Route>
           <Route path="admin/project-owner" element={<OverviewVerification />} />
           <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
