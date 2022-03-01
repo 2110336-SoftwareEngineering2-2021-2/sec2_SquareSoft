@@ -179,6 +179,7 @@ function CreateProjectForm() {
                 locale="th"
                 dateFormat="dd/MM/yyyy"
                 selected={projectEndDate}
+                minDate={new Date()}
                 onChange={(date) => setProjectEndDate(date)}
               />
             </Box>
