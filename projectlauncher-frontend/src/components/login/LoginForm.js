@@ -28,6 +28,7 @@ class LoginForm extends React.Component {
             if (res.data.access_token) {
                 Cookies.set('username', this.state.username)
                 Cookies.set('token', res.data.access_token)
+                Cookies.set('role', (this.state.isProjectOwner)? 'projectOwner': 'supporter')
                 this.setState({isLoginCompleted: true})
             }
         }).catch(res => {
