@@ -10,6 +10,7 @@ import SignUpProjectOwner from '../views/registration/SignUpProjectOwner';
 import VerifyTansaction from '../views/donation-system/admin/transactionVerification';
 import ProjectListOfAnOwner from '../views/project-list/ProjectListOfAnOwner'
 import CreateProject from '../views/create-project-page/CreateProject';
+import Success from '../views/create-project-page/Success';
 
 const MainRoutes = () => {
   return (
@@ -26,6 +27,7 @@ const MainRoutes = () => {
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "create-project" element={<CreateProject/>}/>
+          <Route path= "create-project/success" element={<Success/>}/>
         </Routes>
     </BrowserRouter>
   );
