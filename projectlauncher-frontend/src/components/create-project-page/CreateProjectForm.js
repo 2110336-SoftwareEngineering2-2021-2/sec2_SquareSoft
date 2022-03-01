@@ -177,6 +177,7 @@ function CreateProjectForm() {
             >
               <DatePicker
                 locale="th"
+                dateFormat="dd/MM/yyyy"
                 selected={projectEndDate}
                 onChange={(date) => setProjectEndDate(date)}
               />
