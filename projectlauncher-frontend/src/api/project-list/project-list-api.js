@@ -2,6 +2,9 @@ import axios from 'axios'
 import {
     basedURL
 } from '../index.js';
+import {
+    getFileURL
+} from '../file-uploader/file-uploader.js'
 
 function getAllProjects() {
     return [{
@@ -43,16 +46,19 @@ function getFilteredProjects(searchValue, status, type, category) {
     console.log(type)
     console.log(category)
     return [{
+            _id: "id1",
             title: "Search 1",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
         },
         {
+            _id: "id2",
             title: "Search 2",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
         },
         {
+            _id: "id3",
             title: "Search 3",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
@@ -66,26 +72,37 @@ async function getMyProjects(token) {
             'Authorization': `Bearer ${token}`
         }
     })
-    const projectList = response.data.map(e => {
+
+    const projectList = await Promise.all(response.data.map(async (e) => {
+        //const img_response = await getFileURL('02623c906a5799e5b40b08221261ba5d4b6d2fb1.png')
+        //const imgUrl = img_response.data
+        const imgUrl = 'https://picsum.photos/500/300?random=1'
         return {
+            _id: e._id,
             title: e.projectName,
             description: e.description,
-            imageUrl: 'https://picsum.photos/500/300?random=1'
+            imageUrl: imgUrl,
         }
-    })
+    }))
+
     return projectList
 }
 
 async function getProjectsOfAnOwner(ownerid, token) {
     const response = await axios.get(basedURL.concat(`project/find-by-owner-publish?projectOwnerID=${ownerid}`))
-    const projectList = response.data.map(e => {
+
+    const projectList = await Promise.all(response.data.map(async (e) => {
+        //const img_response = await getFileURL('02623c906a5799e5b40b08221261ba5d4b6d2fb1.png')
+        //const imgUrl = img_response.data
+        const imgUrl = 'https://picsum.photos/500/300?random=1'
         return {
             _id: e._id,
             title: e.projectName,
             description: e.description,
-            imageUrl: 'https://picsum.photos/500/300?random=1'
+            imageUrl: imgUrl,
         }
-    })
+    }))
+
     return projectList
 }
 
