@@ -13,6 +13,8 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  RadioGroup,
+  Radio,
 } from "@chakra-ui/react";
 
 class CreateProjectForm extends React.Component {
@@ -71,6 +73,24 @@ class CreateProjectForm extends React.Component {
                 borderColor="purple.500"
                 focusBorderColor="lime"
               />
+            </HStack>
+          </FormControl>
+
+          <FormControl id="type" isRequired>
+            <HStack>
+              <FormLabel htmlFor="type" width="20ch">
+                ประเภทการระดมทุน
+              </FormLabel>
+              <RadioGroup>
+                <HStack>
+                  <Radio colorScheme="purple" value="โครงการไม่แสวงหาผลกำไร">
+                    โครงการไม่แสวงหาผลกำไร
+                  </Radio>
+                  <Radio colorScheme="purple" value="โครงการเชิงพาณิชย์">
+                    โครงการเชิงพาณิชย์
+                  </Radio>
+                </HStack>
+              </RadioGroup>
             </HStack>
           </FormControl>
 
