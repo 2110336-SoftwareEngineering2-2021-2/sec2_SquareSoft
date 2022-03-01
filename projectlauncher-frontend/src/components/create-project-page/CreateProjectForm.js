@@ -166,10 +166,15 @@ function CreateProjectForm() {
 
         <FormControl id="projectEndDate" isRequired>
           <HStack>
-            <FormLabel htmlFor="projectEndDate" width="20ch">
+            <FormLabel htmlFor="projectEndDate" width="17ch">
               วันสิ้นสุดการระดมทุน
             </FormLabel>
-            <Box borderColor="purple.500">
+            <Box
+              borderColor="purple.500"
+              borderWidth="1px"
+              padding="7px"
+              borderRadius="5px"
+            >
               <DatePicker
                 locale="th"
                 selected={projectEndDate}
