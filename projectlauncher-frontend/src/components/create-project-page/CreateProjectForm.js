@@ -31,6 +31,7 @@ import {
   AlertTitle,
   CloseButton,
 } from "@chakra-ui/react";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 
 import DatePicker, { registerLocale } from "react-datepicker";
 import th from "date-fns/locale/th";
@@ -52,8 +53,13 @@ function CreateProjectForm() {
   const [projectImage, setProjectImage] = useState("");
   const [projectVideoLink, setProjectVideoLink] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(
+    "Please check for any empty value."
+  );
+  const [loading, setLoading] = useState(false);
 
-  return (
+  return !success ? (
     <Box
       borderColor="purple.500"
       borderWidth="2px"
@@ -253,6 +259,8 @@ function CreateProjectForm() {
         </Button>
         <Spacer />
         <Button
+          isLoading={loading}
+          loadingText="Submitting"
           id="submit"
           colorScheme="purple"
           variant="solid"
@@ -271,17 +279,19 @@ function CreateProjectForm() {
             ]);
 
             if (
-              projectName &&
-              projectPurpose &&
-              projectDescription &&
-              projectType &&
-              projectCategory &&
-              projectEndDate &&
-              projectTargetAmount &&
-              projectImage &&
-              projectVideoLink
+              true
+              // projectName &&
+              // projectPurpose &&
+              // projectDescription &&
+              // projectType &&
+              // projectCategory &&
+              // projectEndDate &&
+              // projectTargetAmount &&
+              // projectImage &&
+              // projectVideoLink
             ) {
-              createProject(
+              setLoading(true);
+              const response = createProject(
                 projectName,
                 projectPurpose,
                 projectDescription,
@@ -292,7 +302,26 @@ function CreateProjectForm() {
                 projectImage,
                 projectVideoLink
               );
+              response
+                .then((res) => {
+                  setLoading(false);
+                  if (res.status < 400) {
+                    setSuccess(true);
+                  } else {
+                    setErrorMessage("There is an error. Please try again.");
+                    onOpen();
+                  }
+                })
+                .catch(() => {
+                  setLoading(false);
+                  console.log("there is an error");
+                  setErrorMessage(
+                    "There is a connection error. Please try again."
+                  );
+                  onOpen();
+                });
             } else {
+              setErrorMessage("Please check for any empty value.");
               onOpen();
             }
           }}
@@ -307,7 +336,7 @@ function CreateProjectForm() {
           <ModalBody>
             <Alert status="error">
               <AlertIcon />
-              <AlertTitle>Please check for any empty value.</AlertTitle>
+              <AlertTitle>{errorMessage}</AlertTitle>
               <CloseButton
                 position="absolute"
                 right="8px"
@@ -318,6 +347,37 @@ function CreateProjectForm() {
           </ModalBody>
         </ModalContent>
       </Modal>
+    </Box>
+  ) : (
+    <Box>
+      <Box
+        borderColor="purple.500"
+        borderWidth="2px"
+        borderRadius="10px"
+        margin="50px"
+        padding="50px"
+      >
+        <VStack spacing={10}>
+          <Heading>ส่งคำขอสร้างโครงการสำเร็จ</Heading>
+          <CheckCircleIcon w={200} h={200} color="purple.500" />
+          <Text fontSize="xx-large">
+            กรุณารอการยืนยันการสร้างโครงการจากระบบ
+          </Text>
+          <Button
+            id="ok"
+            colorScheme="purple"
+            variant="solid"
+            w="200px"
+            borderRadius={16}
+            fontSize="x-large"
+            onClick={() => {
+              navigate("/home");
+            }}
+          >
+            ตกลง
+          </Button>
+        </VStack>
+      </Box>
     </Box>
   );
 }
