@@ -10,9 +10,9 @@ export class ProjectService {
         @InjectModel('project') private readonly projectModel: Model<project>
     ) { }
     
-    async findByProjectOwnerID(body: any,projectPublishStatus:String) {
+    async findByProjectOwnerID(query: any,projectPublishStatus:String) {
         try{
-            let queryBlock={ projectOwnerID: body['projectOwnerID']}
+            let queryBlock={ projectOwnerID: query['projectOwnerID']}
 
             if(projectPublishStatus)
                 queryBlock['projectPublishStatus']=projectPublishStatus
