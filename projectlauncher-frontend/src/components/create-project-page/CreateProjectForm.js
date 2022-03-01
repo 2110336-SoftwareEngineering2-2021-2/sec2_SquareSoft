@@ -28,8 +28,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 
 function CreateProjectForm() {
-  const [startDate, setStartDate] = useState(new Date());
   const navigate = useNavigate();
+  const [projectName, setProjectName] = useState("");
+  const [projectPurpose, setPurpose] = useState("");
+  const [projectDescription, setDescription] = useState("");
+  const [projectType, setProjectType] = useState("");
+  const [projectCategory, setProjectCategory] = useState("");
+  const [projectEndDate, setProjectEndDate] = useState(new Date());
+  const [projectTargetAmount, setProjectTargetAmount] = useState(0);
+  const [projectImage, setProjectImage] = useState("");
+  const [projectVideoLink, setProjectVideoLink] = useState("");
 
   return (
     <Box
@@ -57,9 +65,9 @@ function CreateProjectForm() {
           </HStack>
         </FormControl>
 
-        <FormControl id="purpose" isRequired>
+        <FormControl id="projectPurpose" isRequired>
           <HStack>
-            <FormLabel htmlFor="purpose" width="20ch">
+            <FormLabel htmlFor="projectPurpose" width="20ch">
               วัตถุประสงค์
             </FormLabel>
             <Input
@@ -70,9 +78,9 @@ function CreateProjectForm() {
           </HStack>
         </FormControl>
 
-        <FormControl id="description" isRequired>
+        <FormControl id="projectDescription" isRequired>
           <HStack>
-            <FormLabel htmlFor="description" width="20ch">
+            <FormLabel htmlFor="projectDescription" width="20ch">
               คำอธิบายโครงการ
             </FormLabel>
             <Textarea
@@ -83,9 +91,9 @@ function CreateProjectForm() {
           </HStack>
         </FormControl>
 
-        <FormControl id="type" isRequired>
+        <FormControl id="projectType" isRequired>
           <HStack>
-            <FormLabel htmlFor="type" width="20ch">
+            <FormLabel htmlFor="projectType" width="20ch">
               ประเภทการระดมทุน
             </FormLabel>
             <RadioGroup>
@@ -101,9 +109,9 @@ function CreateProjectForm() {
           </HStack>
         </FormControl>
 
-        <FormControl id="category" isRequired>
+        <FormControl id="projectCategory" isRequired>
           <HStack>
-            <FormLabel htmlFor="category" width="17ch">
+            <FormLabel htmlFor="projectCategory" width="17ch">
               หมวดหมู่โครงการ
             </FormLabel>
             <Select
@@ -124,9 +132,23 @@ function CreateProjectForm() {
           </HStack>
         </FormControl>
 
-        <FormControl id="targetAmount" isRequired>
+        <FormControl id="projectEndDate" isRequired>
           <HStack>
-            <FormLabel htmlFor="targetAmount" width="17ch">
+            <FormLabel htmlFor="projectEndDate" width="20ch">
+              วันสิ้นสุดการระดมทุน
+            </FormLabel>
+            <Box borderColor="purple.500">
+              <DatePicker
+                selected={projectEndDate}
+                onChange={(date) => setProjectEndDate(date)}
+              />
+            </Box>
+          </HStack>
+        </FormControl>
+
+        <FormControl id="projectTargetAmount" isRequired>
+          <HStack>
+            <FormLabel htmlFor="projectTargetAmount" width="17ch">
               เป้าหมายการระดมทุน
             </FormLabel>
             <NumberInput
@@ -142,18 +164,6 @@ function CreateProjectForm() {
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-          </HStack>
-        </FormControl>
-
-        <FormControl id="endDate" isRequired>
-          <HStack>
-            <FormLabel htmlFor="endDate" width="20ch">
-              วันสิ้นสุดการระดมทุน
-            </FormLabel>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
           </HStack>
         </FormControl>
       </VStack>
@@ -181,9 +191,9 @@ function CreateProjectForm() {
           </HStack>
         </FormControl>
 
-        <FormControl id="videoLink" isRequired>
+        <FormControl id="projectVideoLink" isRequired>
           <HStack>
-            <FormLabel htmlFor="videoLink" width="20ch">
+            <FormLabel htmlFor="projectVideoLink" width="20ch">
               ลิงค์วิดีโอโครงการ
             </FormLabel>
             <Input
