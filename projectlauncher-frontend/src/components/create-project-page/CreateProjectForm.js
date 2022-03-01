@@ -15,6 +15,7 @@ import {
   NumberDecrementStepper,
   RadioGroup,
   Radio,
+  Select,
 } from "@chakra-ui/react";
 
 class CreateProjectForm extends React.Component {
@@ -91,6 +92,29 @@ class CreateProjectForm extends React.Component {
                   </Radio>
                 </HStack>
               </RadioGroup>
+            </HStack>
+          </FormControl>
+
+          <FormControl id="category" isRequired>
+            <HStack>
+              <FormLabel htmlFor="category" width="17ch">
+                หมวดหมู่โครงการ
+              </FormLabel>
+              <Select
+                placeholder="กรุณาเลือกหมวดหมู๋โครงการ"
+                borderColor="purple.500"
+                focusBorderColor="lime"
+                w="50ch"
+              >
+                <option value="ศิลปะ">ศิลปะ</option>
+                <option value="อาหาร">อาหาร</option>
+                <option value="ดนตรี">ดนตรี</option>
+                <option value="เทคโนโลยี">เทคโนโลยี</option>
+                <option value="แฟชัน">แฟชัน</option>
+                <option value="สุขภาพ">สุขภาพ</option>
+                <option value="วิจัย">วิจัย</option>
+                <option value="สังคม">สังคม</option>
+              </Select>
             </HStack>
           </FormControl>
 
