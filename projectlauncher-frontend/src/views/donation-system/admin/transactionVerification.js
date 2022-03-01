@@ -3,7 +3,7 @@ import VerificcationBox from '../../../components/donation-system/admin/transact
 import { useEffect, useState } from 'react';
 import Navigator from "../../../components/navigator";
 
-function TansactionVerification(){
+function TransactionVerification(){
 
     const [load, setLoad] = useState(false);
 
@@ -46,4 +46,4 @@ function TansactionVerification(){
     );
 }
 
-export default TansactionVerification;
+export default TransactionVerification;
