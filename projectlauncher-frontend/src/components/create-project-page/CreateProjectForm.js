@@ -35,7 +35,7 @@ class CreateProjectForm extends React.Component {
         margin="50px"
         padding="50px"
       >
-        <VStack spacing={4}>
+        <VStack spacing={14}>
           <Box>
             <Heading fontSize="x-large">สร้างโครงการ</Heading>
           </Box>
@@ -140,15 +140,17 @@ class CreateProjectForm extends React.Component {
               </NumberInput>
             </HStack>
           </FormControl>
+        </VStack>
 
-          <Box>
-            <Text fontSize="x-large" fontWeight="semibold">
-              อัพโหลดภาพและวิดีโอ
-            </Text>
-          </Box>
+        <Box marginTop={20}>
+          <Text fontSize="x-large" fontWeight="semibold">
+            อัพโหลดภาพและวิดีโอ
+          </Text>
+        </Box>
 
-          <Divider color="purple.500" />
+        <Divider color="purple.500" marginBottom={10}/>
 
+        <VStack spacing={14}>
           <FormControl id="videoLink" isRequired>
             <HStack>
               <FormLabel htmlFor="videoLink" width="20ch">
