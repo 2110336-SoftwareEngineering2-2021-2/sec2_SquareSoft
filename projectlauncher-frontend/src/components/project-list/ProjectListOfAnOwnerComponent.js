@@ -18,7 +18,6 @@ class ProjectListOfAnOwnerComponent extends React.Component {
 
     async componentDidMount() {
         const projectList = await getProjectsOfAnOwner(this.props.ownerid, Cookies.get('token'))
-        console.log(projectList)
         this.setState({
             projectList: projectList
         })

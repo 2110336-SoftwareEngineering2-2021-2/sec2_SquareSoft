@@ -27,6 +27,7 @@ class MyProjectComponent extends React.Component {
         return (
             <Center mt='5'>
                 <VStack align='stretch' spacing='20px' w='80%'>
+                    <Center><Heading>My Projects</Heading></Center>
                     <ProjectList projectList={this.state.projectList} isOwner={true}/>
                 </VStack>
             </Center>
