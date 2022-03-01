@@ -299,7 +299,7 @@ function CreateProjectForm() {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent backgroundColor="red.100">
           <ModalBody>
             <Alert status="error">
               <AlertIcon />
