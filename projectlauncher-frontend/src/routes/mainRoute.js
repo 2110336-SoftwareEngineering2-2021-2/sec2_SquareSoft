@@ -7,6 +7,7 @@ import Login from '../views/login/Login'
 import LoginAdmin from '../views/login/LoginAdmin'
 import SignUp from '../views/registration/SignUp';
 import SignUpProjectOwner from '../views/registration/SignUpProjectOwner';
+import Donation from '../views/donation/Donation'
 const MainRoutes = () => {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ const MainRoutes = () => {
           <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
+          <Route path= "donation" element={<Donation/>}/> 
         </Routes>
     </BrowserRouter>
   );
