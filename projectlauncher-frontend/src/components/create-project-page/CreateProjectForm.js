@@ -32,10 +32,13 @@ import {
   CloseButton,
 } from "@chakra-ui/react";
 
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
+import th from "date-fns/locale/th";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import createProject from "../../api/create-project/create-project-api";
+
+registerLocale("th", th);
 
 function CreateProjectForm() {
   const navigate = useNavigate();
@@ -162,6 +165,7 @@ function CreateProjectForm() {
             </FormLabel>
             <Box borderColor="purple.500">
               <DatePicker
+                locale="th"
                 selected={projectEndDate}
                 onChange={(date) => setProjectEndDate(date)}
               />
