@@ -6,15 +6,15 @@ import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 import coinIcon from './coin-icon.png';
 import axios from 'axios'
-import {basedURL} from '../index.js';
+import {basedURL} from '../api/index.js';
 //
 async function numCoins(token){
     try{
-        const response = await axios.post(basedURL.concat('transaction/getUserBalance'), {}, {
+        const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {}, {
             headers: { Authorization: `Bearer ${token}` }
         })
         console.log(response)
-        return {status:"succeed",response}
+        return response
     }catch(err){
         console.log("asdfasdfadf")
         // console.log("sdfdfdf")
@@ -60,7 +60,7 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    {(this.state.isLoggedin)&&<Nav.Link href='#'>{numCoins(Cookies.get("token"))}</Nav.Link>}
+                    {/* {(this.state.isLoggedin)&&<Nav.Link href='#'>{numCoins(Cookies.get("token"))}</Nav.Link>} */}
                     {(this.state.isLoggedin)&&<Nav.Link href='#'><img src={coinIcon} alt="" width="28" height="28"/></Nav.Link>}
                     <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
@@ -74,6 +74,7 @@ class Navigator extends React.Component{
                 </Navbar.Collapse>
             </Container>
             </Navbar>
+            <div>{(numCoins(Cookies.get("token"))).toString()}</div>
         </div>;
     }
 }
