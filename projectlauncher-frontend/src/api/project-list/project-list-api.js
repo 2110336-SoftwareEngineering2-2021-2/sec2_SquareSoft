@@ -74,9 +74,9 @@ async function getMyProjects(token) {
     })
 
     const projectList = await Promise.all(response.data.map(async (e) => {
-        //const img_response = await getFileURL('02623c906a5799e5b40b08221261ba5d4b6d2fb1.png')
-        //const imgUrl = img_response.data
-        const imgUrl = 'https://picsum.photos/500/300?random=1'
+        const img_response = await getFileURL(e.projectPicture)
+        const imgUrl = img_response.data
+        //const imgUrl = 'https://picsum.photos/500/300?random=1'
         return {
             _id: e._id,
             title: e.projectName,
@@ -92,9 +92,9 @@ async function getProjectsOfAnOwner(ownerid, token) {
     const response = await axios.get(basedURL.concat(`project/find-by-owner-publish?projectOwnerID=${ownerid}`))
 
     const projectList = await Promise.all(response.data.map(async (e) => {
-        //const img_response = await getFileURL('02623c906a5799e5b40b08221261ba5d4b6d2fb1.png')
-        //const imgUrl = img_response.data
-        const imgUrl = 'https://picsum.photos/500/300?random=1'
+        const img_response = await getFileURL(e.projectPicture)
+        const imgUrl = img_response.data
+        // const imgUrl = 'https://picsum.photos/500/300?random=1'
         return {
             _id: e._id,
             title: e.projectName,
