@@ -287,7 +287,7 @@ function CreateProjectForm() {
               projectVideoLink,
             ]);
 
-            if (
+            if (  // Check for blank value
               projectName &&
               projectPurpose &&
               projectDescription &&
@@ -298,7 +298,10 @@ function CreateProjectForm() {
               projectImage &&
               projectVideoLink
             ) {
+              // Set submit button to loading
               setLoading(true);
+
+              // Send data to back-end
               const response = createProject(
                 projectName,
                 projectPurpose,
@@ -312,23 +315,27 @@ function CreateProjectForm() {
               );
               response
                 .then((res) => {
+                  // After we successfully recieved respone
                   setLoading(false);
                   if (res.status < 400) {
+                    // If status code indicate normal/ok, go to success page
                     setSuccess(true);
                   } else {
+                    // else show error message
                     setErrorMessage("There is an error. Please try again.");
                     onOpen();
                   }
                 })
                 .catch(() => {
                   setLoading(false);
-                  console.log("there is an error");
+                  // If there is no response at all, this indicate connection error
                   setErrorMessage(
                     "There is a connection error. Please try again."
                   );
                   onOpen();
                 });
             } else {
+              // Show error message when there are blank value
               setErrorMessage("Please check for any empty value.");
               onOpen();
             }
