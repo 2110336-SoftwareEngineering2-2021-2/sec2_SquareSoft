@@ -16,6 +16,7 @@ async function numCoins(token){
         console.log(response)
         return {status:"succeed",response}
     }catch(err){
+        console.log("asdfasdfadf")
         // console.log("sdfdfdf")
         // console.log(err.response.status)
         // console.log(err.response.data)
