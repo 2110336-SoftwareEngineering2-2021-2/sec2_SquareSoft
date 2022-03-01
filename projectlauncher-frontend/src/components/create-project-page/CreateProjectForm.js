@@ -191,7 +191,7 @@ function CreateProjectForm() {
               เป้าหมายการระดมทุน
             </FormLabel>
             <NumberInput
-              defaultValue={0}
+              defaultValue={1}
               min={1}
               allowMouseWheel
               borderColor="purple.500"
