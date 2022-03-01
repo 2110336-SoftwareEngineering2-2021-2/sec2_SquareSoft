@@ -16,6 +16,7 @@ import {
   RadioGroup,
   Radio,
   Select,
+  Text,
 } from "@chakra-ui/react";
 
 class CreateProjectForm extends React.Component {
@@ -141,7 +142,11 @@ class CreateProjectForm extends React.Component {
             </HStack>
           </FormControl>
 
-          <Box></Box>
+          <Box >
+            <Text fontSize="x-large" fontWeight="semibold">
+              อัพโหลดภาพและวิดีโอ
+            </Text>
+          </Box>
 
           <FormControl id="videoLink" isRequired>
             <HStack>
