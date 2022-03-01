@@ -5,7 +5,30 @@ import './navbar.css'
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 import coinIcon from './coin-icon.png';
+import axios from 'axios'
+import {basedURL} from '../index.js';
 //
+async function numCoins(token){
+    try{
+        const response = await axios.post(basedURL.concat('transaction/getUserBalance'), {}, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        console.log(response)
+        return {status:"succeed",response}
+    }catch(err){
+        // console.log("sdfdfdf")
+        // console.log(err.response.status)
+        // console.log(err.response.data)
+        // let data = err.response.data
+        // if(data['msg'] == "register failed: database error"){
+        //     if(data['err']['code'] == 11000 ){
+        //         return { status:"error", message:Object.keys(data['err']['keyPattern'])[0] + " used"}
+        //     }}
+        console.log("error")
+        
+    }
+}
+
 class Navigator extends React.Component{
     constructor(props) {
         super(props);
@@ -36,8 +59,8 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    <Nav.Link href='#'>100</Nav.Link>
-                    <Nav.Link href='#'><img src={coinIcon} alt="" width="28" height="28"/></Nav.Link>
+                    {(this.state.isLoggedin)&&<Nav.Link href='#'>{numCoins(Cookies.get("token"))}</Nav.Link>}
+                    {(this.state.isLoggedin)&&<Nav.Link href='#'><img src={coinIcon} alt="" width="28" height="28"/></Nav.Link>}
                     <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
