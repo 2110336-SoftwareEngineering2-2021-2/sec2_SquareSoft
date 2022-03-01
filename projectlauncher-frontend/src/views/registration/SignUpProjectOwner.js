@@ -168,8 +168,8 @@ const SignUpProjectOwner = (props) =>{
         let bankName = e.target[16].value
         let bankBook = e.target[17].files[0];
         let idCardPicture = e.target[18].files[0];
-        console.log(n1)
-        console.log(bankBook)
+        //console.log(n1)
+        //console.log(bankBook)
         if (confirmPassword!=password){
             state = false;
             err += "Password isn't equal to Confirm Password\n"
