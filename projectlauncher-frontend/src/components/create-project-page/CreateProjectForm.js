@@ -151,6 +151,20 @@ class CreateProjectForm extends React.Component {
         <Divider color="purple.500" marginBottom={10}/>
 
         <VStack spacing={14}>
+        <FormControl id="projectImage" isRequired>
+            <HStack>
+              <FormLabel htmlFor="projectImage" width="20ch">
+                รูปภาพโครงการ
+              </FormLabel>
+              <Input
+                type="text"
+                borderColor="purple.500"
+                focusBorderColor="lime"
+                placeholder="Temporary"
+              />
+            </HStack>
+          </FormControl>
+
           <FormControl id="videoLink" isRequired>
             <HStack>
               <FormLabel htmlFor="videoLink" width="20ch">
