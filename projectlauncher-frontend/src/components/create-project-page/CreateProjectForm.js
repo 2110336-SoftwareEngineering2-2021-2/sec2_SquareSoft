@@ -17,6 +17,7 @@ import {
   Radio,
   Select,
   Text,
+  Divider,
 } from "@chakra-ui/react";
 
 class CreateProjectForm extends React.Component {
@@ -119,8 +120,6 @@ class CreateProjectForm extends React.Component {
             </HStack>
           </FormControl>
 
-
-
           <FormControl id="targetAmount" isRequired>
             <HStack>
               <FormLabel htmlFor="targetAmount" width="17ch">
@@ -142,11 +141,13 @@ class CreateProjectForm extends React.Component {
             </HStack>
           </FormControl>
 
-          <Box >
+          <Box>
             <Text fontSize="x-large" fontWeight="semibold">
               อัพโหลดภาพและวิดีโอ
             </Text>
           </Box>
+
+          <Divider color="purple.500" />
 
           <FormControl id="videoLink" isRequired>
             <HStack>
