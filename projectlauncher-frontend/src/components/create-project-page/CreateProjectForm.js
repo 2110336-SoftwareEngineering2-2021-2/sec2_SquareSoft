@@ -26,6 +26,7 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import createProject from "../../api/create-project/create-project-api";
 
 function CreateProjectForm() {
   const navigate = useNavigate();
@@ -226,6 +227,7 @@ function CreateProjectForm() {
 
       <Flex>
         <Button
+          id="goBack"
           colorScheme="purple"
           variant="solid"
           w="200px"
@@ -236,7 +238,25 @@ function CreateProjectForm() {
           ย้อนกลับ
         </Button>
         <Spacer />
-        <Button colorScheme="purple" variant="solid" w="200px">
+        <Button
+          id="submit"
+          colorScheme="purple"
+          variant="solid"
+          w="200px"
+          onClick={() => {
+            createProject(
+              projectName,
+              projectPurpose,
+              projectDescription,
+              projectType,
+              projectCategory,
+              projectEndDate,
+              projectTargetAmount,
+              projectImage,
+              projectVideoLink
+            );
+          }}
+        >
           สร้างโครงการ
         </Button>
       </Flex>
