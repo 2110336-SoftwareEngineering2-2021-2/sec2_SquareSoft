@@ -21,6 +21,15 @@ import {
   Flex,
   Button,
   Spacer,
+  Alert,
+  AlertIcon,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+  AlertTitle,
+  CloseButton,
 } from "@chakra-ui/react";
 
 import DatePicker from "react-datepicker";
@@ -39,6 +48,7 @@ function CreateProjectForm() {
   const [projectTargetAmount, setProjectTargetAmount] = useState(0);
   const [projectImage, setProjectImage] = useState("");
   const [projectVideoLink, setProjectVideoLink] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box
@@ -166,7 +176,7 @@ function CreateProjectForm() {
             </FormLabel>
             <NumberInput
               defaultValue={0}
-              min={0}
+              min={1}
               allowMouseWheel
               borderColor="purple.500"
               focusBorderColor="lime"
@@ -244,7 +254,7 @@ function CreateProjectForm() {
           variant="solid"
           w="200px"
           onClick={() => {
-            createProject(
+            console.log([
               projectName,
               projectPurpose,
               projectDescription,
@@ -253,13 +263,57 @@ function CreateProjectForm() {
               projectEndDate,
               projectTargetAmount,
               projectImage,
+              projectVideoLink,
+            ]);
+
+            if (
+              projectName &&
+              projectPurpose &&
+              projectDescription &&
+              projectType &&
+              projectCategory &&
+              projectEndDate &&
+              projectTargetAmount &&
+              projectImage &&
               projectVideoLink
-            );
+            ) {
+              createProject(
+                projectName,
+                projectPurpose,
+                projectDescription,
+                projectType,
+                projectCategory,
+                projectEndDate,
+                projectTargetAmount,
+                projectImage,
+                projectVideoLink
+              );
+            } else {
+              onOpen();
+            }
           }}
         >
           สร้างโครงการ
         </Button>
       </Flex>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody>
+            <Alert status="error">
+              <AlertIcon />
+              <AlertTitle>Please check for any empty value.</AlertTitle>
+              <CloseButton
+                position="absolute"
+                right="8px"
+                top="8px"
+                onClick={onClose}
+              />
+            </Alert>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
