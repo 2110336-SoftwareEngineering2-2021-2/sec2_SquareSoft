@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ProjectOwnerVerificationModule } from  './verification/projectOwner/projectOwner.module';
 import { RegistrationSystemModule } from './registration-system/registration-system.module';
 import { AuthModule } from './auth/auth.module';
+import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
     ProjectOwnerVerificationModule,
     RegistrationSystemModule,
     AuthModule,
+    ProjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],

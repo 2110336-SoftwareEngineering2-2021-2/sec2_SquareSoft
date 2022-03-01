@@ -5,9 +5,9 @@ import { HStack, VStack, ChakraProvider, Box, Grid, GridItem, Center, Flex, exte
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProjectList from "./ProjectList";
-import {getProjectsOfAnOwner} from "../../api/project-list/project-list-api"
+import {getMyProjects} from "../../api/project-list/project-list-api"
 
-class ProjectListOfAnOwnerComponent extends React.Component {
+class MyProjectComponent extends React.Component {
 
     constructor(props) {
         super(props)
@@ -17,7 +17,7 @@ class ProjectListOfAnOwnerComponent extends React.Component {
     }
 
     async componentDidMount() {
-        const projectList = await getProjectsOfAnOwner(this.props.ownerid, Cookies.get('token'))
+        const projectList = await getMyProjects(Cookies.get('token'))
         this.setState({
             projectList: projectList
         })
@@ -27,7 +27,8 @@ class ProjectListOfAnOwnerComponent extends React.Component {
         return (
             <Center mt='5'>
                 <VStack align='stretch' spacing='20px' w='80%'>
-                    <ProjectList projectList={this.state.projectList} isOwner={false}/>
+                    <Center><Heading>My Projects</Heading></Center>
+                    <ProjectList projectList={this.state.projectList} isOwner={true}/>
                 </VStack>
             </Center>
         );
@@ -35,4 +36,4 @@ class ProjectListOfAnOwnerComponent extends React.Component {
     
 }
 
-export default ProjectListOfAnOwnerComponent
+export default MyProjectComponent;
