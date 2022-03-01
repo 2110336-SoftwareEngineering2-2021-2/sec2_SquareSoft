@@ -84,6 +84,12 @@ export class TransactionUserEntity{
     @IsNotEmpty()
     @IsEnum(Role)
     role: Role;
+    constructor(username: object = undefined){
+        if(username){
+            this.username = username["username"];
+            this.role = username['role'];
+        }
+    }
 }
 
 export class TransactionUserDTO{
@@ -91,9 +97,11 @@ export class TransactionUserDTO{
     @Type(() => TransactionUserEntity)
     @ValidateNested()
     username: TransactionUserEntity;
+    
+
 }
 
-export class newUserDepositDTO extends TransactionUserDTO{
+export class newUserDepositDTO {
     @IsNotEmpty()
     @IsNumber()
     @Min(0.01)
