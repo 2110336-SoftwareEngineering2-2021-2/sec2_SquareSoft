@@ -30,8 +30,8 @@ import { useNavigate } from "react-router-dom";
 function CreateProjectForm() {
   const navigate = useNavigate();
   const [projectName, setProjectName] = useState("");
-  const [projectPurpose, setPurpose] = useState("");
-  const [projectDescription, setDescription] = useState("");
+  const [projectPurpose, setProjectPurpose] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
   const [projectType, setProjectType] = useState("");
   const [projectCategory, setProjectCategory] = useState("");
   const [projectEndDate, setProjectEndDate] = useState(new Date());
@@ -61,6 +61,9 @@ function CreateProjectForm() {
               type="text"
               borderColor="purple.500"
               focusBorderColor="lime"
+              onChange={(e) => {
+                setProjectName(e.target.value);
+              }}
             />
           </HStack>
         </FormControl>
@@ -74,6 +77,9 @@ function CreateProjectForm() {
               type="text"
               borderColor="purple.500"
               focusBorderColor="lime"
+              onChange={(e) => {
+                setProjectPurpose(e.target.value);
+              }}
             />
           </HStack>
         </FormControl>
@@ -87,6 +93,9 @@ function CreateProjectForm() {
               type="text"
               borderColor="purple.500"
               focusBorderColor="lime"
+              onChange={(e) => {
+                setProjectDescription(e.target.value);
+              }}
             />
           </HStack>
         </FormControl>
@@ -96,7 +105,7 @@ function CreateProjectForm() {
             <FormLabel htmlFor="projectType" width="20ch">
               ประเภทการระดมทุน
             </FormLabel>
-            <RadioGroup>
+            <RadioGroup onChange={setProjectType}>
               <HStack>
                 <Radio colorScheme="purple" value="โครงการไม่แสวงหาผลกำไร">
                   โครงการไม่แสวงหาผลกำไร
@@ -119,6 +128,9 @@ function CreateProjectForm() {
               borderColor="purple.500"
               focusBorderColor="lime"
               w="50ch"
+              onChange={(e) => {
+                setProjectCategory(e.target.value);
+              }}
             >
               <option value="ศิลปะ">ศิลปะ</option>
               <option value="อาหาร">อาหาร</option>
@@ -157,6 +169,7 @@ function CreateProjectForm() {
               allowMouseWheel
               borderColor="purple.500"
               focusBorderColor="lime"
+              onChange={setProjectTargetAmount}
             >
               <NumberInputField />
               <NumberInputStepper>
@@ -187,6 +200,9 @@ function CreateProjectForm() {
               borderColor="purple.500"
               focusBorderColor="lime"
               placeholder="Temporary"
+              onChange={(e) => {
+                setProjectImage(e.target.value);
+              }}
             />
           </HStack>
         </FormControl>
@@ -200,6 +216,9 @@ function CreateProjectForm() {
               type="text"
               borderColor="purple.500"
               focusBorderColor="lime"
+              onChange={(e) => {
+                setProjectVideoLink(e.target.value);
+              }}
             />
           </HStack>
         </FormControl>
