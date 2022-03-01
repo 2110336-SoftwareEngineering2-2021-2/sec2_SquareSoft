@@ -101,7 +101,7 @@ class CreateProjectForm extends React.Component {
                 หมวดหมู่โครงการ
               </FormLabel>
               <Select
-                placeholder="กรุณาเลือกหมวดหมู๋โครงการ"
+                placeholder="กรุณาเลือกหมวดหมู่โครงการ"
                 borderColor="purple.500"
                 focusBorderColor="lime"
                 w="50ch"
@@ -117,6 +117,8 @@ class CreateProjectForm extends React.Component {
               </Select>
             </HStack>
           </FormControl>
+
+
 
           <FormControl id="targetAmount" isRequired>
             <HStack>
