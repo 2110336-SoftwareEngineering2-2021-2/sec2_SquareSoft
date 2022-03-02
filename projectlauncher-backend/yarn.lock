@@ -5406,8 +5406,8 @@
   "resolved" "https://registry.npmjs.org/webpack/-/webpack-5.69.0.tgz"
   "version" "5.69.0"
   dependencies:
-    "@types/eslint-scope" "^3.7.3"
-    "@types/estree" "^0.0.51"
+    "@types/eslint-scope" "^3.7.0"
+    "@types/estree" "^0.0.50"
     "@webassemblyjs/ast" "1.11.1"
     "@webassemblyjs/wasm-edit" "1.11.1"
     "@webassemblyjs/wasm-parser" "1.11.1"

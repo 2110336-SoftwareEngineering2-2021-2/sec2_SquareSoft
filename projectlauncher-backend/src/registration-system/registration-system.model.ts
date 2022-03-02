@@ -11,6 +11,7 @@ export const UserDonatorSchema = new mongoose.Schema({
   bankAccountLastname: { type: String, required: true },
   bankAccountNumber: { type: String, required: true, unique: true },
   bankAccountBank: { type: String, required: true },
+  balance: { type: Number, required: true, default: 0 },
 });
 
 export interface userDonator{
@@ -24,6 +25,7 @@ export interface userDonator{
     bankAccountLastname: string;
     bankAccountNumber: string;
     bankAccountBank: string;
+    balance: number;
 }
 
 export const UserProjectOwnerSchema = new mongoose.Schema({
@@ -48,7 +50,9 @@ export const UserProjectOwnerSchema = new mongoose.Schema({
   bankBookPicture: { type: String, required: true },
   idCardPicture: { type: String, required: true },
 
-  verification_status: { type: String, required: true }
+  verification_status: { type: String, required: true },
+
+  balance: { type: Number, required: true, default: 0 }
 });
 
 export interface userProjectOwner{
@@ -74,6 +78,8 @@ export interface userProjectOwner{
   idCardPicture: string;
 
   verification_status: string; //Submitted Verified Rejected
+
+  balance: number;
 }
 
 export const AdminSchema = new mongoose.Schema({

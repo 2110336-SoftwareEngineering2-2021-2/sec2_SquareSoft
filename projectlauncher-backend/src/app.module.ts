@@ -5,9 +5,11 @@ import { AppService } from './app.service';
 import { ProjectOwnerVerificationModule } from  './verification/projectOwner/projectOwner.module';
 import { RegistrationSystemModule } from './registration-system/registration-system.module';
 import { AuthModule } from './auth/auth.module';
+import { TransactionModule } from './transaction/transaction.module';
+import { ProjectModule } from './project/project.module';
+
 import { FileUploaderModule } from './file-uploader/file-uploader.module';
 import { ConfigModule } from '@nestjs/config';
-import { ProjectModule } from './project/project.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -15,8 +17,9 @@ import { ProjectModule } from './project/project.module';
     ProjectOwnerVerificationModule,
     RegistrationSystemModule,
     AuthModule,
-    FileUploaderModule,
-    ProjectModule
+    TransactionModule,
+    ProjectModule,
+    FileUploaderModule
   ],
   controllers: [AppController],
   providers: [AppService],
