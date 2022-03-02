@@ -61,7 +61,7 @@ function CreateProjectForm() {
   const [loading, setLoading] = useState(false);
 
   const [upload, setUpload] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
+  const [, setUploaded] = useState(false);
 
   useEffect(() => {
     if (projectImage && upload) {
@@ -329,7 +329,7 @@ function CreateProjectForm() {
           w="200px"
           borderRadius="12px"
           onClick={() => {
-            navigate("/home");
+            navigate("/");
           }}
         >
           ย้อนกลับ
@@ -389,7 +389,7 @@ function CreateProjectForm() {
           borderRadius={16}
           fontSize="x-large"
           onClick={() => {
-            navigate("/home");
+            navigate("/");
           }}
         >
           ตกลง
