@@ -7,6 +7,7 @@ import { RegistrationSystemModule } from './registration-system/registration-sys
 import { AuthModule } from './auth/auth.module';
 import { FileUploaderModule } from './file-uploader/file-uploader.module';
 import { ConfigModule } from '@nestjs/config';
+import { ProjectModule } from './project/project.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -14,7 +15,8 @@ import { ConfigModule } from '@nestjs/config';
     ProjectOwnerVerificationModule,
     RegistrationSystemModule,
     AuthModule,
-    FileUploaderModule
+    FileUploaderModule,
+    ProjectModule
   ],
   controllers: [AppController],
   providers: [AppService],

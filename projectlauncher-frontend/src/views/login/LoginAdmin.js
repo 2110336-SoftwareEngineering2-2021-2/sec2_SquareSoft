@@ -1,7 +1,7 @@
 import React from "react";
 import Navigator from "../../components/navigator";
 import { Navigate } from "react-router-dom";
-import LoginFormAdmin from "../../components/LoginFormAdmin";
+import LoginFormAdmin from "../../components/login/LoginFormAdmin";
 import Cookies from 'js-cookie'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
