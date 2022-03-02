@@ -30,14 +30,20 @@ export class ProjectController {
     }
 
     @Get('find-publish-status-by-name')
-    async findByNamePublishStatus(@Body () body) {
-        const results=this.projectService.findByNamePublishStatus(body);
+    async findByNamePublishStatus(@Query () query) {
+        const results=this.projectService.findByNamePublishStatus(query);
+        return results;
+    }
+
+    @Get('find-by-id')
+    async findByIdPublish(@Query () query) {
+        const results=this.projectService.findByIdPublish(query);
         return results;
     }
 
     @Get('find-by-name')
-    async findByName(@Body () body) {
-        const results=this.projectService.findByName(body);
+    async findByName(@Query () query) {
+        const results=this.projectService.findByName(query);
         return results;
     }
 
