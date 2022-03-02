@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 async function createProject(
   name,
   purpose,
-  describtion,
+  description,
   type,
   category,
   endDate,
@@ -15,27 +15,25 @@ async function createProject(
   videoLink
 ) {
   const projectOwnerID = await jwt(Cookies.get("token"))._id;
-  console.log(projectOwnerID);
+  const body = {
+    projectName: name,
+    objective: purpose,
+    description: description,
+    fundingType: type,
+    category: category,
+    deadline: endDate,
+    fundingGoal: parseInt(targetAmount),
+    fundingMoneyStatus: 0,
+    projectOwnerID: projectOwnerID,
+    projectPicture: image,
+    projectVideo: videoLink,
+    projectPublishStatus: "unpublished",
+  };
   const response = await axios.post(
     basedURL.concat("project/create"),
-    {
-      projectName: name,
-      objective: purpose,
-      describtion: describtion,
-      fundingType: type,
-      category: category,
-      deadline: endDate,
-      fundingGoal: targetAmount,
-      fundingMoneyStatus: 0,
-      projectOwnerID: projectOwnerID,
-      projectPicture: image,
-      projectVideo: videoLink,
-      projectPublishStatus: "unpublished",
-    },
+    body,
     getConfigWithToken()
   );
-  console.log("inside api");
-  console.log(response);
   return await response;
 }
 
