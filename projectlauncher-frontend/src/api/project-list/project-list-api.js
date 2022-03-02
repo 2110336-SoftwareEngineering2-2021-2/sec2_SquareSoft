@@ -5,26 +5,31 @@ import {
 
 function getAllProjects() {
     return [{
+            _id: "id1",
             title: "Project 1",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
         },
         {
+            _id: "id2",
             title: "Project 2",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
         },
         {
+            _id: "id3",
             title: "Project 3",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
         },
         {
+            _id: "id4",
             title: "Project 4",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
         },
         {
+            _id: "id5",
             title: "Project 5",
             description: "description1 description1 description1 description1 description1 description1 description1 ",
             imageUrl: 'https://picsum.photos/500/300?random=1'
@@ -55,44 +60,33 @@ function getFilteredProjects(searchValue, status, type, category) {
     ]
 }
 
-function getMyProjects(token) {
-    console.log(token)
-    return [{
-            title: "My project 1",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            title: "My project 2",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
+async function getMyProjects(token) {
+    const response = await axios.get(basedURL.concat(`project/find-by-owner`), {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    const projectList = response.data.map(e => {
+        return {
+            title: e.projectName,
+            description: e.description,
             imageUrl: 'https://picsum.photos/500/300?random=1'
         }
-    ]
+    })
+    return projectList
 }
 
-function getProjectsOfAnOwner(ownerid, token) {
-    const l = [{
-            title: ownerid + "'s project 1",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            title: ownerid + "'s project 2",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        }
-    ]
-    if (token) {
-        console.log(token)
+async function getProjectsOfAnOwner(ownerid, token) {
+    const response = await axios.get(basedURL.concat(`project/find-by-owner-publish?projectOwnerID=${ownerid}`))
+    const projectList = response.data.map(e => {
         return {
-            projectList: l,
-            isOwner: true
+            _id: e._id,
+            title: e.projectName,
+            description: e.description,
+            imageUrl: 'https://picsum.photos/500/300?random=1'
         }
-    }
-    return {
-        projectList: l,
-        isOwner: false
-    }
+    })
+    return projectList
 }
 
 export {
