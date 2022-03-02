@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import Navigator from "../../components/navigator";
-import VerificcationBox from '../../components/donation-system/admin/transaction-verification';
 import { useEffect } from 'react';
 import './Donation.css'
 import { Stack,Select,
