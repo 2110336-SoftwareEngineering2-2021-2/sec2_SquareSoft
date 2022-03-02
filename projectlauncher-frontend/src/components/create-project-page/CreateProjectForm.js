@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   VStack,
@@ -38,6 +38,7 @@ import th from "date-fns/locale/th";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import createProject from "../../api/create-project/create-project-api";
+import ImageUploader from "../image-uploader/image-uploader";
 
 registerLocale("th", th);
 
@@ -50,7 +51,7 @@ function CreateProjectForm() {
   const [projectCategory, setProjectCategory] = useState("");
   const [projectEndDate, setProjectEndDate] = useState(new Date());
   const [projectTargetAmount, setProjectTargetAmount] = useState(0);
-  const [projectImage, setProjectImage] = useState("");
+  const [projectImage, setProjectImage] = useState(null);
   const [projectVideoLink, setProjectVideoLink] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [success, setSuccess] = useState(false);
@@ -58,6 +59,78 @@ function CreateProjectForm() {
     "Please check for any empty value."
   );
   const [loading, setLoading] = useState(false);
+
+  const [upload, setUpload] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
+
+  useEffect(() => {
+    if (projectImage && upload) {
+      setUpload(false);
+      console.log([
+        projectName,
+        projectPurpose,
+        projectDescription,
+        projectType,
+        projectCategory,
+        projectEndDate,
+        projectTargetAmount,
+        projectImage,
+        projectVideoLink,
+      ]);
+
+      if (
+        // Check for blank value
+        projectName &&
+        projectPurpose &&
+        projectDescription &&
+        projectType &&
+        projectCategory &&
+        projectEndDate &&
+        projectTargetAmount &&
+        projectImage &&
+        projectVideoLink
+      ) {
+        // Set submit button to loading
+        setLoading(true);
+
+        // Send data to back-end
+        const response = createProject(
+          projectName,
+          projectPurpose,
+          projectDescription,
+          projectType,
+          projectCategory,
+          projectEndDate,
+          projectTargetAmount,
+          projectImage,
+          projectVideoLink
+        );
+        response
+          .then((res) => {
+            // After we successfully recieved respone
+            setLoading(false);
+            if (res.status < 400) {
+              // If status code indicate normal/ok, go to success page
+              setSuccess(true);
+            } else {
+              // else show error message
+              setErrorMessage("There is an error. Please try again.");
+              onOpen();
+            }
+          })
+          .catch(() => {
+            setLoading(false);
+            // If there is no response at all, this indicate connection error
+            setErrorMessage("There is a connection error. Please try again.");
+            onOpen();
+          });
+      } else {
+        // Show error message when there are blank value
+        setErrorMessage("Please check for any empty value.");
+        onOpen();
+      }
+    }
+  }, [projectImage]);
 
   return !success ? (
     <Box
@@ -223,14 +296,10 @@ function CreateProjectForm() {
             <FormLabel htmlFor="projectImage" width="20ch">
               รูปภาพโครงการ
             </FormLabel>
-            <Input
-              type="text"
-              borderColor="purple.500"
-              focusBorderColor="lime"
-              placeholder="Temporary"
-              onChange={(e) => {
-                setProjectImage(e.target.value);
-              }}
+            <ImageUploader
+              upload={upload}
+              setImageName={setProjectImage}
+              setUploaded={setUploaded}
             />
           </HStack>
         </FormControl>
@@ -275,70 +344,7 @@ function CreateProjectForm() {
           w="200px"
           borderRadius="12px"
           onClick={() => {
-            console.log([
-              projectName,
-              projectPurpose,
-              projectDescription,
-              projectType,
-              projectCategory,
-              projectEndDate,
-              projectTargetAmount,
-              projectImage,
-              projectVideoLink,
-            ]);
-
-            if (  // Check for blank value
-              projectName &&
-              projectPurpose &&
-              projectDescription &&
-              projectType &&
-              projectCategory &&
-              projectEndDate &&
-              projectTargetAmount &&
-              projectImage &&
-              projectVideoLink
-            ) {
-              // Set submit button to loading
-              setLoading(true);
-
-              // Send data to back-end
-              const response = createProject(
-                projectName,
-                projectPurpose,
-                projectDescription,
-                projectType,
-                projectCategory,
-                projectEndDate,
-                projectTargetAmount,
-                projectImage,
-                projectVideoLink
-              );
-              response
-                .then((res) => {
-                  // After we successfully recieved respone
-                  setLoading(false);
-                  if (res.status < 400) {
-                    // If status code indicate normal/ok, go to success page
-                    setSuccess(true);
-                  } else {
-                    // else show error message
-                    setErrorMessage("There is an error. Please try again.");
-                    onOpen();
-                  }
-                })
-                .catch(() => {
-                  setLoading(false);
-                  // If there is no response at all, this indicate connection error
-                  setErrorMessage(
-                    "There is a connection error. Please try again."
-                  );
-                  onOpen();
-                });
-            } else {
-              // Show error message when there are blank value
-              setErrorMessage("Please check for any empty value.");
-              onOpen();
-            }
+            setUpload(true);
           }}
         >
           สร้างโครงการ
