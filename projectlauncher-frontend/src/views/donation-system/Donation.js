@@ -9,6 +9,9 @@ import { Stack,Select,
     Tr,
     Th,
     Td,} from '@chakra-ui/react'
+import {basedURL, getToken} from "../../api/index.js";
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 function HistoryItem(props){
     const {data,state} = props;
@@ -235,10 +238,26 @@ const test_data = [
         "__v": 0
     }
 ]
-function Donation(){
-    let [stateHistory,setStateHistory] = useState(0)
 
-    const filterHistory = test_data.filter((his) => {
+async function getUserTransaction(){
+    try{let inp_data = await axios.get(basedURL.concat('transaction/getUserTransaction'), {
+        headers: { Authorization: "Bearer " + getToken() }
+    })
+    return inp_data.data}
+    catch(err){
+        console.log(err)
+    }
+    
+}
+
+
+
+function DataDonation(props){
+    let [stateHistory,setStateHistory] = useState(0)
+    // let inp_data = await getUserTransaction();
+    let inp_data = props.data
+    const data_arr = Object.values(inp_data)
+    const filterHistory = data_arr.filter((his) => {
         if(stateHistory == 0) return (his.type == 'Transfer')
         if(stateHistory == 1) return (his.type == 'Withdraw')
         if(stateHistory == 2) return (his.type == 'Deposit')
@@ -280,6 +299,28 @@ function Donation(){
             </Table>
         </div>
     )
+}
+
+class Donation extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {data: [], isLoggedin: false}
+    }
+
+    async componentDidMount() {
+        // Check if logged in
+        if (Cookies.get('token')) {
+            let temp = await getUserTransaction()
+            this.setState({isLoggedin: true, data: temp})
+        }
+        else{
+            this.setState({isLoggedin: false, data: []})
+        }
+        
+    }
+    render(){
+        return <DataDonation  data = {this.state.data}/>
+    }
 }
 
 export default Donation

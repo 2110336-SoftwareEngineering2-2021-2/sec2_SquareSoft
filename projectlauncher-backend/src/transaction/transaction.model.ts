@@ -125,7 +125,7 @@ export class UpdateUserTXrefDTO extends UserTransactionAccessDTO{
     txRef: string;
 }
 
-export class GetListDTO extends TransactionUserDTO{
+export class GetListDTO {
     @IsNumber()
     @IsOptional()
     limit: number;

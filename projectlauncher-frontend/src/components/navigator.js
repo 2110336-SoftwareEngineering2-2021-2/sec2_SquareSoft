@@ -34,14 +34,15 @@ async function numCoins(token){
 class Navigator extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {username: null, isLoggedin: false, role: null, balance : 0}
+        this.state = {username: null, isLoggedin: false, role: null, balance: 0}
+        
     }
-
     componentDidMount() {
         // Check if logged in
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
-            this.interval = setInterval(() => this.tick(), 1);
+            this.tick()
+            this.interval = setInterval(() => this.tick(), 100);
             this.setState({username: Cookies.get('username',), role:Cookies.get('role')})
         }
         
@@ -76,7 +77,7 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    {(this.state.isLoggedin)&&<Nav.Link href='donation'>
+                    {(this.state.isLoggedin && this.props.balance!=="undefined")&&<Nav.Link href='donation'>
                         <div class = "hstack gap-2">
                             <div> {this.state.balance}</div>
                             <img src={coinIcon} alt="" width="28" height="28"/>
