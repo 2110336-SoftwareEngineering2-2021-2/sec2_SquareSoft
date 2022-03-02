@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import Navigator from "../../components/navigator";
 import VerificcationBox from '../../components/donation-system/admin/transaction-verification';
+import { useNavigate, useParams} from "react-router-dom";
 import { useEffect } from 'react';
 import './ProjectDetail.css'
+import {getProjectById} from '../../api/project-detail/project-detail-api'
 
 import { 
-    Button, Image,  Table,
+    Button, Image,  Table,AspectRatio ,
     Thead,
     Tbody,
     Tr,
@@ -33,38 +35,52 @@ function onBack(){
     )
 }
 
-function ProjectDetail(){
+const ProjectDetail =()=>{
+    
+    const [project,setProject]=useState(0);
+    const { id } = useParams();
+
+    useEffect(() => {
+        getProjectById(id)
+            .then(res => {console.log(res);setProject(res);})
+    }, []);
+
+    if (project!==undefined)
     return (
         <div>
             <Navigator/>
-            <Image boxSize='300px' objectFit='cover' src={data.url} className='image-logo'/>
+            <Image boxSize='300px' objectFit='cover' src={project.imageUrl} className='image-logo'/>
             <Table variant='simple'>
                 <Thead>
                 </Thead>
                 <Tbody>
                     <Tr className='item'>
                         <Td>Objective :</Td>
-                        <Td>{data.objective}</Td>
+                        <Td>{project.objective}</Td>
                     </Tr>
                     <Tr className='item'>
                         <Td>Describe :</Td>
-                        <Td>{data.describe}</Td>
+                        <Td>{project.description}</Td>
                     </Tr>
                     <Tr className='item'>
                         <Td>Type :</Td>
-                        <Td>{data.type}</Td>
+                        <Td>{project.fundingType}</Td>
                     </Tr>
                     <Tr className='item'>
                         <Td>Category :</Td>
-                        <Td>{data.category}</Td>
+                        <Td>{project.category}</Td>
                     </Tr>
                     <Tr className='item'>
                         <Td>End-Date :</Td>
-                        <Td>{data.endDate}</Td>
+                        <Td>{project.deadline}</Td>
                     </Tr>
                     <Tr className='item'>
                         <Td>Target Money</Td>
-                        <Td>{data.targetMoney}</Td>
+                        <Td>{project.fundingGoal}</Td>
+                    </Tr>                 
+                    <Tr className='item'>
+                        <Td>Current Fund</Td>
+                        <Td>{project.fundingMoneyStatus}</Td>
                     </Tr>                 
                 </Tbody>
             </Table>
@@ -74,6 +90,14 @@ function ProjectDetail(){
             </div>
         </div>
     )
+    else 
+        return (<div>
+            
+            <Navigator/>
+            <Image  boxSize='300px' objectFit='cover' src="https://cdn2.vectorstock.com/i/1000x1000/39/51/error-404-page-not-found-vector-14463951.jpg" className='image-logo'/>
+            <h1 style={{'display':'flex',justifyContent: 'center',fontSize:'30px'}}>ไม่พบโปรเจคที่ต้องการหา</h1>
+            </div>
+            )
 }
 
 export default ProjectDetail
