@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ProjectOwnerVerificationModule } from  './verification/projectOwner/projectOwner.module';
 import { RegistrationSystemModule } from './registration-system/registration-system.module';
 import { AuthModule } from './auth/auth.module';
+import { TransactionModule } from './transaction/transaction.module';
 import { ProjectModule } from './project/project.module';
 
 import { FileUploaderModule } from './file-uploader/file-uploader.module';
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
     ProjectOwnerVerificationModule,
     RegistrationSystemModule,
     AuthModule,
+    TransactionModule,
     ProjectModule,
     FileUploaderModule
   ],
