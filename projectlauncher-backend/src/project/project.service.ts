@@ -35,6 +35,18 @@ export class ProjectService {
         const result=await this.projectModel.findOne({ projectName: body['projectName']});
         return result;
     }
+
+    async findByIdPublish(query: any) {
+        const result=await this.projectModel.findOne({ _id: query['_id']});
+
+        if(result.projectPublishStatus!=="published")
+        throw new HttpException({"msg": "you cannot see unpublished project"
+        }, HttpStatus.FORBIDDEN);
+
+        return result;
+        
+    }
+
     async createProject(newProject: object) {
         if (newProject["projectName"] === undefined) {
             throw new HttpException({
