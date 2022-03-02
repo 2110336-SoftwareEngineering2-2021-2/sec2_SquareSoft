@@ -12,12 +12,14 @@ import ProjectListOfAnOwner from '../views/project-list/ProjectListOfAnOwner';
 import MyProject from '../views/project-list/MyProject';
 import Donation from '../views/donation-system/Donation'
 import ProjectDetail from '../views/projectDetail/ProjectDetail';
+import CreateProject from '../views/create-project-page/CreateProject';
 
 const MainRoutes = () => {
   return (
     <BrowserRouter>
         <Routes>
           <Route path="" element={<Home />}></Route>
+          <Route path="home" element={<Home />}></Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="projects/my-project" element={<MyProject />}></Route>
           <Route path="projects/project-owner/:ownerid" element={<ProjectListOfAnOwner />}></Route>
@@ -27,6 +29,7 @@ const MainRoutes = () => {
           <Route path="admin/transaction" element={<VerifyTansaction />} />
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
+          <Route path= "create-project" element={<CreateProject/>}/>
           <Route path= "donation" element={<Donation/>}/> 
           <Route path= "projects/:id" element={<ProjectDetail/>}/> 
         </Routes>
