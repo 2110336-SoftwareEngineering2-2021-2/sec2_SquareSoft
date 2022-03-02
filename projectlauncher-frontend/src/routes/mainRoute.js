@@ -28,7 +28,7 @@ const MainRoutes = () => {
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "donation" element={<Donation/>}/> 
-          <Route path= "projectDetail" element={<ProjectDetail/>}/> 
+          <Route path= "projectDetail/:id" element={<ProjectDetail/>}/> 
         </Routes>
     </BrowserRouter>
   );
