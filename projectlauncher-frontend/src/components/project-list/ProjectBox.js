@@ -35,7 +35,7 @@ function ProjectBox(props) {
                                 </Button>
                             </VStack>
                             :
-                            <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/${props._id}`)}>
+                            <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projectDetail/${props._id}`)}>
                                 View Project
                             </Button>
                     }
