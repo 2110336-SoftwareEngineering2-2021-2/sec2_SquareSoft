@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import coinIcon from './coin-icon.png';
 import axios from 'axios'
 import {basedURL} from '../api/index.js';
-import {getToken} from '../api/index.js'
+import {getToken} from '../api/index.js';
 //
 async function numCoins(token){
     try{
@@ -34,15 +34,15 @@ async function numCoins(token){
 class Navigator extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {username: null, isLoggedin: false, role: null, balance : 0ß}
+        this.state = {username: null, isLoggedin: false, role: null, balance : 0}
     }
 
     componentDidMount() {
         // Check if logged in
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
-            this.interval = setInterval(() => this.tick(), 1000);
-            this.setState({username: Cookies.get('username',), role:Cookies.get('roleß')})
+            this.interval = setInterval(() => this.tick(), 1);
+            this.setState({username: Cookies.get('username',), role:Cookies.get('role')})
         }
         
     }
@@ -76,11 +76,16 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    {(this.state.isLoggedin)&&<Nav.Link href='#'>{this.state.balance} <img src={coinIcon} alt="" width="28" height="28"/></Nav.Link>}
+                    {(this.state.isLoggedin)&&<Nav.Link href='donation'>
+                        <div class = "hstack gap-2">
+                            <div> {this.state.balance}</div>
+                            <img src={coinIcon} alt="" width="28" height="28"/>
+                        </div>
+                    </Nav.Link>}
                     <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
-                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
-                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up-projectOwner')}}>Sign Up-PO</NavDropdown.Item>}
+                    {<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
+                    {<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up-projectOwner')}}>Sign Up-PO</NavDropdown.Item>}
                     {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/projects/my-project')}}>My Projects</NavDropdown.Item>}
                     {(this.state.isLoggedin)&&<NavDropdown.Divider />}
                     {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogOut()}>Log out</NavDropdown.Item>}
