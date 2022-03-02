@@ -37,6 +37,8 @@ export class ProjectService {
     }
 
     async findByIdPublish(query: any) {
+
+        try{
         const result=await this.projectModel.findOne({ _id: query['_id']});
 
         if(result.projectPublishStatus!=="published")
@@ -44,6 +46,12 @@ export class ProjectService {
         }, HttpStatus.FORBIDDEN);
 
         return result;
+
+        }
+        catch(e)
+        {
+            return {data:undefined}
+        }
         
     }
 
