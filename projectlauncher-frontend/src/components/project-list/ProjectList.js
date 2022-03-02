@@ -8,7 +8,7 @@ function ProjectList(props) {
         <Grid templateColumns='repeat(3, 1fr)' gap={6} bg='white'>
             {
               props.projectList.map((e) => 
-                <GridItem key={e.title}>
+                <GridItem key={e._id}>
                   <Center ><ProjectBox _id={e._id} imageUrl={e.imageUrl} title={e.title} description={e.description} isOwner={props.isOwner}/></Center>
                 </GridItem>
               )

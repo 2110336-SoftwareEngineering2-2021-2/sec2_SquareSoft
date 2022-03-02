@@ -1,14 +1,5 @@
 import axios from 'axios'
-import { basedURL, getToken} from '../..';
-
-function getConfig(token){
-    const config = {
-        headers: {
-           Authorization: "Bearer " + token
-        }
-    }
-    return config
-}
+import { basedURL, getToken, getConfig } from '../..';
 
 async function getOverviewProjectOwner() {
     const token = getToken();
