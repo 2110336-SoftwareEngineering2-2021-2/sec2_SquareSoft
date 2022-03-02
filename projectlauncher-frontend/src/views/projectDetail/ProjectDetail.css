@@ -1,0 +1,19 @@
+.data-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}   
+.image-logo{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.button-grid {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    column-gap: 16px;
+    margin-top: 30px;
+  }

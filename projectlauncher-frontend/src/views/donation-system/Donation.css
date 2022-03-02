@@ -1,0 +1,20 @@
+.button-grid {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    column-gap: 16px;
+  }
+.tran{
+    text-align: center;
+    text-transform: uppercase;
+    color: #4CAF50;
+    padding: 20px;
+    font-size: 30px;
+}
+.history-grid{
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}

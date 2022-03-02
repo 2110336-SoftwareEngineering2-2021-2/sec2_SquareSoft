@@ -34,15 +34,15 @@ async function numCoins(token){
 class Navigator extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {username: null, isLoggedin: false, balance: 0}
+        this.state = {username: null, isLoggedin: false, role: null, balance : 0ß}
     }
 
     componentDidMount() {
         // Check if logged in
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
-            this.setState({username: Cookies.get('username')})
             this.interval = setInterval(() => this.tick(), 1000);
+            this.setState({username: Cookies.get('username',), role:Cookies.get('roleß')})
         }
         
     }
@@ -55,6 +55,7 @@ class Navigator extends React.Component{
         this.setState({isLoggedin: false})
         Cookies.remove('token')
         Cookies.remove('username')
+        Cookies.remove('role')
         this.props.navigate('/login')
     }
     async tick(){
@@ -69,7 +70,7 @@ class Navigator extends React.Component{
             
             <Navbar bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="#home">ProjectLauncher</Navbar.Brand>
+                <Navbar.Brand href="/">ProjectLauncher</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
@@ -80,9 +81,11 @@ class Navigator extends React.Component{
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
                     {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up-projectOwner')}}>Sign Up-PO</NavDropdown.Item>}
+                    {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/projects/my-project')}}>My Projects</NavDropdown.Item>}
+                    {(this.state.isLoggedin)&&<NavDropdown.Divider />}
                     {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogOut()}>Log out</NavDropdown.Item>}
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                    {/* <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
                     </NavDropdown>
                 </Nav>
                 </Navbar.Collapse>
