@@ -10,6 +10,8 @@ import SignUpProjectOwner from '../views/registration/SignUpProjectOwner';
 import VerifyTansaction from '../views/donation-system/admin/transactionVerification';
 import ProjectListOfAnOwner from '../views/project-list/ProjectListOfAnOwner';
 import MyProject from '../views/project-list/MyProject';
+import Donation from '../views/donation-system/Donation'
+import ProjectDetail from '../views/projectDetail/ProjectDetail';
 
 const MainRoutes = () => {
   return (
@@ -22,9 +24,11 @@ const MainRoutes = () => {
           <Route path="admin/login" element={<LoginAdmin />}></Route>
           <Route path="admin/project-owner" element={<OverviewVerification />} />
           <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
-          <Route path="admin/transacntion" element={<VerifyTansaction />} />
+          {/* <Route path="admin/transaction" element={<VerifyTransaction />} /> */}
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
+          <Route path= "donation" element={<Donation/>}/> 
+          <Route path= "projectDetail" element={<ProjectDetail/>}/> 
         </Routes>
     </BrowserRouter>
   );
