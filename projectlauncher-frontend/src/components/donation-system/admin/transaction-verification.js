@@ -119,12 +119,22 @@ async function getUserTransaction(){
 function VerificcationBox(props){
     const { isOpen, onOpen, onClose } = useDisclosure();
     // let inp_data = props.data
-    const [data, setData] = useState(null)
+    
+    // const [data, setData] = useState(null)
 
-    useEffect(() => {axios.get(basedURL.concat('transaction/adminGetUnfinishedUserTX'), {
-        headers: { Authorization: "Bearer " + getToken() }
-    }).then(res => {if(res){ setData(res.data) }
-    })}, [])
+    // useEffect(() => {axios.get(basedURL.concat('transaction/adminGetUnfinishedUserTX'), {
+    //     headers: { Authorization: "Bearer " + getToken() }
+    // }).then(res => {if(res){ setData(res.data) }
+    // })}, [])
+    const data = {"name":"Sompong", 
+            "surname":"Khaingam",
+            "username":"Sompong.K",
+            "bank":"Kasikorn Bank",
+            "time":"19:20",
+            "date":"19/7/2022",
+            "amount":200,
+            "bank-name":"Sompong Khaingam",
+            "slip-image" : "https://scontent.fhdy4-1.fna.fbcdn.net/v/t1.18169-9/25498309_530873967291327_1223835557041491412_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeF_jJDd37Lo_Sj3yIJd2YxAhYgla7dAzDSFiCVrt0DMNLDFvF5HFFbc5jC3UPVME9s4E6C63I81eHIdoXzGN5OT&_nc_ohc=GR0s57yFea8AX-UKBaj&_nc_ht=scontent.fhdy4-1.fna&oh=00_AT9oFjpI44ZOfzIpGV10UE22Z9zy1v3RtxRHKkqjGWvipA&oe=62391651"}
     
     return(
         <div>
