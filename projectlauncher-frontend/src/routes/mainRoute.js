@@ -8,7 +8,7 @@ import LoginAdmin from '../views/login/LoginAdmin'
 import SignUp from '../views/registration/SignUp';
 import SignUpProjectOwner from '../views/registration/SignUpProjectOwner';
 import Donation from '../views/donation-system/Donation'
-
+import ProjectDetail from '../views/projectDetail/ProjectDetail';
 
 const MainRoutes = () => {
   return (
@@ -24,6 +24,7 @@ const MainRoutes = () => {
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "donation" element={<Donation/>}/> 
+          <Route path= "projectDetail" element={<ProjectDetail/>}/> 
         </Routes>
     </BrowserRouter>
   );
