@@ -1,6 +1,6 @@
 import Dropzone, { useDropzone } from 'react-dropzone'
 import React, { useCallback, useState, useEffect } from 'react'
-import { Image, Box, Button, Center, VStack, Text, Flex } from '@chakra-ui/react'
+import { Image, Button, Center, VStack, Text, Flex } from '@chakra-ui/react'
 import { uploadImage } from '../../api/file-uploader/file-uploader';
 
 function dec2hex (dec) {
@@ -12,7 +12,7 @@ function generateId (len) {
     return Array.from(arr, dec2hex).join('')
 }
 
-function ImageUploader({ upload, setImageName, setUploaded, width = 500, height = 200}){
+function ImageUploader({ upload, imageName, setImageName, setUploaded, width = 500, height = 200}){
     const [drop, setDrop] = useState(false);
     const [file, setFile] = useState(null);
     const [srcImg, setSrcImg] = useState(null);
@@ -37,6 +37,12 @@ function ImageUploader({ upload, setImageName, setUploaded, width = 500, height 
                     setUploaded(true);
                 }
             });
+        }else if(upload && !isImg){
+            if (imageName === "empty") {
+              setImageName("null");
+            } else {
+              setImageName("empty");
+            }
         }
     },[upload]);
 
