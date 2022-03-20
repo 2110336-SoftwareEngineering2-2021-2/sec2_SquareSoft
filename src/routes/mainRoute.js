@@ -13,6 +13,7 @@ import MyProject from '../views/project-list/MyProject';
 import Donation from '../views/donation-system/Donation'
 import ProjectDetail from '../views/projectDetail/ProjectDetail';
 import CreateProject from '../views/create-project-page/CreateProject';
+import UpdateProjectProgression from '../views/projectDetail/update-project-progresion';
 import AdminProjectList from '../views/project-list/AdminProjectList';
 
 const MainRoutes = () => {
@@ -24,6 +25,8 @@ const MainRoutes = () => {
           <Route path="login" element={<Login />}></Route>
           <Route path="projects/my-project" element={<MyProject />}></Route>
           <Route path="projects/project-owner/:ownerid" element={<ProjectListOfAnOwner />}></Route>
+          <Route path="projects/:id" element={<ProjectDetail/>}/> 
+          <Route path="projects/update-progression" element={<UpdateProjectProgression/>}/> 
           <Route path="admin/login" element={<LoginAdmin />}></Route>
           <Route path="admin/project-owner" element={<OverviewVerification />} />
           <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
@@ -33,7 +36,6 @@ const MainRoutes = () => {
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "create-project" element={<CreateProject/>}/>
           <Route path= "donation" element={<Donation/>}/> 
-          <Route path= "projects/:id" element={<ProjectDetail/>}/> 
         </Routes>
     </BrowserRouter>
   );
