@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom";
 
-import { HStack, VStack, ChakraProvider, Box, Grid, GridItem, Center, Flex, extendTheme, Heading } from '@chakra-ui/react'
+import { HStack, VStack, ChakraProvider, Box, Grid, GridItem, Center, Flex, extendTheme, Heading, Alert, AlertIcon, CloseButton, AlertTitle } from '@chakra-ui/react'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProjectList from "./ProjectList";
@@ -16,7 +16,6 @@ function MyProjectComponent() {
         try {
             const newProjectList = getAllUnpublishedProjects(Cookies.get('token'))
             setProjectList(newProjectList)
-            // throw 'awef'
         } catch {
             navigate('/')
         }
@@ -26,7 +25,7 @@ function MyProjectComponent() {
     return (
         <Center mt='5'>
             <VStack align='stretch' spacing='20px' w='80%'>
-                <Center><Heading>Unpublished Projects</Heading></Center>
+                <Center><Heading>Manage Projects</Heading></Center>
                 <ProjectList projectList={projectList} isOwner={false} isAdmin={true}/>
             </VStack>
         </Center>

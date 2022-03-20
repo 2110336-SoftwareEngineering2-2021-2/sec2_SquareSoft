@@ -1,10 +1,39 @@
-import React from 'react'
-import { Box, Center, Image, Button, VStack } from '@chakra-ui/react'
+import React, {useState, useEffect} from 'react'
+import { Box, Center, Image, Button, VStack, Select, Stack, useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
+import { changeProjectStatus } from '../../api/project-status/project-status.js'
 
 function ProjectBox(props) {
     
     const navigate = useNavigate();
+    const toast = useToast();
+    const [status, setStatus] = useState('option3');
+
+    useEffect(() => {
+        setStatus('unpublished')
+    }, [])
+
+    const handleSave = () => {
+        try {
+            changeProjectStatus(props._id, status)
+            toast({
+                position: 'top',
+                title: `Project status has been changed successfully.`,
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            })
+        } catch {
+            toast({
+                position: 'top',
+                title: `An error occured.`,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        }
+        
+    }
 
     return (
         <Box maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
@@ -37,11 +66,13 @@ function ProjectBox(props) {
                             :
                             (props.isAdmin)?
                                 <VStack w='100%'>
-                                    <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/${props._id}`)}>
-                                        View Project
-                                    </Button>
-                                    <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='gray' variant='solid'>
-                                        Publish
+                                    <Select mt='5' value={status} onChange={(e) => {setStatus(e.target.selectedOptions[0].value)}}>
+                                        <option value='unpublished'>Unpublished</option>
+                                        <option value='in-progress'>In Progress</option>
+                                        <option value='successful'>Successful</option>
+                                    </Select>
+                                    <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => handleSave()}>
+                                        Save
                                     </Button>
                                 </VStack>
                                 :
