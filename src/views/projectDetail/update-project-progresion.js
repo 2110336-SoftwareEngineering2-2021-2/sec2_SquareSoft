@@ -55,8 +55,15 @@ function UpdateProjectProgression(){
             </Box>
         </Center>
 
-        <Box w = {100} h = {10}>
-            <Progress value={valueOfSlider} colorScheme='purple' isAnimated hasStripe/>
+        <Box w = {500} h = {10}>
+            <VStack align="left">
+                <Text>กิจกรรม : </Text>
+                <HStack>
+                    <Text>ความคืบหน้า : </Text>
+                    <Badge>{valueOfSlider} %</Badge>
+                </HStack>
+                <Progress w = {400} value={valueOfSlider} colorScheme='purple' isAnimated hasStripe/>
+            </VStack>
         </Box>
     </>
     );
