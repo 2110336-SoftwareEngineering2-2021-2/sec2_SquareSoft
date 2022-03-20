@@ -9,7 +9,7 @@ function ProjectList(props) {
             {
               props.projectList.map((e) => 
                 <GridItem key={e._id}>
-                  <Center ><ProjectBox _id={e._id} imageUrl={e.imageUrl} title={e.title} description={e.description} isOwner={props.isOwner} isAdmin={props.isAdmin}/></Center>
+                  <Center ><ProjectBox _id={e._id} imageUrl={e.imageUrl} title={e.title} description={e.description} isOwner={props.isOwner} isAdmin={props.isAdmin} /></Center>
                 </GridItem>
               )
             }

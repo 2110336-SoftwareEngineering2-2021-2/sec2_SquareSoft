@@ -28,7 +28,7 @@ const MainRoutes = () => {
           <Route path="admin/project-owner" element={<OverviewVerification />} />
           <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
           <Route path="admin/transaction" element={<VerifyTansaction />} />
-          <Route path="admin/projects/unpublished" element={<AdminProjectList />} />
+          <Route path="admin/projects" element={<AdminProjectList />} />
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "create-project" element={<CreateProject/>}/>
