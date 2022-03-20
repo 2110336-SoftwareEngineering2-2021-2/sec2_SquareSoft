@@ -10,6 +10,11 @@ function changeProjectStatus(projectid, status) {
     console.log(projectid + ' ' + status)
 }
 
+function getProjectStatus(projectid) {
+    return 'unpublished'
+}
+
 export {
     changeProjectStatus,
+    getProjectStatus,
 };

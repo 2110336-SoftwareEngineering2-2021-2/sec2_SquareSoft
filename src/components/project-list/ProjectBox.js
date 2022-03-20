@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Box, Center, Image, Button, VStack, Select, Stack, useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
-import { changeProjectStatus } from '../../api/project-status/project-status.js'
+import { changeProjectStatus, getProjectStatus } from '../../api/project-status/project-status.js'
 
 function ProjectBox(props) {
     
@@ -10,7 +10,8 @@ function ProjectBox(props) {
     const [status, setStatus] = useState('option3');
 
     useEffect(() => {
-        setStatus('unpublished')
+        const projectStatus = getProjectStatus(props._id)
+        setStatus(projectStatus)
     }, [])
 
     const handleSave = () => {
@@ -66,11 +67,15 @@ function ProjectBox(props) {
                             :
                             (props.isAdmin)?
                                 <VStack w='100%'>
+                                    
                                     <Select mt='5' value={status} onChange={(e) => {setStatus(e.target.selectedOptions[0].value)}}>
                                         <option value='unpublished'>Unpublished</option>
                                         <option value='in-progress'>In Progress</option>
                                         <option value='successful'>Successful</option>
                                     </Select>
+                                    <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='gray' variant='solid' onClick={() => navigate(`/projects/${props._id}`)}>
+                                        View Project
+                                    </Button>
                                     <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => handleSave()}>
                                         Save
                                     </Button>
