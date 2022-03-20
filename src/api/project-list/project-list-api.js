@@ -106,9 +106,44 @@ async function getProjectsOfAnOwner(ownerid, token) {
     return projectList
 }
 
+function getAllUnpublishedProjects(token) {
+    return [{
+            _id: "id1",
+            title: "Project 1",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            _id: "id2",
+            title: "Project 2",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            _id: "id3",
+            title: "Project 3",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            _id: "id4",
+            title: "Project 4",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+        {
+            _id: "id5",
+            title: "Project 5",
+            description: "description1 description1 description1 description1 description1 description1 description1 ",
+            imageUrl: 'https://picsum.photos/500/300?random=1'
+        },
+    ]
+}
+
 export {
     getAllProjects,
     getFilteredProjects,
     getMyProjects,
-    getProjectsOfAnOwner
+    getProjectsOfAnOwner,
+    getAllUnpublishedProjects
 };

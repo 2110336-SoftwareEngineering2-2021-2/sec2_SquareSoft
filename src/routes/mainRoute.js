@@ -13,6 +13,7 @@ import MyProject from '../views/project-list/MyProject';
 import Donation from '../views/donation-system/Donation'
 import ProjectDetail from '../views/projectDetail/ProjectDetail';
 import CreateProject from '../views/create-project-page/CreateProject';
+import AdminProjectList from '../views/project-list/AdminProjectList';
 
 const MainRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const MainRoutes = () => {
           <Route path="admin/project-owner" element={<OverviewVerification />} />
           <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
           <Route path="admin/transaction" element={<VerifyTansaction />} />
+          <Route path="admin/projects/unpublished" element={<AdminProjectList />} />
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "create-project" element={<CreateProject/>}/>
