@@ -1,11 +1,11 @@
 import React from "react";
 
-import { HStack, VStack, ChakraProvider, Box, Grid, GridItem, Center, Flex, extendTheme, Heading } from '@chakra-ui/react'
+import { HStack, VStack, ChakraProvider, Box, Grid, GridItem, Center, Flex, extendTheme, Heading, Badge, Text } from '@chakra-ui/react'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProjectList from "./ProjectList";
 import SearchBar from "./SearchBar";
-import {getAllProjects, getFilteredProjects} from "../../api/project-list/project-list-api"
+import {getAllProjects, getFilteredProjects, getRecommendedProjects} from "../../api/project-list/project-list-api"
 
 class HomeComponent extends React.Component {
 
@@ -16,7 +16,8 @@ class HomeComponent extends React.Component {
             filterStatusValue: 'all',
             filterTypeValue: 'all',
             filterCategoryValue: ['art', 'food', 'music', 'technology', 'fashion', 'health', 'research', 'social'],
-            projectList: []
+            projectList: [],
+            isRecommended: true
         }
         this.searchOnChange = this.searchOnChange.bind(this)
         this.searchOnSubmit = this.searchOnSubmit.bind(this)
@@ -26,7 +27,7 @@ class HomeComponent extends React.Component {
     }
 
     componentDidMount() {
-        const projectList = getAllProjects()
+        const projectList = getRecommendedProjects()
         this.setState({projectList: projectList})
     }
 
@@ -38,7 +39,7 @@ class HomeComponent extends React.Component {
 
     searchOnSubmit() {
         const projectList = getFilteredProjects(this.state.searchValue, this.state.filterStatusValue, this.state.filterTypeValue, this.state.filterCategoryValue)
-        this.setState({projectList: projectList})
+        this.setState({projectList: projectList, isRecommended: false})
     }
 
     filterStatusOnChange(e) {
@@ -68,6 +69,7 @@ class HomeComponent extends React.Component {
                         filterCategoryOnChange={this.filterCategoryOnChange}
                         searchOnSubmit={this.searchOnSubmit}
                     />
+                    {this.state.isRecommended && <Text fontSize='20'>Recommended Projects</Text>}
                     <ProjectList projectList={this.state.projectList} isOwner={false}/>
                 </VStack>
             </Center>
