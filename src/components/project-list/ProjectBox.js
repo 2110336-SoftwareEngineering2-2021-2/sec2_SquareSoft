@@ -35,9 +35,19 @@ function ProjectBox(props) {
                                 </Button>
                             </VStack>
                             :
-                            <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/${props._id}`)}>
-                                View Project
-                            </Button>
+                            (props.isAdmin)?
+                                <VStack w='100%'>
+                                    <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/${props._id}`)}>
+                                        View Project
+                                    </Button>
+                                    <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='gray' variant='solid'>
+                                        Publish
+                                    </Button>
+                                </VStack>
+                                :
+                                <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/${props._id}`)}>
+                                    View Project
+                                </Button>
                     }
                 </Center>
             </Box>
