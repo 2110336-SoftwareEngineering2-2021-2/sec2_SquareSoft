@@ -24,69 +24,60 @@ function FilterModal(props) {
                 <ModalBody>
                     <VStack align='stretch'>
                         <Box borderWidth='2px' borderRadius='lg' p='3'>
-                            <Heading as='h4' size='md' mb='5'>Status</Heading>
-                            <RadioGroup onChange={(e) => {props.filterStatusOnChange(e)}} value={props.filterStatusValue}>
-                                <Grid templateColumns='repeat(4, 1fr)' gap={5} bg='white'>
+                            <Heading as='h4' size='md' mb='5'>สถานะโครงการ</Heading>
+                            <CheckboxGroup isInline onChange={(e) => props.filterStatusOnChange(e)} value={props.filterStatusValue}>
+                                <Grid templateColumns='repeat(2, 1fr)' gap={5} bg='white'>
                                     <GridItem>
-                                        <Radio value='all'>All</Radio>
+                                        <Checkbox value='in-progress'>ดำเนินการอยู่</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Radio value='incoming'>Incoming</Radio>
-                                    </GridItem>
-                                    <GridItem>
-                                        <Radio value='in-progress'>In progress</Radio>
-                                    </GridItem>
-                                    <GridItem>
-                                        <Radio value='successful'>Successful</Radio>
+                                        <Checkbox value='successful'>สำเร็จ</Checkbox>
                                     </GridItem>
                                 </Grid>
-                            </RadioGroup>
+                            </CheckboxGroup>
                         </Box>
                         
                         <Box borderWidth='2px' borderRadius='lg' p='3'>
-                            <Heading as='h4' size='md' mb='5'>Type</Heading>
-                            <RadioGroup onChange={(e) => {props.filterTypeOnChange(e)}} value={props.filterTypeValue}>
-                                <Grid templateColumns='repeat(4, 1fr)' gap={5} bg='white'>
+                            <Heading as='h4' size='md' mb='5'>ประเภทการระดมทุน</Heading>
+                            <CheckboxGroup isInline onChange={(e) => props.filterTypeOnChange(e)} value={props.filterTypeValue}>
+                                <Grid templateColumns='repeat(2, 1fr)' gap={5} bg='white'>
                                     <GridItem>
-                                        <Radio value='all'>All</Radio>
+                                        <Checkbox value='โครงการไม่แสวงหาผลกำไร'>โครงการไม่แสวงหาผลกำไร</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Radio value='non-profit'>Non-profit</Radio>
-                                    </GridItem>
-                                    <GridItem>
-                                        <Radio value='commercial'>Commercial</Radio>
+                                        <Checkbox value='โครงการเชิงพาณิชย์'>โครงการเชิงพาณิชย์</Checkbox>
                                     </GridItem>
                                 </Grid>
-                            </RadioGroup>
+                            </CheckboxGroup>
                         </Box>
                         
                         <Box borderWidth='2px' borderRadius='lg' p='3'>
-                            <Heading as='h4' size='md' mb='5'>Category</Heading>
+                            <Heading as='h4' size='md' mb='5'>หมวดหมู่โครงการ</Heading>
                             <CheckboxGroup isInline onChange={(e) => props.filterCategoryOnChange(e)} value={props.filterCategoryValue}>
                                 <Grid templateColumns='repeat(4, 1fr)' gap={5} bg='white'>
                                     <GridItem>
-                                        <Checkbox value='art'>Art</Checkbox>
+                                        <Checkbox value='ศิลปะ'>ศิลปะ</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='food'>Food</Checkbox>
+                                        <Checkbox value='อาหาร'>อาหาร</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='music'>Music</Checkbox>
+                                        <Checkbox value='ดนตรี'>ดนตรี</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='technology'>Technology</Checkbox>
+                                        <Checkbox value='เทคโนโลยี'>เทคโนโลยี</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='fashion'>Fashion</Checkbox>
+                                        <Checkbox value='แฟชัน'>แฟชัน</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='health'>Health</Checkbox>
+                                        <Checkbox value='สุขภาพ'>สุขภาพ</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='research'>Research</Checkbox>
+                                        <Checkbox value='วิจัย'>วิจัย</Checkbox>
                                     </GridItem>
                                     <GridItem>
-                                        <Checkbox value='social'>Social</Checkbox>
+                                        <Checkbox value='สังคม'>สังคม</Checkbox>
                                     </GridItem>
                                 </Grid>
                             </CheckboxGroup>
