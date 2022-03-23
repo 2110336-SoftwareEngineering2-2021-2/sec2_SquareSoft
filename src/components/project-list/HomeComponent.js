@@ -13,9 +13,9 @@ class HomeComponent extends React.Component {
         super(props)
         this.state = {
             searchValue: '', 
-            filterStatusValue: 'all',
-            filterTypeValue: 'all',
-            filterCategoryValue: ['art', 'food', 'music', 'technology', 'fashion', 'health', 'research', 'social'],
+            filterStatusValue: ['in-progress'],
+            filterTypeValue: ['โครงการไม่แสวงหาผลกำไร', 'โครงการเชิงพาณิชย์'],
+            filterCategoryValue: ['ศิลปะ', 'อาหาร', 'ดนตรี', 'เทคโนโลยี', 'แฟชัน', 'สุขภาพ', 'วิจัย', 'สังคม'],
             projectList: [],
             isRecommended: true
         }
