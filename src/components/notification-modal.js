@@ -8,32 +8,62 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Button
+    Button,
+    Text,
+    Grid,
+    GridItem,
+    Center
   } from '@chakra-ui/react'
 
 function NotificationModal({setNumberOfNotification, setNotificationIsOpen, notificationIsOpen}){
     const [ updated, setUpdated ] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [ numberOfNotification, setNumberOfNotificationInSight ] = useState(0);
+    const [ appear, setAppear ] = useState(false);
     
     useEffect(()=>{
         if(!updated){
-            setNumberOfNotification(100);
+            setNumberOfNotificationInSight(100);
+            setNumberOfNotification(numberOfNotification);
             setUpdated(true);
         }
+    }, [updated]);
+
+    useEffect(()=>{
+        setNumberOfNotification(numberOfNotification);
+    }, [numberOfNotification]);
+
+    useEffect(()=>{
         if(notificationIsOpen){
             setNotificationIsOpen(false);
             onOpen();
         }
-    }, [notificationIsOpen, updated]);
+    }, [notificationIsOpen]);
+
     return (
         <>
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-            <ModalHeader>Notification({})</ModalHeader>
+            <ModalHeader>Notification({numberOfNotification})</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                ABC
+                <Grid   templateRows='repeat(1, 1fr)'
+                        templateColumns='repeat(7, 1fr)'
+                        gap={4}
+                        onMouseEnter={() => {setAppear(true);}}
+                        onMouseLeave={() => {setAppear(false);}}
+                >
+                    <GridItem colSpan={6} bg='tomato'>
+                        <Text>
+                            Lorem ipsum is placeholder text commonly used in the graphic, print, and
+                            publishing industries for previewing layouts and visual mockups.1111112dafgmklsdjfgljdlsfgjl;ksdfjgl;jsdlfgjklsdfjgljsdfgljsldkfjgl;sdjfgkljsdflg;jls;dkfjgkl;sdjfgkl;jsdfl;gjs;dlfg
+                        </Text>
+                    </GridItem>
+                    <GridItem colSpan={1} bg='papayawhip'>
+                        {appear&&<Button w = "100%">X</Button>}
+                    </GridItem>
+                </Grid>
             </ModalBody>
 
             <ModalFooter>
