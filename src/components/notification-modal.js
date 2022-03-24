@@ -12,7 +12,7 @@ import {
     Text,
     Grid,
     GridItem,
-    Center
+    Box
   } from '@chakra-ui/react'
 
 function NotificationModal({setNumberOfNotification, setNotificationIsOpen, notificationIsOpen}){
@@ -54,14 +54,28 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
                         onMouseEnter={() => {setAppear(true);}}
                         onMouseLeave={() => {setAppear(false);}}
                 >
-                    <GridItem colSpan={6} bg='tomato'>
-                        <Text>
+                    <GridItem colSpan={6}>
+                    {
+                        !appear && 
+                        <Box borderWidth='1px' borderRadius='xs' overflow='hidden'>
+                        <Text p = "10px">
                             Lorem ipsum is placeholder text commonly used in the graphic, print, and
                             publishing industries for previewing layouts and visual mockups.1111112dafgmklsdjfgljdlsfgjl;ksdfjgl;jsdlfgjklsdfjgljsdfgljsldkfjgl;sdjfgkljsdflg;jls;dkfjgkl;sdjfgkl;jsdfl;gjs;dlfg
                         </Text>
+                        </Box>
+                    }
+                    {
+                        appear && 
+                        <Box borderWidth='3px' borderRadius='lg' overflow='hidden'>
+                        <Text p = "10px">
+                            Lorem ipsum is placeholder text commonly used in the graphic, print, and
+                            publishing industries for previewing layouts and visual mockups.1111112dafgmklsdjfgljdlsfgjl;ksdfjgl;jsdlfgjklsdfjgljsdfgljsldkfjgl;sdjfgkljsdflg;jls;dkfjgkl;sdjfgkl;jsdfl;gjs;dlfg
+                        </Text>
+                        </Box>
+                    }
                     </GridItem>
-                    <GridItem colSpan={1} bg='papayawhip'>
-                        {appear&&<Button w = "100%">X</Button>}
+                    <GridItem colSpan={1}>
+                        {appear&&<Button size='xs' >X</Button>}
                     </GridItem>
                 </Grid>
             </ModalBody>
