@@ -90,4 +90,48 @@ export class ProjectService {
             }, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
+
+    async updateProject(user: Object, projectID: string, progress: number){
+        let project = await this.findProjectByID(projectID, user["userID"]);
+        project.progress = progress;
+        let result = await project.save();
+        return {
+            "status": "progress updated",
+            "progress": result.progress
+        };
+    }
+
+    async getProjectProgress(user: Object, projectID: string){
+        let project = await this.findProjectByID(projectID, user["userID"]);
+        return {
+            "projectID": project._id,
+            "progress": project.progress
+        };
+    }
+
+    async findProjectByID(projectID: string, ownerID: string|undefined = undefined){
+        let project = undefined
+        try{
+            project = await this.projectModel.findById(projectID);
+        }
+        catch(err){
+            throw new HttpException({
+                "msg": "invalid projectID"
+            }, HttpStatus.BAD_REQUEST);
+        }
+        if ( project === null ){
+            throw new HttpException({
+                "msg": "project with this projectID is not found"
+            }, HttpStatus.NOT_FOUND);
+        }
+        if ( ownerID )
+        {
+            if ( project.projectOwnerID !== ownerID ){
+                throw new HttpException({
+                    "msg": "this user has no permission on this project"
+                }, HttpStatus.FORBIDDEN);
+            }
+        }
+        return project;
+    }
 }
