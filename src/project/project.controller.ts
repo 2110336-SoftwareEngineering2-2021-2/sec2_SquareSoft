@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post ,UseGuards,Query,Req, Put, Patch, Request} 
 import { resourceLimits } from 'worker_threads';
 import { ProjectService } from './project.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
-import { GetProjectDTO, UpdateProjectDTO } from './project.dto';
+import { EditProjectDTO, GetProjectDTO, UpdateProjectDTO } from './project.dto';
 
 @Controller('project')
 export class ProjectController {
@@ -62,7 +62,12 @@ export class ProjectController {
         return await this.projectService.getProjectProgress(user, body.projectID);
     }
     
-
+    @Patch('edit-project')
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    async editProject(@Body() body: EditProjectDTO, @Request() req: Request){
+        let user = {username: req["user"]["username"], role: req["user"]["role"], userID: req["user"]["_id"]};
+        return await this.projectService.editProject(user, body.projectID, body.fields);
+    }
     
 
 }

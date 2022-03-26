@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, model } from 'mongoose';
+import { EditProjectField } from './project.dto';
 import { project } from './project.model';
 
 @Injectable()
@@ -133,5 +134,21 @@ export class ProjectService {
             }
         }
         return project;
+    }
+
+    private editableFields = ['projectName', 'objective', 'description', 'fundingType', 'category', 'deadline', 'fundingGoal', 'projectOwnerID', 'projectPicture']
+
+    async editProject(user: Object, projectID: string, fields: EditProjectField){
+        let project = await this.findProjectByID(projectID, user["userID"]);
+        for(let [field, value] of Object.entries(fields)){
+            if(!this.editableFields.includes(field)){
+                throw new HttpException({
+                    "msg": `editing '${field}' is not allow`
+                }, HttpStatus.FORBIDDEN);
+            }
+            project[field] = value;
+        }
+        let result = await project.save()
+        return result;
     }
 }
