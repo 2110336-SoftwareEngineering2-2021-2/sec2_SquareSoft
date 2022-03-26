@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post ,UseGuards,Query,Req } from '@nestjs/common';
+import { Body, Controller, Get, Post ,UseGuards,Query,Req, Put, Patch, Request} from '@nestjs/common';
 import { resourceLimits } from 'worker_threads';
 import { ProjectService } from './project.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
+import { GetProjectDTO, UpdateProjectDTO } from './project.dto';
 
 @Controller('project')
 export class ProjectController {
@@ -47,8 +48,19 @@ export class ProjectController {
         return results;
     }
 
-    
+    @Patch('update-project')
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    async updateProject(@Body() body: UpdateProjectDTO, @Request() req: Request){
+        let user = {username: req["user"]["username"], role: req["user"]["role"], userID: req["user"]["_id"]};
+        return await this.projectService.updateProject(user, body.projectID, body.progress);
+    }
 
+    @Get('project-progress')
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    async getProjectProgress(@Body() body: GetProjectDTO, @Request() req: Request){
+        let user = {username: req["user"]["username"], role: req["user"]["role"], userID: req["user"]["_id"]};
+        return await this.projectService.getProjectProgress(user, body.projectID);
+    }
     
 
     
