@@ -6,10 +6,37 @@ import { project } from './project.model';
 @Injectable()
 export class ProjectService {
     
+    
     constructor(
         @InjectModel('project') private readonly projectModel: Model<project>
     ) { }
+
+    async findByStatus(status: String) {
+        const result=await this.projectModel.find({projectPublishStatus: status});
+        return result;
+
+    }
+    async deleteProjectById(query: any) {
+
+            console.log(query)
+            
+            const result=await this.projectModel.findOne({ _id: query['_id']});
     
+            if(!result)
+            throw new HttpException({"msg": "project not found"
+            }, HttpStatus.FORBIDDEN);
+
+            const result2=await result.remove()
+            if(!result2)
+            throw new HttpException({"msg": "cannot delete project"
+            }, HttpStatus.FORBIDDEN);
+
+            return result2;
+    
+           
+        
+         
+    }  
     async findByProjectOwnerID(query: any,projectPublishStatus:String) {
         try{
             let queryBlock={ projectOwnerID: query['projectOwnerID']}

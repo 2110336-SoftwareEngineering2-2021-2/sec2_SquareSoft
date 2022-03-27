@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post ,UseGuards,Query,Req } from '@nestjs/common';
+import { Body, Controller, Get, Post ,UseGuards,Query,Req, Delete } from '@nestjs/common';
 import { resourceLimits } from 'worker_threads';
 import { ProjectService } from './project.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
@@ -46,6 +46,24 @@ export class ProjectController {
         const results=this.projectService.findByName(query);
         return results;
     }
+
+    // @UseGuards(RoleGuard.ProjectOwnerGuard) 
+    @Delete('delete-by-id')
+    async deleteProjectById(@Query () query) {
+        const results=await this.projectService.deleteProjectById(query);
+        return results;
+    }
+
+    //@UseGuards(RoleGuard.AdminGuard) 
+    @Get('find-by-unpublish')
+    async findByUnpublish() {
+        const results=await this.projectService.findByStatus("unpublished");
+        return results;
+    }
+
+    
+
+   
 
     
 
