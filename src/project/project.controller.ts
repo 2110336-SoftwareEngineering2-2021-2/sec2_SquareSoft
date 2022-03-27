@@ -45,9 +45,9 @@ export class ProjectController {
         return results;
     }
 
-    @Get('find-by-name-and-cat')
-    async findByNameAndCat(@Query () query){
-        const results=this.projectService.findByNameAndCat(query);
+    @Post('find-by-name-and-cat')
+    async findByNameAndCat(@Body () dto){
+        const results=this.projectService.findByNameAndCat(dto);
         return results;
     }
 
