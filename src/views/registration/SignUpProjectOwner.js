@@ -147,7 +147,7 @@ const SignUpProjectOwner = (props) =>{
         let err = "";
         let state = true;
         for(var i=0;i<17;i++){
-            if(e.target[i].value == "") state = false;
+            if(e.target[i].value === "") state = false;
         }if(!state) err += "Fill in the missing information.\n"
         let accountName = e.target[0].value
         let email = e.target[1].value
@@ -178,7 +178,7 @@ const SignUpProjectOwner = (props) =>{
             let result = await registerProjectOwner("projectOwner",accountName,email,password,name,surname,identificationID,birthdate,
                 presentAddress,province,district,subDistrict,zipCode,bankAccountName,bankAccountNumber,bankName,bankBook,idCardPicture,
                 "Submitted");
-            if(result.status == "success"){
+            if(result.status === "success"){
                 alert("success")
                 props.navigate("/login")
             }else{

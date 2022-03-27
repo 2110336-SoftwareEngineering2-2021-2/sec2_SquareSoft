@@ -84,7 +84,7 @@ const SignUp = (props) =>{
         let err = ""
         let state = true;
         for(var i=0;i<11;i++)
-            if(e.target[i].value == "") state = false
+            if(e.target[i].value === "") state = false
         if(!state) err+= "Fill in the missing information.\n"
         let accountName = e.target[0].value
         let password = e.target[1].value
@@ -103,7 +103,7 @@ const SignUp = (props) =>{
         }
         if(state){
             let result = await register("donator",accountName,password,name,surname,birthdate,email,bankAccountName,bankAccountSurname,bankAccountNumber,bankName);
-            if(result.status == "succeed"){
+            if(result.status === "succeed"){
                 alert("succeed")
                 props.navigate("/login")
             }else{
