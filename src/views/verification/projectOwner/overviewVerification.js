@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,13 +15,10 @@ function OverviewVerification(){
 
     const navigate = useNavigate();
     const [data, setData] = useState([0, [{"username" : "", "_id" : ""}]]);
-    const specifiedRoute = "/admin/project-owner/specified/";
 
-    useEffect(() => {
-        getOverviewProjectOwner()
-            .then(res => {setData(res.data)})
-            .catch(() => {navigate("/")})
-    }, []);
+    getOverviewProjectOwner()
+        .then(res => {setData(res.data)})
+        .catch(() => {navigate("/")})
 
     return(
         <>
