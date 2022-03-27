@@ -61,6 +61,12 @@ export class ProjectController {
         return results;
     }
 
+    @Post('edit-status')
+    async editStatus(@Query () query) {
+        const results=await this.projectService.editStatus(query);
+        return results;
+    }
+
     
 
    

@@ -7,10 +7,27 @@ import { project } from './project.model';
 export class ProjectService {
     
     
+    
     constructor(
         @InjectModel('project') private readonly projectModel: Model<project>
     ) { }
+    async editStatus(query: any) {
+        const result = await this.projectModel.findOne({ _id: query['_id'] });
+        if(!result)
+            throw new HttpException({"msg": "project not found"
+            }, HttpStatus.FORBIDDEN);
 
+        
+        const update = { projectPublishStatus: query['status'] };
+        const result2=await result.updateOne(update);
+        if(!result2)
+            throw new HttpException({"msg": "cannot update status"
+            }, HttpStatus.FORBIDDEN);
+        return result2;
+        
+
+      
+    }
     async findByStatus(status: String) {
         const result=await this.projectModel.find({projectPublishStatus: status});
         return result;
