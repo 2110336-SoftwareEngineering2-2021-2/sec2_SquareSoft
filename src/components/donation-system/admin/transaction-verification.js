@@ -19,10 +19,14 @@ function approveHandle(){
 
 }
 
-function VerificationModal({isOpen, onClose, data}){
+function VerificationModal({isOpen, onClose, data, setHide}){
     const [load, setLoad] = useState(false);
     const [value, setValue] = useState('');
     const handleChange = (event) => setValue(event.target.value);
+
+    const hideComponent = () =>{
+        setHide(true);
+    }
     //const [data, setData] = useState({});
     //On real implementation delete this data
     
@@ -96,8 +100,8 @@ function VerificationModal({isOpen, onClose, data}){
                 </ModalBody>
                 <ModalFooter>
                     <Button variant='ghost' onClick={onClose} mx = {1}>Close</Button>
-                    <Button colorScheme='pink' variant='solid' mx = {1} >Reject</Button>
-                    <Button colorScheme='teal' variant='solid' mx = {1} >Approve</Button>
+                    <Button colorScheme='pink' variant='solid' mx = {1} onClick={hideComponent}>Reject</Button>
+                    <Button colorScheme='teal' variant='solid' mx = {1} onClick={hideComponent}>Approve</Button>
                 </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -118,6 +122,7 @@ async function getUserTransaction(){
 
 function VerificcationBox(props){
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [ hide, setHide ] = useState(false);
     // let inp_data = props.data
     
     // const [data, setData] = useState(null)
@@ -137,7 +142,7 @@ function VerificcationBox(props){
             "slip-image" : "https://scontent.fhdy4-1.fna.fbcdn.net/v/t1.18169-9/25498309_530873967291327_1223835557041491412_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeF_jJDd37Lo_Sj3yIJd2YxAhYgla7dAzDSFiCVrt0DMNLDFvF5HFFbc5jC3UPVME9s4E6C63I81eHIdoXzGN5OT&_nc_ohc=GR0s57yFea8AX-UKBaj&_nc_ht=scontent.fhdy4-1.fna&oh=00_AT9oFjpI44ZOfzIpGV10UE22Z9zy1v3RtxRHKkqjGWvipA&oe=62391651"}
     
     return(
-        <div>
+        !hide&&<div>
         <Box p="5" w="1000px" borderWidth="1px">
             <HStack spacing='50px'>
                 <HStack>
@@ -153,7 +158,7 @@ function VerificcationBox(props){
                 <Button onClick={onOpen}>ตรวจสอบ</Button>
             </HStack>
         </Box>
-        <VerificationModal isOpen = {isOpen} onClose = {onClose} data = {data}/>
+        <VerificationModal isOpen = {isOpen} onClose = {onClose} data = {data} setHide = {setHide}/>
         </div>
     );
 }
