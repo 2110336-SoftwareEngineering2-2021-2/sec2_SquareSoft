@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import OverviewVerification from '../views/verification/projectOwner/overviewVerification';
-import ProjectOwnerVerification from '../views/verification/projectOwner/projectOwnerVerification';
 import Home from '../views/home/Home'
 import Login from '../views/login/Login'
 import LoginAdmin from '../views/login/LoginAdmin'
@@ -29,7 +28,6 @@ const MainRoutes = () => {
           <Route path="projects/update-progression" element={<UpdateProjectProgression/>}/> 
           <Route path="admin/login" element={<LoginAdmin />}></Route>
           <Route path="admin/project-owner" element={<OverviewVerification />} />
-          <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
           <Route path="admin/transaction" element={<TransactionVerification />} />
           <Route path="admin/projects" element={<AdminProjectList />} />
           <Route path= "sign-up" element={<SignUp/>}/> 
