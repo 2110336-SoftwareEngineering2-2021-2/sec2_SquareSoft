@@ -3,7 +3,7 @@ import {Navbar, Container, NavDropdown, Nav} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css'
 import Cookies from 'js-cookie'
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 
 class NavigatorAdmin extends React.Component{
@@ -12,6 +12,7 @@ class NavigatorAdmin extends React.Component{
         this.state = { 
             username: null, 
             isLoggedin: false, 
+            isLoggedOut: false,
             role: null, 
             balance: 0, 
             numberOfNotifcation: 0, 
@@ -32,7 +33,7 @@ class NavigatorAdmin extends React.Component{
 
     onClickLogOut() {
         // remove token
-        this.setState({isLoggedin: false})
+        this.setState({isLoggedin: false, isLoggedOut: true})
         Cookies.remove('token')
         Cookies.remove('username')
         Cookies.remove('role')
@@ -44,7 +45,7 @@ class NavigatorAdmin extends React.Component{
         return <div>
             <Navbar bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="/">ProjectLauncher</Navbar.Brand>
+                <Navbar.Brand href="/admin/home">ProjectLauncher</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
@@ -59,6 +60,7 @@ class NavigatorAdmin extends React.Component{
                 </Navbar.Collapse>
             </Container>
             </Navbar>
+            {(this.state.isLoggedOut)? <Navigate to="/home" replace={true}/>: null}
         </div>;
     }
 }

@@ -6,7 +6,7 @@ function useForAdmin(){
     const username = Cookies.get('username');
     const navigate = useNavigate();
     useEffect(()=>{
-        if(username!="admin"){
+        if(username!=="admin"){
             navigate('/');
         }
     }, [username]);
