@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Post ,UseGuards,Query,Req } from '@nestjs/common';
-import { resourceLimits } from 'worker_threads';
 import { ProjectService } from './project.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
 
@@ -19,7 +18,6 @@ export class ProjectController {
         const results=await this.projectService.findByProjectOwnerID(query,"published");
         return results;
     }
-
 
     @UseGuards(RoleGuard.ProjectOwnerGuard)
     @Get('find-by-owner')
@@ -52,12 +50,6 @@ export class ProjectController {
         const results=this.projectService.findByNameAndCat(query);
         return results;
     }
-
-    
-
-    
-
-    
 
 }
 
