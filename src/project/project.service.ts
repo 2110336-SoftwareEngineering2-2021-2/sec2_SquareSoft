@@ -57,16 +57,9 @@ export class ProjectService {
             "Please provide both projectName and category."
             );
 
-        console.log(projectName);
-        console.log("--------------------");
-        console.log(category);
-        console.log("********************");
-        console.log(query);
-
-        // const result = "success";
+        // Query database with regular expression
         const result = await this.projectModel.find({
-            // projectName: { $regex: /projectName/, $options: "i" },
-            projectName: projectName,
+            projectName: { $regex: projectName, $options: "i" },
             category: category,
         });
 
