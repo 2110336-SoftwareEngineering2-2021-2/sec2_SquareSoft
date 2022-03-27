@@ -1,6 +1,6 @@
 import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
 Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, 
-Input, Image } from '@chakra-ui/react'
+Input, Image, Spacer } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import {basedURL, getToken} from "../../../api/index.js"
@@ -144,7 +144,7 @@ function VerificcationBox(props){
     return(
         !hide&&<div>
         <Box p="5" w="1000px" borderWidth="1px">
-            <HStack spacing='50px'>
+            <HStack spacing='6px'>
                 <HStack>
                     <Text>ชื่อ : </Text>
                     <Text fontWeight="bold">สมพงษ์</Text>
@@ -155,6 +155,7 @@ function VerificcationBox(props){
                 </HStack>
                 <Badge borderRadius='full' colorScheme='teal'>เติมเงิน</Badge>
                 <Text fontWeight="bold" >จำนวน : 1,000,000 บาท</Text>
+                <Spacer/>
                 <Button onClick={onOpen}>ตรวจสอบ</Button>
             </HStack>
         </Box>

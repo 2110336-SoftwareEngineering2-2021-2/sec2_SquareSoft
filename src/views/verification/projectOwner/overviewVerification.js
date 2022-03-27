@@ -11,8 +11,12 @@ import VerificationBox from './../../../components/verification/verification-box
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './verification.css'
 
+import useForAdmin from "../../../components/for-admin";
+
 function OverviewVerification(){
 
+    useForAdmin();
+    
     const navigate = useNavigate();
     const [data, setData] = useState([0, [{"username" : "", "_id" : ""}]]);
 
