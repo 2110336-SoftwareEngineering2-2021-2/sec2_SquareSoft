@@ -15,7 +15,7 @@ import {
     Box
   } from '@chakra-ui/react'
 
-function NotificationBox({text}){
+function NotificationBox({text, closeNotification}){
     const [ mouseOver, setmouseOver ] = useState(false);
     const [ appear, setApper ] = useState(true);
     return(
@@ -23,8 +23,9 @@ function NotificationBox({text}){
         <Grid   templateRows='repeat(1, 1fr)'
                 templateColumns='repeat(7, 1fr)'
                 gap={4}
-                onMouseEnter={() => {setmouseOver(true);}}
+                onMouseOver={() => {setmouseOver(true);}}
                 onMouseLeave={() => {setmouseOver(false);}}
+                marginBottom = "8px"
         >
             <GridItem colSpan={6}>
             {
@@ -41,7 +42,7 @@ function NotificationBox({text}){
             }
             </GridItem>
             <GridItem colSpan={1}>
-                {mouseOver&&<Button size='xs' onClick={()=>{setApper(false)}}>X</Button>}
+                {mouseOver&&<Button size='xs' onClick={()=>{setApper(false); closeNotification()}}>X</Button>}
             </GridItem>
         </Grid>
     </>
@@ -52,10 +53,14 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
     const [ updated, setUpdated ] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ numberOfNotification, setNumberOfNotificationInSight ] = useState(0);
+    const closeNotification = () => {
+        setNumberOfNotification(numberOfNotification-1);
+        setNumberOfNotificationInSight(numberOfNotification-1);
+    };
     
     useEffect(()=>{
         if(!updated){
-            setNumberOfNotificationInSight(100);
+            setNumberOfNotificationInSight(2);
             setNumberOfNotification(numberOfNotification);
             setUpdated(true);
         }
@@ -80,7 +85,8 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
             <ModalHeader>Notification({numberOfNotification})</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <NotificationBox text = {"1234"}/>
+                <NotificationBox text = {"1234"} closeNotification = {closeNotification}/>
+                <NotificationBox text = {"1234"} closeNotification = {closeNotification}/>
             </ModalBody>
             <ModalFooter>
                 <Button colorScheme='purple' mr={3} onClick={onClose}> Close </Button>
