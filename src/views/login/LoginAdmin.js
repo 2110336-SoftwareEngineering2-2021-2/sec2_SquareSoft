@@ -25,7 +25,7 @@ class LoginAdmin extends React.Component{
             <div>
                 <Navigator/>
                 <LoginFormAdmin />
-                {(this.state.isLoggedin)? <Navigate to="/home" replace={true}/>: null}
+                {(this.state.isLoggedin)? <Navigate to="/admin/home" replace={true}/>: null}
             </div>
         );
     }

@@ -2,9 +2,10 @@ import { Flex, Center, Text, Container, VStack } from '@chakra-ui/react'
 import VerificcationBox from '../../../components/donation-system/admin/transaction-verification';
 import { useEffect, useState } from 'react';
 import NavigatorAdmin from "../../../components/navigator-admin";
+import useForAdmin from '../../../components/for-admin';
 
 function TransactionVerification(){
-
+    useForAdmin();
     const [load, setLoad] = useState(false);
 
     //uncomment to edit loading API
