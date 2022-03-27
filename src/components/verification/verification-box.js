@@ -25,7 +25,7 @@ function VerificationModal({isOpen, onClose, _id, setHide}){
             getProjectOwner(_id)
                 .then(res => {setData(res.data);setLoad(true);})
         }
-    }, [isOpen]);
+    }, [isOpen, load, _id]);
 
     if(!load)
         return(
