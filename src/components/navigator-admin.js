@@ -41,7 +41,7 @@ class NavigatorAdmin extends React.Component{
 
     render(){
         
-        return <>
+        return <div>
             <Navbar bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href="/">ProjectLauncher</Navbar.Brand>
@@ -59,7 +59,7 @@ class NavigatorAdmin extends React.Component{
                 </Navbar.Collapse>
             </Container>
             </Navbar>
-        </>;
+        </div>;
     }
 }
 
