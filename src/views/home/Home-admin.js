@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Box, Text, Button, VStack , Center, Flex, Spacer } from '@chakra-ui/react'
 import NavigatorAdmin from './../../components/navigator-admin'
