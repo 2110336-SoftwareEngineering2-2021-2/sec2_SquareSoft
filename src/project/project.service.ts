@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, model } from 'mongoose';
+import { Model } from 'mongoose';
 import { project } from './project.model';
 
 @Injectable()
@@ -33,6 +33,39 @@ export class ProjectService {
 
     async findByName(body: any) {
         const result=await this.projectModel.findOne({ projectName: body['projectName']});
+        return result;
+    }
+
+    async findByNameAndCat(query: any){
+        // Check for empty query string
+        if(Object.keys(query).length === 0) throw new BadRequestException("Please provide projectName and category.")
+
+        // let projectName = "";
+        // let category = "fail";
+        // category = query["category"];
+        // try {
+        //   projectName = query["projectName"];
+        // } catch(e){
+        //     console.log(e);
+        // }
+
+        // try {
+        //   category = query["category"];
+        // } catch(e){
+        //     console.log(e);
+        // }
+
+        // console.log(projectName);
+        // console.log("--------------------")
+        // console.log(category);
+        console.log(query)
+        console.log("********************")
+        console.log(query["projectName"])
+        console.log("--------------------")
+        console.log(query["category"])
+
+        const result = "success";
+        // const result = await this.projectModel.find({projectName: query['projectName'], category: query['category']})
         return result;
     }
 
