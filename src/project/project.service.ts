@@ -36,31 +36,39 @@ export class ProjectService {
         return result;
     }
 
-    async findByNameAndCat(query: any){
-        // Check for empty query string
-        if (Object.keys(query).length === 0)
+    async findByNameAndCat(dto: any){
+        // Check for empty body
+        if (Object.keys(dto).length === 0)
             throw new BadRequestException(
-            "Please provide both projectName and category."
+            "Please provide projectName and category."
             );
 
-        const projectName = query["projectName"];
-        const category = query["category"];
+        const projectName = dto["projectName"];
+        const fundingType = dto["fundingType"];
+        const category = dto["category"];
+        const projectPublishStatus = dto["projectPublishStatus"];
 
-        // Check for empty projectName and projectCategory
+        // Check for empty projectName or category
         if (
             !projectName ||
             !category ||
+            !fundingType ||
+            !projectPublishStatus ||
             projectName.length === 0 ||
-            category.length === 0
+            category.length === 0 ||
+            fundingType.length === 0 ||
+            projectPublishStatus.length === 0
         )
             throw new BadRequestException(
-            "Please provide both projectName and category."
+            "Please provide projectName and category."
             );
 
         // Query database with regular expression
         const result = await this.projectModel.find({
             projectName: { $regex: projectName, $options: "i" },
             category: category,
+            fundingType: { $in: fundingType },
+            projectPublishStatus: { $in: projectPublishStatus },
         });
 
         if (result.length === 0) throw new NotFoundException();
