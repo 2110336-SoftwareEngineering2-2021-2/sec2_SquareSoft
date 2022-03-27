@@ -2,7 +2,7 @@ import React, { useState} from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import Navigator from "../../../components/navigator";
+import NavigatorAdmin from "../../../components/navigator-admin";
 import { getOverviewProjectOwner } from "../../../api/verification/projectOwner/projectOwner-verification-api";
 
 import { Flex, Center, Text, Container, VStack } from '@chakra-ui/react'
@@ -22,7 +22,7 @@ function OverviewVerification(){
 
     return(
         <>
-            <Navigator/>
+            <NavigatorAdmin/>
             <Container maxW = "container.xl" p = {0}>
                 <Flex px = {20} alignContent = "center">
                     <Center w='full' py = {5}>
@@ -36,6 +36,7 @@ function OverviewVerification(){
                                         _id = {data[1][idx]._id}  
                                         firstname = {data[1][idx].firstname} 
                                         lastname ={data[1][idx].lastname}
+                                        key={idx.toString()}
                                     />
                                 ))
                             }

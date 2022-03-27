@@ -1,5 +1,5 @@
 import React from "react";
-import Navigator from "../../components/navigator";
+import NavigatorAdmin from "../../components/navigator-admin";
 import { useNavigate, useParams } from "react-router-dom";
 
 
@@ -14,7 +14,7 @@ function AdminProjectList(props){
 
     return (
         <div>
-            <Navigator/>
+            <NavigatorAdmin/>
             <AdminProjectListComponent />
         </div>
     );
