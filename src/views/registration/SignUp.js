@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-import {Navigate, Redirect} from 'react-router-dom'
+import React from 'react'
 import { register } from '../../api/registration/registration';
 import Navigator from "../../components/navigator";
 import {useNavigate} from 'react-router-dom'
@@ -97,7 +96,7 @@ const SignUp = (props) =>{
         let bankAccountSurname = e.target[8].value
         let bankAccountNumber = e.target[9].value
         let bankName = e.target[10].value
-        if (confirmPassword!=password){
+        if (confirmPassword!==password){
             state = false;
             err += "Password isn't equal to Confirm Password\n"
         }

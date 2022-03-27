@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-import {Navigate, Redirect} from 'react-router-dom';
+import React from 'react'
 import { registerProjectOwner } from '../../api/registration/registrationProjectOwner';
 import Navigator from "../../components/navigator";
 import {useNavigate} from 'react-router-dom'
@@ -163,14 +162,14 @@ const SignUpProjectOwner = (props) =>{
         let subDistrict = e.target[11].value
         let zipCode = e.target[12].value
         let bankAccountName = e.target[13].value
-        let bankAccountSurname = e.target[14].value
+        //let bankAccountSurname = e.target[14].value
         let bankAccountNumber = e.target[15].value
         let bankName = e.target[16].value
         let bankBook = e.target[17].files[0];
         let idCardPicture = e.target[18].files[0];
         //console.log(n1)
         //console.log(bankBook)
-        if (confirmPassword!=password){
+        if (confirmPassword!==password){
             state = false;
             err += "Password isn't equal to Confirm Password\n"
         }
