@@ -39,50 +39,38 @@ export class ProjectService {
     async findByNameAndCat(query: any){
         // Check for empty query string
         if (Object.keys(query).length === 0)
-          throw new BadRequestException(
+            throw new BadRequestException(
             "Please provide both projectName and category."
-          );
+            );
 
         const projectName = query["projectName"];
         const category = query["category"];
 
         // Check for empty projectName and projectCategory
         if (
-          !projectName ||
-          !category ||
-          projectName.length === 0 ||
-          category.length === 0
+            !projectName ||
+            !category ||
+            projectName.length === 0 ||
+            category.length === 0
         )
-          throw new BadRequestException(
+            throw new BadRequestException(
             "Please provide both projectName and category."
-          );
-
-        // let projectName = "";
-        // let category = "fail";
-        // category = query["category"];
-        // try {
-        //   projectName = query["projectName"];
-        // } catch(e){
-        //     console.log(e);
-        // }
-
-        // try {
-        //   category = query["category"];
-        // } catch(e){
-        //     console.log(e);
-        // }
+            );
 
         console.log(projectName);
-        console.log("--------------------")
+        console.log("--------------------");
         console.log(category);
-        console.log(query)
-        // console.log("********************")
-        // console.log(query["projectName"])
-        // console.log("--------------------")
-        // console.log(query["category"])
+        console.log("********************");
+        console.log(query);
 
-        const result = "success";
-        // const result = await this.projectModel.find({projectName: query['projectName'], category: query['category']})
+        // const result = "success";
+        const result = await this.projectModel.find({
+            // projectName: { $regex: /projectName/, $options: "i" },
+            projectName: projectName,
+            category: category,
+        });
+
+        if (result.length === 0) throw new NotFoundException();
         return result;
     }
 
