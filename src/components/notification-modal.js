@@ -58,7 +58,7 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
                     {
                         !appear && 
                         <Box borderWidth='1px' borderRadius='xs' overflow='hidden'>
-                        <Text p = "10px">
+                        <Text p = "9px">
                             Lorem ipsum is placeholder text commonly used in the graphic, print, and
                             publishing industries for previewing layouts and visual mockups.1111112dafgmklsdjfgljdlsfgjl;ksdfjgl;jsdlfgjklsdfjgljsdfgljsldkfjgl;sdjfgkljsdflg;jls;dkfjgkl;sdjfgkl;jsdfl;gjs;dlfg
                         </Text>
@@ -67,7 +67,7 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
                     {
                         appear && 
                         <Box borderWidth='3px' borderRadius='lg' overflow='hidden'>
-                        <Text p = "10px">
+                        <Text p = "7px">
                             Lorem ipsum is placeholder text commonly used in the graphic, print, and
                             publishing industries for previewing layouts and visual mockups.1111112dafgmklsdjfgljdlsfgjl;ksdfjgl;jsdlfgjklsdfjgljsdfgljsldkfjgl;sdjfgkljsdflg;jls;dkfjgkl;sdjfgkl;jsdfl;gjs;dlfg
                         </Text>
