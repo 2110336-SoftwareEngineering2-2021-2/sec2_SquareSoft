@@ -7,7 +7,7 @@ import Login from '../views/login/Login'
 import LoginAdmin from '../views/login/LoginAdmin'
 import SignUp from '../views/registration/SignUp';
 import SignUpProjectOwner from '../views/registration/SignUpProjectOwner';
-import VerifyTansaction from '../views/donation-system/admin/transactionVerification';
+import TransactionVerification from '../views/donation-system/admin/transactionVerification';
 import ProjectListOfAnOwner from '../views/project-list/ProjectListOfAnOwner';
 import MyProject from '../views/project-list/MyProject';
 import Donation from '../views/donation-system/Donation'
@@ -30,7 +30,7 @@ const MainRoutes = () => {
           <Route path="admin/login" element={<LoginAdmin />}></Route>
           <Route path="admin/project-owner" element={<OverviewVerification />} />
           <Route path="admin/project-owner/specified/:id" element={<ProjectOwnerVerification />} />
-          <Route path="admin/transaction" element={<VerifyTansaction />} />
+          <Route path="admin/transaction" element={<TransactionVerification />} />
           <Route path="admin/projects" element={<AdminProjectList />} />
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 

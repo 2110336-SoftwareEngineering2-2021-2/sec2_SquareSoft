@@ -11,10 +11,12 @@ function TransactionVerification(){
     /*
     useEffect(()=>{
         if (!load){
-            getData().then(res => {
+            getData()
+            .then(res => {
                     setData(res.data); 
                     setLoad(true);
-                }).error();
+            })
+            .error();
         }
     });
     */
