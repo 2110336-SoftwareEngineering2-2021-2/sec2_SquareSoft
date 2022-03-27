@@ -47,6 +47,12 @@ export class ProjectController {
         return results;
     }
 
+    @Get('find-by-name-and-cat')
+    async findByNameAndCat(@Query () query){
+        const results=this.projectService.findByNameAndCat(query);
+        return results;
+    }
+
     
 
     
