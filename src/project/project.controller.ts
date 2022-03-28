@@ -21,7 +21,6 @@ export class ProjectController {
         return results;
     }
 
-
     @UseGuards(RoleGuard.ProjectOwnerGuard)
     @Get('find-by-owner')
     async findByOwnerId(@Req() req: any) {
@@ -69,6 +68,11 @@ export class ProjectController {
         return await this.projectService.editProject(user, body.projectID, body.fields);
     }
     
+    @Post('find-by-name-and-cat')
+    async findByNameAndCat(@Body () dto){
+        const results=this.projectService.findByNameAndCat(dto);
+        return results;
+    }
 
 }
 

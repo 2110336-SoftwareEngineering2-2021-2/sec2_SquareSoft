@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, model } from 'mongoose';
 import { EditProjectField } from './project.dto';
@@ -34,6 +34,48 @@ export class ProjectService {
 
     async findByName(body: any) {
         const result=await this.projectModel.findOne({ projectName: body['projectName']});
+        return result;
+    }
+
+    async findByNameAndCat(body: any){
+        // Check for empty body
+        if (Object.keys(body).length === 0)
+            throw new BadRequestException(
+            "Please provide projectName and category."
+            );
+
+        const projectName = body["projectName"];
+        const fundingType = body["fundingType"];
+        const category = body["category"];
+        const projectPublishStatus = body["projectPublishStatus"];
+
+        // Check for empty projectName or category
+        if (
+            !projectName ||
+            !category ||
+            !fundingType ||
+            !projectPublishStatus ||
+            projectName.length === 0 ||
+            category.length === 0 ||
+            fundingType.length === 0 ||
+            projectPublishStatus.length === 0
+        )
+            throw new BadRequestException(
+            "Please provide projectName and category."
+            );
+
+        // Query database with regular expression
+        const result = await this.projectModel.find(
+            {
+            projectName: { $regex: projectName, $options: "i" },
+            category: category,
+            fundingType: fundingType,
+            projectPublishStatus: projectPublishStatus,
+            },
+            "projectName description projectPicture"
+        );
+
+        if (result.length === 0) throw new NotFoundException();
         return result;
     }
 
