@@ -40,30 +40,30 @@ function getAllProjects() {
     ]
 }
 
-function getFilteredProjects(searchValue, status, type, category) {
-    console.log(searchValue)
-    console.log(status)
-    console.log(type)
-    console.log(category)
-    return [{
-            _id: "id1",
-            title: "Search 1",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id2",
-            title: "Search 2",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id3",
-            title: "Search 3",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-    ]
+async function getFilteredProjects(searchValue, status, type, category) {
+    try {
+        const response = await axios.post(basedURL.concat(`project/find-by-name-and-cat`), {
+            projectName: searchValue,
+            fundingType: type,
+            category: category,
+            projectPublishStatus: status
+        })
+        const projectList = await Promise.all(response.data.map(async (e) => {
+            const img_response = await getFileURL(e.projectPicture)
+            const imgUrl = img_response.data
+            return {
+                _id: e._id,
+                title: e.projectName,
+                description: e.description,
+                imageUrl: imgUrl,
+            }
+        }))
+        return projectList
+
+    } catch (err) {
+        console.log(err)
+        return []
+    }
 }
 
 async function getMyProjects(token) {
