@@ -14,6 +14,7 @@ export const ProjectSchema = new mongoose.Schema({
   projectVideo: { type: String, required: true },
   projectPublishStatus: { type: String, required: true },
   progress: { type: Number, required: true, default: 0 },
+  withdrawnAmount: { type: Number, required: true, default: 0 },
 });
 
 export interface project{
@@ -28,6 +29,7 @@ export interface project{
   projectOwnerID: string;
   projectPicture: string;
   projectPublishStatus: string;
-  progress: Number;
+  progress: number;
+  withdrawnAmount: number;
 }
 
