@@ -13,7 +13,7 @@ class HomeComponent extends React.Component {
         super(props)
         this.state = {
             searchValue: '', 
-            filterStatusValue: ['in-progress'],
+            filterStatusValue: ['published'],
             filterTypeValue: ['โครงการไม่แสวงหาผลกำไร', 'โครงการเชิงพาณิชย์'],
             filterCategoryValue: ['ศิลปะ', 'อาหาร', 'ดนตรี', 'เทคโนโลยี', 'แฟชัน', 'สุขภาพ', 'วิจัย', 'สังคม'],
             projectList: [],
@@ -37,8 +37,8 @@ class HomeComponent extends React.Component {
         }) 
     }
 
-    searchOnSubmit() {
-        const projectList = getFilteredProjects(this.state.searchValue, this.state.filterStatusValue, this.state.filterTypeValue, this.state.filterCategoryValue)
+    async searchOnSubmit() {
+        const projectList = await getFilteredProjects(this.state.searchValue, this.state.filterStatusValue, this.state.filterTypeValue, this.state.filterCategoryValue)
         this.setState({projectList: projectList, isRecommended: false})
     }
 
@@ -70,6 +70,7 @@ class HomeComponent extends React.Component {
                         searchOnSubmit={this.searchOnSubmit}
                     />
                     {this.state.isRecommended && <Text fontSize='20'>Recommended Projects</Text>}
+                    {this.state.projectList.length === 0 && <Center ><Text mt='50' fontSize='20'>Sorry, we couldn't find any results for your search</Text></Center>}
                     <ProjectList projectList={this.state.projectList} isOwner={false}/>
                 </VStack>
             </Center>

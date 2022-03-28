@@ -28,7 +28,7 @@ function FilterModal(props) {
                             <CheckboxGroup isInline onChange={(e) => props.filterStatusOnChange(e)} value={props.filterStatusValue}>
                                 <Grid templateColumns='repeat(2, 1fr)' gap={5} bg='white'>
                                     <GridItem>
-                                        <Checkbox value='in-progress'>ดำเนินการอยู่</Checkbox>
+                                        <Checkbox value='published'>ดำเนินการอยู่</Checkbox>
                                     </GridItem>
                                     <GridItem>
                                         <Checkbox value='successful'>สำเร็จ</Checkbox>
