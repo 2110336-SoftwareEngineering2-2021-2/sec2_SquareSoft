@@ -12,12 +12,13 @@ function MyProjectComponent() {
     const navigate = useNavigate();
     const [projectList, setProjectList] = useState([])
 
-    useEffect(() => {
+    useEffect(async () => {
         try {
-            const newProjectList = getAllUnpublishedProjects(Cookies.get('token'))
+            const newProjectList = await getAllUnpublishedProjects(Cookies.get('token'))
             setProjectList(newProjectList)
-        } catch {
-            navigate('/')
+        } catch(err) {
+            console.log(err)
+            //navigate('/')
         }
         
     }, [])
