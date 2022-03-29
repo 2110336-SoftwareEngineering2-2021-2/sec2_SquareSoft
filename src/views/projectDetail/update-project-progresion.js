@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Text, Badge, Button, VStack , HStack, Textarea, Center } from '@chakra-ui/react'
+import { Box, Text, Badge, Button, VStack , HStack, Center } from '@chakra-ui/react'
 import { Slider, SliderTrack, SliderFilledTrack, SliderThumb } from '@chakra-ui/react'
-import { Progress } from '@chakra-ui/react'
 import Navigator from './../../components/navigator'
 import { getProjectProgressByID, setProjectProgression } from '../../api/project-detail/update-project-progression';
 
@@ -19,7 +18,6 @@ function UpdateProjectProgression(){
             .then((res) => {
                 setStartValueOfSlider(res.data.progress!==undefined ? res.data.progress:0);
                 setValueOfSlider(res.data.progress!==undefined ? res.data.progress:0);
-                console.log(res);
             })
             .catch(() => {
                 setStartValueOfSlider(0);
