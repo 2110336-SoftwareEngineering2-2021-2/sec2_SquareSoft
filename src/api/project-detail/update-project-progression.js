@@ -6,5 +6,17 @@ async function getProjectProgressByID(id) {
     return await response;
 }
 
+async function setProjectProgression(id,progress) {
+    const token = getToken();
+    const config = getConfig(token);
 
-export {getProjectProgressByID};
+    const response = await axios.get(   basedURL.concat('project/update-project'), 
+                                        {projectID : id, progress : progress}, 
+                                        config);
+
+    console.log(response);
+    return await response;
+}
+
+
+export {getProjectProgressByID, setProjectProgression};

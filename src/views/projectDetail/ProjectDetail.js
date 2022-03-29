@@ -18,6 +18,7 @@ import {
     HStack,
     Badge,
     Progress,} from '@chakra-ui/react'
+import Cookies from 'js-cookie';
 
 const data = 
     {
@@ -47,6 +48,13 @@ const ProjectDetail =()=>{
     const [progress,setProgress]=useState(null);
     const { id } = useParams();
 
+    const navigate = useNavigate();
+    const onSetProgress = () => {
+        navigate('/projects/update-progression/'.concat(id));
+    }
+
+    const role = Cookies.get('role');
+
     useEffect(() => {
         getProjectById(id)
             .then(res => {
@@ -55,8 +63,7 @@ const ProjectDetail =()=>{
         if(!progress){
             getProjectProgressByID(id)
             .then((res) => {
-                console.log(res.data.progress)
-                setProgress(res.data.progress!=undefined ? res.data.progress:0);
+                setProgress(res.data.progress!==undefined ? res.data.progress:0);
             })
             .catch(() => {
                 setProgress(0);
@@ -114,7 +121,8 @@ const ProjectDetail =()=>{
             </Box>
             <div className='button-grid'>  
                 <Button colorScheme='blue' variant='solid' onClick={onBack}> BACK </Button>
-                <Button colorScheme='red' variant='solid' onClick={onSupport}> SUPPORT </Button>
+                {role!=="projectOwner" && <Button colorScheme='red' variant='solid' onClick={onSupport}> SUPPORT </Button> }
+                {role==="projectOwner" && <Button colorScheme='red' variant='solid' onClick={onSetProgress}> Set Progress </Button>}
             </div>
         </div>
     )

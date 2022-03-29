@@ -27,7 +27,7 @@ const MainRoutes = () => {
           <Route path="projects/my-project" element={<MyProject />}></Route>
           <Route path="projects/project-owner/:ownerid" element={<ProjectListOfAnOwner />}></Route>
           <Route path="projects/:id" element={<ProjectDetail/>}/> 
-          <Route path="projects/update-progression" element={<UpdateProjectProgression/>}/> 
+          <Route path="projects/update-progression/:id" element={<UpdateProjectProgression/>}/> 
           <Route path="admin/login" element={<LoginAdmin />}></Route>
           <Route path="admin/home" element={<AdminHome />}></Route>
           <Route path="admin/project-owner" element={<OverviewVerification />} />
