@@ -16,6 +16,9 @@ import UpdateProjectProgression from '../views/projectDetail/update-project-prog
 import AdminProjectList from '../views/project-list/AdminProjectList';
 import AdminHome from '../views/home/Home-admin';
 import ChangePassword from '../views/change-password/ChangePassword';
+import Deposit from '../views/donation-system/Deposit'
+import Withdraw from '../views/donation-system/Withdraw'
+import WithdrawProjectOwner from '../views/donation-system/WithdrawProjectOwner'
 
 const MainRoutes = () => {
   return (
@@ -38,6 +41,9 @@ const MainRoutes = () => {
           <Route path= "create-project" element={<CreateProject/>}/>
           <Route path= "donation" element={<Donation/>}/>
           <Route path="change-password" element={<ChangePassword/>}/>
+          <Route path= "donation/deposit" element={<Deposit/>}/> 
+          <Route path= "donation/withdraw" element={<Withdraw/>}/> 
+          <Route path= "donation/withdrawProjectOwner" element={<WithdrawProjectOwner/>}/> 
         </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,19 @@
+.box-input{
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.withdraw{
+    text-align: center;
+    color: #4CAF50;
+    padding: 15px;
+    font-size: 45px;
+}
+.balance{
+    text-align: center;
+    /* text-transform: uppercase; */
+    color: #3a493b;
+    padding: 15px;
+    font-size: 30px;
+   
+}
