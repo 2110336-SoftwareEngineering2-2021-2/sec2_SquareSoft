@@ -10,6 +10,10 @@ import { ProjectModule } from './project/project.module';
 
 import { FileUploaderModule } from './file-uploader/file-uploader.module';
 import { ConfigModule } from '@nestjs/config';
+
+import { EmailModule } from './email/email.module';
+import { NotificationModule } from './notification/notification.module'
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,7 +23,9 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     TransactionModule,
     ProjectModule,
-    FileUploaderModule
+    FileUploaderModule,
+    EmailModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService],
