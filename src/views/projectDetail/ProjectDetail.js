@@ -81,6 +81,10 @@ const ProjectDetail =()=>{
                 </Thead>
                 <Tbody>
                     <Tr className='item'>
+                        <Td>Name :</Td>
+                        <Td>{project.projectName}</Td>
+                    </Tr>
+                    <Tr className='item'>
                         <Td>Objective :</Td>
                         <Td>{project.objective}</Td>
                     </Tr>

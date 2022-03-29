@@ -6,9 +6,9 @@ const getProjectById=async (id)=> {
     const response = await axios.get(basedURL.concat(`project/find-by-id?_id=${id}`), {
     })
     const project=response.data
-    
+
     return {
-        title: project.projectName,
+        projectName: project.projectName,
         description: project.description,
         fundingType: project.fundingType,
         category: project.category,
