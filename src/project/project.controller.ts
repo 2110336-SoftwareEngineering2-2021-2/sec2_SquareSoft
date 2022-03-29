@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post ,UseGuards,Query,Req, Put, Patch, Request, Param} from '@nestjs/common';
+import { Body, Controller, Get, Post ,UseGuards,Query,Req, Delete, Put, Patch, Request, Param} from '@nestjs/common';
 import { resourceLimits } from 'worker_threads';
 import { ProjectService } from './project.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
@@ -29,6 +29,13 @@ export class ProjectController {
         return results;
     }
 
+    @UseGuards(RoleGuard.AdminGuard)
+    @Get('find-publish-status-by-id')
+    async findByIdPublishStatus(@Query () query) {
+        const results=this.projectService.findByIdPublishStatus(query);
+        return results;
+    }
+
     @Get('find-publish-status-by-name')
     async findByNamePublishStatus(@Query () query) {
         const results=this.projectService.findByNamePublishStatus(query);
@@ -47,6 +54,32 @@ export class ProjectController {
         return results;
     }
 
+    // @UseGuards(RoleGuard.ProjectOwnerGuard) 
+    @Delete('delete-by-id')
+    async deleteProjectById(@Query () query) {
+        const results=await this.projectService.deleteProjectById(query);
+        return results;
+    }
+
+    //@UseGuards(RoleGuard.AdminGuard) 
+    @Get('find-by-unpublish')
+    async findByUnpublish() {
+        const results=await this.projectService.findByStatus("unpublished");
+        return results;
+    }
+
+    @Post('edit-status')
+    async editStatus(@Query () query) {
+        const results=await this.projectService.editStatus(query);
+        return results;
+    }
+
+    @Get('find-recommended-project')
+    async findRecommendedProject() { 
+        const results=await this.projectService.findRecommendedProject();
+        return results;
+    }
+    
     @Patch('update-project')
     @UseGuards(RoleGuard.ProjectOwnerGuard)
     async updateProject(@Body() body: UpdateProjectDTO, @Request() req: Request){
