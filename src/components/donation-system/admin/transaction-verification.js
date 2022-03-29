@@ -141,21 +141,22 @@ function VerificcationBox(props){
             "bank-name":"Sompong Khaingam",
             "slip-image" : "https://scontent.fhdy4-1.fna.fbcdn.net/v/t1.18169-9/25498309_530873967291327_1223835557041491412_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeF_jJDd37Lo_Sj3yIJd2YxAhYgla7dAzDSFiCVrt0DMNLDFvF5HFFbc5jC3UPVME9s4E6C63I81eHIdoXzGN5OT&_nc_ohc=GR0s57yFea8AX-UKBaj&_nc_ht=scontent.fhdy4-1.fna&oh=00_AT9oFjpI44ZOfzIpGV10UE22Z9zy1v3RtxRHKkqjGWvipA&oe=62391651"}
     
+    // const data = props.data
+
     return(
         !hide&&<div>
         <Box p="5" w="1000px" borderWidth="1px">
             <HStack spacing='6px'>
                 <HStack>
                     <Text>ชื่อ : </Text>
-                    <Text fontWeight="bold">สมพงษ์</Text>
+                    <Text fontWeight="bold">{data.name}</Text>
                     <Text>นามสกุล : </Text>
-                    <Text fontWeight="bold">ไข่งาม</Text>
+                    <Text fontWeight="bold">{data.surname}</Text>
                     <Text>Username : </Text>
-                    <Text fontWeight="bold">Sompong Khaingam</Text>
+                    <Text fontWeight="bold">{data.username}</Text>
                 </HStack>
                 <Badge borderRadius='full' colorScheme='teal'>เติมเงิน</Badge>
-                <Text fontWeight="bold" >จำนวน : 1,000,000 บาท</Text>
-                <Spacer/>
+                <Text fontWeight="bold" >จำนวน : {data.amount} บาท</Text>
                 <Button onClick={onOpen}>ตรวจสอบ</Button>
             </HStack>
         </Box>

@@ -16,6 +16,7 @@ import UpdateProjectProgression from '../views/projectDetail/update-project-prog
 import AdminProjectList from '../views/project-list/AdminProjectList';
 import AdminHome from '../views/home/Home-admin';
 import ChangePassword from '../views/change-password/ChangePassword';
+import PersonalDetails from '../views/PersonalDetails';
 
 const MainRoutes = () => {
   return (
@@ -38,6 +39,7 @@ const MainRoutes = () => {
           <Route path= "create-project" element={<CreateProject/>}/>
           <Route path= "donation" element={<Donation/>}/>
           <Route path="change-password" element={<ChangePassword/>}/>
+          <Route path = "personal-details" element = {<PersonalDetails/>}/>
         </Routes>
     </BrowserRouter>
   );

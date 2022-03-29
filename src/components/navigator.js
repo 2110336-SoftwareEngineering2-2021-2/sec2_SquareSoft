@@ -97,10 +97,11 @@ class Navigator extends React.Component{
                 <Nav className="me-auto">
                     <Nav.Link href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Link</Nav.Link>
-                    {(this.state.isLoggedin && this.props.balance!=="undefined")&&<Nav.Link href='donation'>
+                    {(this.state.isLoggedin && (this.state.role =='projectOwner' | this.state.role =='supporter') && this.props.balance!=="undefined")&&<Nav.Link href='donation'>
                         <div class = "hstack gap-2">
                             <div> {this.state.balance}</div>
                             <img src={coinIcon} alt="" width="28" height="28"/>
+                            {/* {this.state.role} */}
                         </div>
                     </Nav.Link>}
                 </Nav>
@@ -114,7 +115,8 @@ class Navigator extends React.Component{
                         {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
                         {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
                         {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up-projectOwner')}}>Sign Up-PO</NavDropdown.Item>}
-                        {this.state.isLoggedin && <NavDropdown.Item onClick = {() => {this.setNotificationIsOpen(true);}}>Notification({this.state.numberOfNotifcation})</NavDropdown.Item>}
+                        {<NavDropdown.Item onClick = {() => {this.setNotificationIsOpen(true);}}>Notification({this.state.numberOfNotifcation})</NavDropdown.Item>}
+                        {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/personal-details')}}>Personal Details</NavDropdown.Item>}
                         {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/projects/my-project')}}>My Projects</NavDropdown.Item>}
                         {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/create-project')}}>Create Project</NavDropdown.Item>}
                         {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/change-password')}}>Change Password</NavDropdown.Item>}
