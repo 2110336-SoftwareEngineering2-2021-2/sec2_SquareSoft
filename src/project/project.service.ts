@@ -1,23 +1,19 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, model } from 'mongoose';
+import { Model } from 'mongoose';
 import { EditProjectField } from './project.dto';
 import { project } from './project.model';
 
 @Injectable()
 export class ProjectService {
-    
-    
-    
-    
     constructor(
         @InjectModel('project') private readonly projectModel: Model<project>
     ) { }
-    async findRecommendedProject() {
-      
-        return this.projectModel.aggregate([{ $match: {"projectPublishStatus":"published"}},{ $sample: { size: 5 } }])
 
+    async findRecommendedProject() {
+        return this.projectModel.aggregate([{ $match: {"projectPublishStatus":"published"}},{ $sample: { size: 5 } }])
     }
+
     async editStatus(query: any) {
         const result = await this.projectModel.findOne({ _id: query['_id'] });
         if(!result)
@@ -31,15 +27,13 @@ export class ProjectService {
             throw new HttpException({"msg": "cannot update status"
             }, HttpStatus.FORBIDDEN);
         return result2;
-        
-
-      
     }
+
     async findByStatus(status: String) {
-        const result=await this.projectModel.find({projectPublishStatus: status});
+        const result = await this.projectModel.find({projectPublishStatus: status}, "projectName description projectPicture");
         return result;
-
     }
+
     async deleteProjectById(query: any) {
 
             console.log(query)
@@ -56,11 +50,8 @@ export class ProjectService {
             }, HttpStatus.FORBIDDEN);
 
             return result2;
-    
-           
-        
-         
-    }  
+    }
+
     async findByProjectOwnerID(query: any,projectPublishStatus:String) {
         try{
             let queryBlock={ projectOwnerID: query['projectOwnerID']}
@@ -74,7 +65,6 @@ export class ProjectService {
         catch(err){
             throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
         }
-        
     }
 
     async findByNamePublishStatus(body: any) {
