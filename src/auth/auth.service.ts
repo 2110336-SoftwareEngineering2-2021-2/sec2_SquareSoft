@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, PreconditionFailedException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, PreconditionFailedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
 
 @Injectable()
@@ -26,26 +26,31 @@ export class AuthService {
     }
 
     async changePassword(user: any, body: Body){
-        console.log(user._id)
-        console.log(typeof user._id)
-        console.log(user.username)
-        console.log(typeof user.username)
-        console.log(user.role)
-        console.log(typeof user.role)
-        console.log(body["oldPass"])
-        console.log(body["newPass"])
-
         const oldPass = body["oldPass"];
         const newPass = body["newPass"];
 
-        if(oldPass && newPass){
+        // Check if both old password and new password exist in the body
+        // Also check for empty string
+        if(oldPass && newPass && (oldPass.length !== 0) && (newPass.length !== 0)){
             const userObject = await this.registrationSystemService.findByID(user._id, user.role);
-            if(await compare(oldPass, userObject.hashpassword)) return "password matched!";
-            else throw new PreconditionFailedException("Old password is incorrect.");
 
-            // const ret = this.registrationSystemService.changePassword(user._id, user.username, user.role, oldPass, newPass);
+            // We do not have to check if user really exist because we have already done that in the Role Guard
+            if(await compare(oldPass, userObject.hashpassword)){                
+                userObject.hashpassword = await hash(newPass, 12);
 
-
+                try {
+                  userObject.save();
+                  return "Password changed successfully.";
+                } catch (error) {
+                  throw new HttpException(
+                    {
+                      msg: "register failed: database error",
+                      err: error,
+                    },
+                    HttpStatus.UNPROCESSABLE_ENTITY
+                  );
+                }
+            } else throw new PreconditionFailedException("Old password is incorrect.");
         } else throw new BadRequestException("Please provide old password and new password.")
     }
 }
