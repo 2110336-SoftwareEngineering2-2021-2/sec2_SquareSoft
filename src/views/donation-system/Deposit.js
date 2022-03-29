@@ -27,7 +27,6 @@ async function handleConfirm(e){
                 "bank": bankName},
                 {
                     headers: { Authorization: "Bearer "+getToken() },
-                    // data: {amount,paymentMethod:"bank transfer",bank:bankName}
                 }
             );
     
@@ -39,7 +38,7 @@ async function handleConfirm(e){
             },
             {
                 headers: { Authorization: "Bearer "+getToken() },
-                // data: {amount,paymentMethod:"bank transfer",bank:bankName}
+                
             }
         );
     
