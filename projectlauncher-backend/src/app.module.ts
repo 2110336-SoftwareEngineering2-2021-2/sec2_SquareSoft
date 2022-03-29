@@ -7,7 +7,8 @@ import { RegistrationSystemModule } from './registration-system/registration-sys
 import { AuthModule } from './auth/auth.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { ProjectModule } from './project/project.module';
-
+import { EmailModule } from './email/email.module';
+import { NotificationModule } from './notification/notification.module';
 import { FileUploaderModule } from './file-uploader/file-uploader.module';
 import { ConfigModule } from '@nestjs/config';
 @Module({
@@ -19,7 +20,9 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     TransactionModule,
     ProjectModule,
-    FileUploaderModule
+    FileUploaderModule,
+    EmailModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService],

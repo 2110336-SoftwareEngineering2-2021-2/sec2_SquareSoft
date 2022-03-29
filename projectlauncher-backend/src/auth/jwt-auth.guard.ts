@@ -88,6 +88,7 @@ export class AllRoleGuard extends AuthGuard("jwt") {
 
         // check if user exists
         const user = await this.registrationSystemService.findByID(payload._id, payload.role);
+        
         if (!user || user.username != payload.username) throw new UnauthorizedException();
 
         return true
