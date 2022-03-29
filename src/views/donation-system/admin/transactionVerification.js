@@ -13,8 +13,8 @@ function TransactionVerification(){
         if (!data){
             getTransactionVerification()
             .then(res => {
-                    console.log(res);
-                    setData(res.data); 
+                console.log(res);
+                setData(res.data); 
             })
             .catch();
         }
