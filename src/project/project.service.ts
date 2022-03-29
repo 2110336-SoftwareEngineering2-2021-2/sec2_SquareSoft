@@ -146,6 +146,7 @@ export class ProjectService {
 
     async getProjectProgress(projectID: string){
         let project = await this.projectModel.findById(projectID);
+        if(project["progress"] != undefined) throw new HttpException({ "msg": "invalid progress" }, HttpStatus.BAD_REQUEST);
         return {
             "projectID": project._id,
             "progress": project.progress
