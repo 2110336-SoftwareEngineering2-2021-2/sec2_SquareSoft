@@ -1,6 +1,6 @@
 import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, 
-    Input, Image } from '@chakra-ui/react'
+    Input, Image, Spacer } from '@chakra-ui/react'
     import React, { useEffect, useState } from 'react';
     import axios from 'axios'
     import {basedURL, getToken} from "../../../api/index.js"
@@ -151,6 +151,7 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
                     </HStack>
                     <Badge borderRadius='full' colorScheme='teal'>เติมเงิน</Badge>
                     <Text fontWeight="bold" >จำนวน : {data.amount}</Text>
+                    <Spacer/>
                     <Button onClick={onOpen}>ตรวจสอบ</Button>
                 </HStack>
             </Box>

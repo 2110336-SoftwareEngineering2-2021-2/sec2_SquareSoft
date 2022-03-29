@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { basedURL, getToken} from '../../index';
+import { basedURL, getToken, getConfig } from '../../index';
 
 async function getTransactionVerification() {
     const token = getToken();
@@ -11,4 +11,4 @@ async function getTransactionVerification() {
 }
 
 
-export default {getTransactionVerification};
+export {getTransactionVerification};

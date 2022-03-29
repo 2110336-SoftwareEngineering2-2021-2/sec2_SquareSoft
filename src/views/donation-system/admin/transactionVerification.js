@@ -29,7 +29,10 @@ function TransactionVerification(){
         </div>
     );*/
         // Do not forget to add key to each verification box
-    return(
+    if(!data){
+        return(<></>);
+    }
+    /*return(
         <div>
             <NavigatorAdmin />
             <Container maxW = "container.xl" p = {0}>
@@ -44,7 +47,7 @@ function TransactionVerification(){
                 </Flex>
             </Container>
         </div>
-    );
+    );*/
 }
 
 export default TransactionVerification;
