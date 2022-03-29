@@ -17,8 +17,10 @@ function ProjectBox(props) {
     }, [])
 
     const handleSave = () => {
+        
         try {
-            changeProjectStatus(props._id, status)
+            const token = Cookies.get('token')
+            changeProjectStatus(props._id, status, token)
             toast({
                 position: 'top',
                 title: `Project status has been changed successfully.`,
