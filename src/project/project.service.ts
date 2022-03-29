@@ -31,6 +31,11 @@ export class ProjectService {
         return result['projectPublishStatus'];
     }
 
+    async findByIdPublishStatus(body: any) {
+        const result=await this.projectModel.findOne({ _id: body['_id']});
+        return result['projectPublishStatus'];
+    }
+
     async findByName(body: any) {
         const result=await this.projectModel.findOne({ projectName: body['projectName']});
         return result;
