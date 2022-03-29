@@ -3,6 +3,8 @@ import VerificcationBox from '../../../components/donation-system/admin/transact
 import { useEffect, useState } from 'react';
 import Navigator from "../../../components/navigator";
 import {Row, Col, Card, Button} from "react-bootstrap";
+import axios from 'axios';
+import {basedURL, getToken} from "../../../api/index.js"
 
 function TransactionVerification(){
 
@@ -28,25 +30,38 @@ function TransactionVerification(){
             <Text>loading data...</Text>
         </div>
     );*/
+    // useEffect(() => {
+    //     realData();
+    // }, []);
+    const realData = () => {axios.get(basedURL.concat('transaction/adminGetUnfinishedUserTX'), {
+        headers: { Authorization: "Bearer " + getToken() }
+    }).then((result)=>{console.log("Fuck code")})
+    }
+    // console.log(realData)
     
-    const data = [{"name":"Sompong", 
-    "surname":"Khaingam",
-    "username":"Sompong.K",
-    "bank":"Kasikorn Bank",
-    "time":"19:20",
-    "date":"19/7/2022",
-    "amount":200,
-    "bank-name":"Sompong Khaingam",
-    "slip-image" : "https://scontent.fhdy4-1.fna.fbcdn.net/v/t1.18169-9/25498309_530873967291327_1223835557041491412_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeF_jJDd37Lo_Sj3yIJd2YxAhYgla7dAzDSFiCVrt0DMNLDFvF5HFFbc5jC3UPVME9s4E6C63I81eHIdoXzGN5OT&_nc_ohc=GR0s57yFea8AX-UKBaj&_nc_ht=scontent.fhdy4-1.fna&oh=00_AT9oFjpI44ZOfzIpGV10UE22Z9zy1v3RtxRHKkqjGWvipA&oe=62391651"}
-    , {"name":"Somp", 
-    "surname":"Khain",
-    "username":"So.K",
-    "bank":"Kasikorn Bank",
-    "time":"19:20",
-    "date":"19/7/2022",
-    "amount":200,
-    "bank-name":"Sompong Khaingam",
-    "slip-image" : "https://scontent.fhdy4-1.fna.fbcdn.net/v/t1.18169-9/25498309_530873967291327_1223835557041491412_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeF_jJDd37Lo_Sj3yIJd2YxAhYgla7dAzDSFiCVrt0DMNLDFvF5HFFbc5jC3UPVME9s4E6C63I81eHIdoXzGN5OT&_nc_ohc=GR0s57yFea8AX-UKBaj&_nc_ht=scontent.fhdy4-1.fna&oh=00_AT9oFjpI44ZOfzIpGV10UE22Z9zy1v3RtxRHKkqjGWvipA&oe=62391651"}]
+    const data =[
+        {
+            "_id": "621b5ae5cfc2c5df4d712363",
+            "timestamp": "2022-02-27T11:05:09.041Z",
+            "username": {
+                "username": "test",
+                "role": "ProjectOwner"
+            },
+            "type": "Deposit",
+            "amount": 321421904902.244,
+            "status": "Pending",
+            "data": {
+                "paymentMethod": "bank transfer",
+                "bank": "kbank",
+                "txRef": null
+            },
+            "__v": 0
+        }
+    ]
+    
+    
+    
+
     return(
         <div>
             <Navigator />

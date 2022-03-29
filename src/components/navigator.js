@@ -13,13 +13,16 @@ import { BellIcon } from '@chakra-ui/icons';
 import { HStack } from '@chakra-ui/react'
 import NotificationModal from './notification-modal';
 // 
-async function numCoins(token){
+async function numCoins(token, role){
     try{
-        const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {
-            headers: { Authorization: "Bearer " + token }
-        })
-        console.log(response)
-        return response.data.balance;
+        if((role =='projectOwner' | role =='supporter')){
+            const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {
+                headers: { Authorization: "Bearer " + token }
+            })
+            console.log(response)
+            return response.data.balance;
+        }
+        
     }catch(err){
         console.log(err)
         // console.log("sdfdfdf")
@@ -73,7 +76,7 @@ class Navigator extends React.Component{
     }
     async tick(){
         this.setState({
-            balance: await numCoins(getToken())
+            balance: await numCoins(getToken(), this.state.role)
         });
     }
 

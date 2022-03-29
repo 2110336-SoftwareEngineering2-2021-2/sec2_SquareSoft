@@ -18,6 +18,15 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
     function approveHandle(){
     
     }
+
+    function rejectClick(data){
+        
+    }
+
+    function approveClick(data){
+        
+    }
+    
     
     function VerificationModal({isOpen, onClose, data}){
         const [load, setLoad] = useState(false);
@@ -63,41 +72,41 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack alignItems="flex-start">
-                            <HStack>
+                            {/* <HStack>
                                 <Text>ชื่อ : </Text>
                                 <Text>{data.name}</Text>
                                 <Text>สกุล : </Text>
                                 <Text>{data.surname}</Text>
-                            </HStack>
+                            </HStack> */}
                             <HStack>
                                 <Text>Usename : </Text>
-                                <Text>{data.username}</Text>
+                                <Text>{data.username.username}</Text>
                             </HStack>
                             <HStack>
                                 <Text>Bank : </Text>
-                                <Text fontWeight="bold" >{data.bank}</Text>
+                                <Text fontWeight="bold" >{data.data.bank}</Text>
                                 <Text>Amount : </Text>
                                 <Text fontWeight="bold" >{data.amount}</Text>
                             </HStack>
-                            <HStack>
+                            {/* <HStack>
                                 <Text>Account name : </Text>
                                 <Text fontWeight="bold" >{data['bank-name']}</Text>
-                            </HStack>
+                            </HStack> */}
                             <HStack>
-                                <Text>Time : </Text>
-                                <Text fontWeight="bold" >{data.time}</Text>
-                                <Text>Date : </Text>
-                                <Text fontWeight="bold" >{data.date}</Text>
+                                <Text>DateTime : </Text>
+                                <Text fontWeight="bold" >{data.timestamp}</Text>
+                                {/* <Text>Date : </Text>
+                                <Text fontWeight="bold" >{data.date}</Text> */}
                             </HStack>
-                            <Image src = {data['slip-image']} w = {400} h = {550} py = {5} borderWidth="1px"></Image>
-                            <Text>Type admin PIN : </Text>
-                            <Input placeholder='Admin Pin' value={value} onChange={handleChange} type = "password"/>
+                            <Image src = {data.data.txRef} w = {400} h = {550} py = {5} borderWidth="1px"></Image>
+                            {/* <Text>Type admin PIN : </Text> */}
+                            {/* <Input placeholder='Admin Pin' value={value} onChange={handleChange} type = "password"/> */}
                         </VStack>
                     </ModalBody>
                     <ModalFooter>
-                        <Button variant='ghost' onClick={onClose} mx = {1}>Close</Button>
-                        <Button colorScheme='pink' variant='solid' mx = {1} >Reject</Button>
-                        <Button colorScheme='teal' variant='solid' mx = {1} >Approve</Button>
+                        <Button variant='ghost' onClick={onClose} mx = {1} >Close</Button>
+                        <Button colorScheme='pink' variant='solid' mx = {1} onClick = {() => {onClose(); rejectClick(data)}} >Reject</Button>
+                        <Button colorScheme='teal' variant='solid' mx = {1} onClick = {() => {onClose(); approveClick(data)}}>Approve</Button>
                     </ModalFooter>
                     </ModalContent>
                 </Modal>
@@ -133,12 +142,12 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
             <Box p="5" w="1000px" borderWidth="1px">
                 <HStack spacing='50px'>
                     <HStack>
-                        <Text>ชื่อ : </Text>
+                        {/* <Text>ชื่อ : </Text>
                         <Text fontWeight="bold">{data.name}</Text>
                         <Text>นามสกุล : </Text>
-                        <Text fontWeight="bold">{data.surname}</Text>
+                        <Text fontWeight="bold">{data.surname}</Text> */}
                         <Text>Username : </Text>
-                        <Text fontWeight="bold">{data.username}</Text>
+                        <Text fontWeight="bold">{data.username.username}</Text>
                     </HStack>
                     <Badge borderRadius='full' colorScheme='teal'>เติมเงิน</Badge>
                     <Text fontWeight="bold" >จำนวน : {data.amount}</Text>
