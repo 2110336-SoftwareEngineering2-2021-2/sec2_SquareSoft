@@ -67,6 +67,12 @@ export class ProjectController {
         return results;
     }
 
+    @Get('find-recommended-project')
+    async findRecommendedProject() { 
+        const results=await this.projectService.findRecommendedProject();
+        return results;
+    }
+
     
 
    

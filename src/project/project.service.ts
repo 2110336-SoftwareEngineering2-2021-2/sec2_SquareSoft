@@ -8,9 +8,15 @@ export class ProjectService {
     
     
     
+    
     constructor(
         @InjectModel('project') private readonly projectModel: Model<project>
     ) { }
+    async findRecommendedProject() {
+      
+        return this.projectModel.aggregate([{ $match: {"projectPublishStatus":"published"}},{ $sample: { size: 5 } }])
+
+    }
     async editStatus(query: any) {
         const result = await this.projectModel.findOne({ _id: query['_id'] });
         if(!result)
