@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query, Req, Patch, UseGuards, Request } from '@nestjs/common';
 import { query } from 'express';
 import { RegistrationSystemService } from './registration-system.service';
+import * as RoleGuard from "src/auth/jwt-auth.guard"
 
 @Controller('registration-system')
 export class RegistrationSystemController {
@@ -34,6 +35,12 @@ export class RegistrationSystemController {
     async getUserProjectOwner(@Query() query) {
         const result = await this.productService.getUserProjectOwner(query);
         return result;
+    }
+
+    @Patch('edit-personal-details')
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    async editPersonalDetails(@Body() body: any, @Request() req: Request){
+        return await this.productService.editPersonalDetails(req['user']['_id'], req['user']['role'],  body);
     }
 
 }
