@@ -20,11 +20,27 @@ async function numCoins(token){
     }
 }
 
-function handleConfirm(e){
+async function handleConfirm(e){
     e.preventDefault();
     let amount = e.target[0].value
+    amount = Number(amount)
+    try{
 
+        let inp_data = await axios.post(basedURL.concat('transaction/newUserWithdraw'), 
+            {   
+                 "amount": amount
+            },
+            {
+                headers: { Authorization: "Bearer "+ getToken() },
+            }
+        )
     
+
+        return inp_data.data;
+    }
+    catch(err){
+        console.log(err)
+    }
 }
 
 
