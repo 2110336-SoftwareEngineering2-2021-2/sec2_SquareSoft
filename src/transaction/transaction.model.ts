@@ -31,7 +31,7 @@ export interface TransactionDTO{
         type: RecieveType,
         data: {
             // GetDonation
-            fromUsername: TransactionUserEntity
+            fromProjectID: projectID
         }
     }
     deposit: {
@@ -92,14 +92,14 @@ export class TransactionUserEntity{
     }
 }
 
-export class TransactionUserDTO{
-    @IsNotEmpty()
-    @Type(() => TransactionUserEntity)
-    @ValidateNested()
-    username: TransactionUserEntity;
+// export class TransactionUserDTO{
+//     @IsNotEmpty()
+//     @Type(() => TransactionUserEntity)
+//     @ValidateNested()
+//     username: TransactionUserEntity;
     
 
-}
+// }
 
 export class newUserDepositDTO {
     @IsNotEmpty()
@@ -114,7 +114,7 @@ export class newUserDepositDTO {
     bank: string;
 }
 
-export class UserTransactionAccessDTO extends TransactionUserDTO{
+export class UserTransactionAccessDTO {
     @IsNotEmpty()
     internalTXID: string;
 }
@@ -139,7 +139,7 @@ export class GetListDTO {
     status: TransactionStatus;
 }
 
-export class NewUserWithdrawDTO extends TransactionUserDTO{
+export class NewUserWithdrawDTO {
     @IsNotEmpty()
     @IsNumber()
     @Min(0.01)
