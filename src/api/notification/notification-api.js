@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { basedURL, getToken, getConfig } from '../..';
+import { basedURL, getToken, getConfig } from '../index';
 
 async function getNotification() {
     const token = getToken();

@@ -19,7 +19,7 @@ function OverviewVerification(){
     
     const navigate = useNavigate();
     const [data, setData] = useState([0, [{"username" : "", "_id" : ""}]]);
-
+    
     getOverviewProjectOwner()
         .then(res => {setData(res.data)})
         .catch(() => {navigate("/")})
