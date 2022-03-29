@@ -2,6 +2,8 @@ import jwtDecode from "jwt-decode";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../../api";
+import ChangePasswordForm from "../../components/change-password/ChangePasswordForm";
+import Navigator from "../../components/navigator";
 
 function ChangePassword() {
   const navigate = useNavigate();
@@ -20,7 +22,10 @@ function ChangePassword() {
     } else navigate("/");
   }, []);
 
-  return <div>ChangePassword Page!</div>;
+  return (<div>
+      <Navigator/>
+      <ChangePasswordForm/>
+  </div>)
 }
 
 export default ChangePassword;
