@@ -113,6 +113,7 @@ class Navigator extends React.Component{
                         {<NavDropdown.Item onClick = {() => {this.setNotificationIsOpen(true);}}>Notification({this.state.numberOfNotifcation})</NavDropdown.Item>}
                         {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/projects/my-project')}}>My Projects</NavDropdown.Item>}
                         {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/create-project')}}>Create Project</NavDropdown.Item>}
+                        {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/change-password')}}>Change Password</NavDropdown.Item>}
                         {(this.state.isLoggedin)&&<NavDropdown.Divider />}
                         {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogOut()}>Log out</NavDropdown.Item>}
                         {/* <NavDropdown.Divider /> <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
