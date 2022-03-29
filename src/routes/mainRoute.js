@@ -14,6 +14,7 @@ import ProjectDetail from '../views/projectDetail/ProjectDetail';
 import CreateProject from '../views/create-project-page/CreateProject';
 import UpdateProjectProgression from '../views/projectDetail/update-project-progresion';
 import AdminProjectList from '../views/project-list/AdminProjectList';
+import ChangePassword from '../views/change-password/ChangePassword';
 
 const MainRoutes = () => {
   return (
@@ -33,7 +34,8 @@ const MainRoutes = () => {
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "create-project" element={<CreateProject/>}/>
-          <Route path= "donation" element={<Donation/>}/> 
+          <Route path= "donation" element={<Donation/>}/>
+          <Route path="change-password" element={<ChangePassword/>}/>
         </Routes>
     </BrowserRouter>
   );
