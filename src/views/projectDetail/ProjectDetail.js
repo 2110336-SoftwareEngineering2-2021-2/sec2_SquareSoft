@@ -121,8 +121,7 @@ const ProjectDetail =()=>{
             </Box>
             <div className='button-grid'>  
                 <Button colorScheme='blue' variant='solid' onClick={onBack}> BACK </Button>
-                {role!=="projectOwner" && <Button colorScheme='red' variant='solid' onClick={onSupport}> SUPPORT </Button> }
-                {role==="projectOwner" && <Button colorScheme='red' variant='solid' onClick={onSetProgress}> Set Progress </Button>}
+                <Button colorScheme='red' variant='solid' onClick={onSupport}> SUPPORT </Button>
             </div>
         </div>
     )
