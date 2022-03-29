@@ -49,11 +49,6 @@ const ProjectDetail =()=>{
     const { id } = useParams();
 
     const navigate = useNavigate();
-    const onSetProgress = () => {
-        navigate('/projects/update-progression/'.concat(id));
-    }
-
-    const role = Cookies.get('role');
 
     useEffect(() => {
         getProjectById(id)
