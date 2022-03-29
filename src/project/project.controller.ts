@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post ,UseGuards,Query,Req, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post ,UseGuards,Query,Req, Delete, Put, Patch, Request} from '@nestjs/common';
 import { resourceLimits } from 'worker_threads';
 import { ProjectService } from './project.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
+import { EditProjectDTO, GetProjectDTO, UpdateProjectDTO } from './project.dto';
 
 @Controller('project')
 export class ProjectController {
@@ -20,12 +21,18 @@ export class ProjectController {
         return results;
     }
 
-
     @UseGuards(RoleGuard.ProjectOwnerGuard)
     @Get('find-by-owner')
     async findByOwnerId(@Req() req: any) {
         const query= {projectOwnerID:req.user._id}
         const results=await this.projectService.findByProjectOwnerID(query,null);
+        return results;
+    }
+
+    @UseGuards(RoleGuard.AdminGuard)
+    @Get('find-publish-status-by-id')
+    async findByIdPublishStatus(@Query () query) {
+        const results=this.projectService.findByIdPublishStatus(query);
         return results;
     }
 
@@ -72,16 +79,33 @@ export class ProjectController {
         const results=await this.projectService.findRecommendedProject();
         return results;
     }
-
     
+    @Patch('update-project')
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    async updateProject(@Body() body: UpdateProjectDTO, @Request() req: Request){
+        let user = {username: req["user"]["username"], role: req["user"]["role"], userID: req["user"]["_id"]};
+        return await this.projectService.updateProject(user, body.projectID, body.progress);
+    }
 
-   
-
+    @Get('project-progress')
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    async getProjectProgress(@Body() body: GetProjectDTO, @Request() req: Request){
+        let user = {username: req["user"]["username"], role: req["user"]["role"], userID: req["user"]["_id"]};
+        return await this.projectService.getProjectProgress(user, body.projectID);
+    }
     
-
+    @Patch('edit-project')
+    @UseGuards(RoleGuard.ProjectOwnerGuard)
+    async editProject(@Body() body: EditProjectDTO, @Request() req: Request){
+        let user = {username: req["user"]["username"], role: req["user"]["role"], userID: req["user"]["_id"]};
+        return await this.projectService.editProject(user, body.projectID, body.fields);
+    }
     
-
-    
+    @Post('find-by-name-and-cat')
+    async findByNameAndCat(@Body () dto){
+        const results=this.projectService.findByNameAndCat(dto);
+        return results;
+    }
 
 }
 
