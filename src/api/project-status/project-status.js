@@ -6,8 +6,12 @@ import {
     getFileURL
 } from '../file-uploader/file-uploader.js'
 
-function changeProjectStatus(projectid, status) {
-    console.log(projectid + ' ' + status)
+async function changeProjectStatus(projectid, status, token) {
+    await axios.post(basedURL.concat(`project/edit-status?_id=${projectid}&status=${status}`), {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
 }
 
 async function getProjectStatus(projectid, token) {
