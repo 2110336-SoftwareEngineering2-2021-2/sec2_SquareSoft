@@ -32,6 +32,9 @@ export class AuthService {
         // Check if both old password and new password exist in the body
         // Also check for empty string
         if(oldPass && newPass && (oldPass.length !== 0) && (newPass.length !== 0)){
+            // Check for duplicate old and new password
+            if(oldPass === newPass) throw new BadRequestException("New pasword must not be the same as old password.");
+          
             const userObject = await this.registrationSystemService.findByID(user._id, user.role);
 
             // We do not have to check if user really exist because we have already done that in the Role Guard
