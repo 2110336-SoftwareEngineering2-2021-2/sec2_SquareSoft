@@ -6,7 +6,7 @@ async function changePassword(oldPass, newPass){
         oldPass: oldPass,
         newPass: newPass,
     }
-    const response = await axios.post(basedURL.concat("auth/change-password"), body, getConfigWithToken());
+    const response = await axios.patch(basedURL.concat("auth/change-password"), body, getConfigWithToken());
     return response;
 }
 
