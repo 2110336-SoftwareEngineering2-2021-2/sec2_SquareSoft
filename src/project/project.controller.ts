@@ -27,6 +27,13 @@ export class ProjectController {
         return results;
     }
 
+    @UseGuards(RoleGuard.AdminGuard)
+    @Get('find-publish-status-by-id')
+    async findByIdPublishStatus(@Query () query) {
+        const results=this.projectService.findByIdPublishStatus(query);
+        return results;
+    }
+
     @Get('find-publish-status-by-name')
     async findByNamePublishStatus(@Query () query) {
         const results=this.projectService.findByNamePublishStatus(query);
