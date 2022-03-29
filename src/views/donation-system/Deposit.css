@@ -1,0 +1,14 @@
+
+
+.box-input{
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.deposit{
+    /* text-transform: uppercase; */
+    text-align: center;
+    color: #4CAF50;
+    padding: 40px;
+    font-size: 45px;
+}
