@@ -48,14 +48,12 @@ const ProjectDetail =()=>{
     const [progress,setProgress]=useState(null);
     const { id } = useParams();
 
-    const navigate = useNavigate();
-
     useEffect(() => {
         getProjectById(id)
             .then(res => {
                 setProject(res);
             })
-        if(!progress){
+        if(!progress && project){
             getProjectProgressByID(id)
             .then((res) => {
                 setProgress(res.data.progress!==undefined ? res.data.progress:0);
