@@ -128,38 +128,22 @@ async function getAllUnpublishedProjects(token) {
     return projectList
 }
 
-function getRecommendedProjects(token) {
-    return [{
-            _id: "id1",
-            title: "Recommended Project 1",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id2",
-            title: "Recommended Project 2",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id3",
-            title: "Recommended Project 3",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id4",
-            title: "Recommended Project 4",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id5",
-            title: "Recommended Project 5",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-    ]
+async function getRecommendedProjects(token) {
+    const response = await axios.get(basedURL.concat(`project/find-recommended-project`))
+
+    const projectList = await Promise.all(response.data.map(async (e) => {
+        const img_response = await getFileURL(e.projectPicture)
+        const imgUrl = img_response.data
+        //const imgUrl = 'https://picsum.photos/500/300?random=1'
+        return {
+            _id: e._id,
+            title: e.projectName,
+            description: e.description,
+            imageUrl: imgUrl,
+        }
+    }))
+
+    return projectList
 }
 
 export {

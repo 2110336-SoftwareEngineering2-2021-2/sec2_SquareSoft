@@ -26,8 +26,8 @@ class HomeComponent extends React.Component {
         this.filterCategoryOnChange = this.filterCategoryOnChange.bind(this)
     }
 
-    componentDidMount() {
-        const projectList = getRecommendedProjects()
+    async componentDidMount() {
+        const projectList = await getRecommendedProjects()
         this.setState({projectList: projectList})
     }
 
