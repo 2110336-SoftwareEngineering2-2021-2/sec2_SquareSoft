@@ -15,7 +15,9 @@ import {
     Box
   } from '@chakra-ui/react'
 
-function NotificationBox({text, closeNotification}){
+import { getNotification, deleteNotification } from './../api/notification/notification-api';
+
+function NotificationBox({text, closeNotification, _id}){
     const [ mouseOver, setmouseOver ] = useState(false);
     const [ appear, setApper ] = useState(true);
     return(
@@ -42,7 +44,7 @@ function NotificationBox({text, closeNotification}){
             }
             </GridItem>
             <GridItem colSpan={1}>
-                {mouseOver&&<Button size='xs' onClick={()=>{setApper(false); closeNotification()}}>X</Button>}
+                {mouseOver&&<Button size='xs' onClick={()=>{setApper(false); closeNotification(); deleteNotification(_id);}}>X</Button>}
             </GridItem>
         </Grid>
     </>
@@ -51,24 +53,28 @@ function NotificationBox({text, closeNotification}){
 
 function NotificationModal({setNumberOfNotification, setNotificationIsOpen, notificationIsOpen}){
     const [ updated, setUpdated ] = useState(false);
+    const [ data, setData ] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ numberOfNotification, setNumberOfNotificationInSight ] = useState(0);
     const closeNotification = () => {
         setNumberOfNotification(numberOfNotification-1);
         setNumberOfNotificationInSight(numberOfNotification-1);
     };
-    
-    useEffect(()=>{
-        if(!updated){
-            setNumberOfNotificationInSight(2);
-            setNumberOfNotification(numberOfNotification);
-            setUpdated(true);
-        }
-    }, [updated]);
 
-    useEffect(()=>{
-        setNumberOfNotification(numberOfNotification);
-    }, [numberOfNotification]);
+    useEffect(() => {
+        if(!data){
+            getNotification()
+            .then(res => {
+                setData(res.data);
+                setNumberOfNotificationInSight(res.data[0]);
+                setNumberOfNotification(res.data[0]);
+            })
+            .catch(() => {
+                setNumberOfNotificationInSight(0);
+                setNumberOfNotification(0);
+            });
+        }
+    },[data]);
 
     useEffect(()=>{
         if(notificationIsOpen){
@@ -76,6 +82,10 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
             onOpen();
         }
     }, [notificationIsOpen]);
+
+    if(!data){
+        return <></>
+    }
 
     return (
         <>
@@ -85,8 +95,18 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
             <ModalHeader>Notification({numberOfNotification})</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <NotificationBox text = {"1234"} closeNotification = {closeNotification}/>
-                <NotificationBox text = {"1234"} closeNotification = {closeNotification}/>
+                {
+                    Array
+                    .from({ length: data[0] })
+                    .map((_, idx) => (
+                        <NotificationBox 
+                            _id = {data[1][idx]._id}  
+                            text = {data[1][idx].text} 
+                            closeNotification ={closeNotification}
+                            key={idx.toString()}
+                        />
+                    ))
+                }
             </ModalBody>
             <ModalFooter>
                 <Button colorScheme='purple' mr={3} onClick={onClose}> Close </Button>

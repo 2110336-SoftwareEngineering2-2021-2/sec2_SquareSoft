@@ -54,7 +54,7 @@ class Navigator extends React.Component{
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
             this.tick()
-            this.interval = setInterval(() => this.tick(), 100);
+            this.interval = setInterval(() => this.tick(), 10000);
             this.setState({username: Cookies.get('username',), role:Cookies.get('role')})
         }
         
