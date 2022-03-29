@@ -51,6 +51,8 @@ class NavigatorAdmin extends React.Component{
                 </Nav>
                 <Nav>
                     <NavDropdown title={"admin"} id="basic-nav-dropdown">
+                        {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/change-password')}}>Change Password</NavDropdown.Item>}
+                        {(this.state.isLoggedin)&&<NavDropdown.Divider />}
                         {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogOut()}>Log out</NavDropdown.Item>}
                     </NavDropdown>
                 </Nav>
