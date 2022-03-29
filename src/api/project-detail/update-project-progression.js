@@ -10,11 +10,10 @@ async function setProjectProgression(id,progress) {
     const token = getToken();
     const config = getConfig(token);
 
-    const response = await axios.get(   basedURL.concat('project/update-project'), 
+    const response = await axios.patch( basedURL.concat('project/update-project'), 
                                         {projectID : id, progress : progress}, 
                                         config);
 
-    console.log(response);
     return await response;
 }
 
