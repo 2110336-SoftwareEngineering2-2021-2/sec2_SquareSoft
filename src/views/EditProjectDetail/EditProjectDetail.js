@@ -123,8 +123,8 @@ class EditProjectDetail extends React.Component{
             }   
         }
         console.log(this.state.project)
-        // alert("Update Successful")
-        // refreshPage()
+        alert("Update Successful")
+        refreshPage()
     }
     render(){
         //test
