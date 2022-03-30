@@ -1,10 +1,21 @@
 import axios from 'axios'
 import {
-    basedURL
+    basedURL, getConfigWithToken
 } from '../index.js';
 import {
     getFileURL
 } from '../file-uploader/file-uploader.js'
+
+async function withdraw(projectID, amount) {
+    const config = getConfigWithToken();
+    const req = {
+        "projectID" : projectID,
+        "amount" : amount
+    };
+    const response = await axios.post(basedURL.concat(`transaction/projectOwnerWithdrawFromProject`), req, config);
+    console.log(response);
+    return await response;
+}
 
 function getAllProjects() {
     return [{
@@ -81,6 +92,8 @@ async function getMyProjects(token) {
             _id: e._id,
             title: e.projectName,
             description: e.description,
+            fundingMoneyStatus: e.fundingMoneyStatus, 
+            withdrawnAmount: e.withdrawnAmount,
             imageUrl: imgUrl,
         }
     }))
@@ -152,5 +165,6 @@ export {
     getMyProjects,
     getProjectsOfAnOwner,
     getAllUnpublishedProjects,
-    getRecommendedProjects
+    getRecommendedProjects,
+    withdraw
 };
