@@ -65,9 +65,10 @@ export class TransactionService {
         }
     }
 
-    async adminConfirmTX(username: TransactionUserEntity, internalTXID: string){
+    async adminConfirmTX(internalTXID: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
@@ -88,9 +89,10 @@ export class TransactionService {
         }
     }
 
-    async adminRejectTX(username: TransactionUserEntity, internalTXID: string){
+    async adminRejectTX(internalTXID: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
@@ -126,8 +128,9 @@ export class TransactionService {
         return result; //await this.newDeposit(username, amount, null, user., bank)
     }
 
-    async adminMarkTxAsInProgress(username: TransactionUserEntity, internalTXID: string){
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+    async adminMarkTxAsInProgress(internalTXID: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
@@ -144,8 +147,9 @@ export class TransactionService {
         }
     }
 
-    async adminConfirmWithdraw(username: TransactionUserEntity, internalTXID: string, txRef: string){
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+    async adminConfirmWithdraw(internalTXID: string, txRef: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         this.validateTX(
             tx, 
             [TransactionType.Withdraw],
@@ -287,7 +291,7 @@ export class TransactionService {
     }
 
 
-    async getUserTransactionByTXID(username: TransactionUserEntity, internalTXID: string){
+    async getUserTransactionByTXID(username: TransactionUserEntity | null, internalTXID: string){
         let tx = undefined
         try{
             tx = await this.transactionModel.findById(internalTXID);
@@ -302,7 +306,7 @@ export class TransactionService {
                 "msg": "internalTXID not found"
             }, HttpStatus.NOT_FOUND);
         }
-        if ( tx.username.username !== username.username || tx.username.role !== username.role ){
+        if ( username !== null && ( tx.username.username !== username.username || tx.username.role !== username.role ) ){
             throw new HttpException({
                 "msg": "this user has no permission on this internalTXID"
             }, HttpStatus.FORBIDDEN);

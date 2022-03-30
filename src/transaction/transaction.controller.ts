@@ -51,14 +51,14 @@ export class TransactionController {
     @Patch('/adminConfirmDeposit')
     @UseGuards(AdminGuard)
     async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminConfirmTX({username: req["user"]["username"], role: req["user"]["role"]}, body.internalTXID);
+        const result = await this.transactionService.adminConfirmTX(body.internalTXID);
         return result;
     }
 
     @Patch('/adminRejectTX')
     @UseGuards(AdminGuard)
     async adminRejectTX(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminRejectTX({username: req["user"]["username"], role: req["user"]["role"]}, body.internalTXID);
+        const result = await this.transactionService.adminRejectTX(body.internalTXID);
         return result;
     }
 
@@ -97,14 +97,14 @@ export class TransactionController {
     @Patch('/adminMarkTxAsInProgress')
     @UseGuards(AdminGuard)
     async adminMarkTxAsInProgress(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminMarkTxAsInProgress(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID);
+        const result = await this.transactionService.adminMarkTxAsInProgress(body.internalTXID);
         return result;
     }
 
     @Patch('/adminConfirmWithdraw')
     @UseGuards(AdminGuard)
     async adminConfirmWithdraw(@Body() body: UpdateUserTXrefDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminConfirmWithdraw(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.internalTXID, body.txRef);
+        const result = await this.transactionService.adminConfirmWithdraw(body.internalTXID, body.txRef);
         return result;
     }
 
