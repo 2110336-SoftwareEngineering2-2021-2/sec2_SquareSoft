@@ -21,6 +21,7 @@ function ProjectBox(props) {
         try {
             const token = Cookies.get('token')
             changeProjectStatus(props._id, status, token)
+            props.removeProject(props._id)
             toast({
                 position: 'top',
                 title: `Project status has been changed successfully.`,

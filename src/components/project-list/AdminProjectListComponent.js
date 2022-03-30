@@ -12,6 +12,12 @@ function MyProjectComponent() {
     const navigate = useNavigate();
     const [projectList, setProjectList] = useState([])
 
+    const removeProject = (_id) =>{
+        const newProjectList = projectList.filter(( project ) => {
+            return project._id !== _id;
+        });
+        setProjectList(newProjectList);
+    }
     useEffect(async () => {
         try {
             const newProjectList = await getAllUnpublishedProjects(Cookies.get('token'))
@@ -27,7 +33,7 @@ function MyProjectComponent() {
         <Center mt='5'>
             <VStack align='stretch' spacing='20px' w='80%'>
                 <Center><Heading>Manage Projects</Heading></Center>
-                <ProjectList projectList={projectList} isOwner={false} isAdmin={true}/>
+                <ProjectList projectList={projectList} isOwner={false} isAdmin={true} removeProject={removeProject}/>
             </VStack>
         </Center>
     );
