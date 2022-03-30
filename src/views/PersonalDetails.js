@@ -201,11 +201,13 @@ const SignUpProjectOwner = (props) =>{
                 headers: { Authorization: "Bearer " + getToken() }
             })
             console.log(response)
+            alert("Success")
             return {status:"success",response}
         }catch(err){
             console.log(err.response.status)
             console.log(err.response.data)
             let data = err.response.data
+            alert(err)
             if(data['msg'] == "update failed: database error"){
                 if(data['err']['code'] == 11000 ){
                     return { status:"error", message:Object.keys(data['err']['keyPattern'])[0] + " used"}
