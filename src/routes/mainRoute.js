@@ -46,8 +46,13 @@ const MainRoutes = () => {
           <Route path= "projects/editProjects/:id" element={<EditProjectDetail/>}/> 
           
           <Route path="change-password" element={<ChangePassword/>}/>
+<<<<<<< HEAD
           
           
+||||||| 4d5dee1
+=======
+          <Route path = "personal-details" element = {<PersonalDetails/>}/>
+>>>>>>> origin/Panithi/personalDetail/frontend
         </Routes>
     </BrowserRouter>
   );

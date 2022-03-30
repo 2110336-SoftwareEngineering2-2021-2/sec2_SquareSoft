@@ -3,24 +3,23 @@ import VerificcationBox from '../../../components/donation-system/admin/transact
 import { useEffect, useState } from 'react';
 import NavigatorAdmin from "../../../components/navigator-admin";
 import useForAdmin from '../../../components/for-admin';
+import { getTransactionVerification } from './../../../api/donaiton-system/admin/transactionVerification';
 
 function TransactionVerification(){
     useForAdmin();
-    const [load, setLoad] = useState(false);
+    const [data, setData] = useState(null);
 
-    //uncomment to edit loading API
-    /*
     useEffect(()=>{
-        if (!load){
-            getData()
+        if (!data){
+            getTransactionVerification()
             .then(res => {
-                    setData(res.data); 
-                    setLoad(true);
+                console.log(res);
+                setData(res.data); 
             })
-            .error();
+            .catch();
         }
     });
-    */
+    console.log(data)
 
     //uncomment to eding loading state views
     /*if(!load)
@@ -31,22 +30,32 @@ function TransactionVerification(){
         </div>
     );*/
         // Do not forget to add key to each verification box
+    if(!data){
+        return (<></>);
+    }
     return(
-        <div>
+        <>
             <NavigatorAdmin />
             <Container maxW = "container.xl" p = {0}>
                 <Flex px = {20} alignContent = "center">
                     <Center w='full' py = {5}>
                         <VStack>
                             <Text fontSize='3xl' fontWeight="bold" >Transaction Verification</Text>
-                            <VerificcationBox/>
-                            <VerificcationBox/>
+                            {
+                                Array
+                                .from({ length: data.length })
+                                .map((_, idx) => (
+                                    <VerificcationBox 
+                                        data = {data[idx]}
+                                    />
+                                ))
+                            }
                         </VStack>
                     </Center>
                 </Flex>
             </Container>
-        </div>
-    );
+        </>
+    )
 }
 
 export default TransactionVerification;
