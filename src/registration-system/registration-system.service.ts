@@ -114,7 +114,9 @@ export class RegistrationSystemService {
     async editPersonalDetails(userID: string, role: string, fields: Object){
         let personalDetails = await this.findByID(userID, role);
         for(let [field, value] of Object.entries(fields)){
-            personalDetails[field] = value;
+            if(value!== ""){
+                personalDetails[field] = value;
+            }   
         }
         let result = await personalDetails.save()
         return result;
