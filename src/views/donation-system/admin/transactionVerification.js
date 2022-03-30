@@ -19,6 +19,7 @@ function TransactionVerification(){
             .catch();
         }
     });
+    console.log(data)
 
     //uncomment to eding loading state views
     /*if(!load)
@@ -30,24 +31,31 @@ function TransactionVerification(){
     );*/
         // Do not forget to add key to each verification box
     if(!data){
-        return(<></>);
+        return (<></>);
     }
-    /*return(
-        <div>
+    return(
+        <>
             <NavigatorAdmin />
             <Container maxW = "container.xl" p = {0}>
                 <Flex px = {20} alignContent = "center">
                     <Center w='full' py = {5}>
                         <VStack>
                             <Text fontSize='3xl' fontWeight="bold" >Transaction Verification</Text>
-                            <VerificcationBox/>
-                            <VerificcationBox/>
+                            {
+                                Array
+                                .from({ length: data.length })
+                                .map((_, idx) => (
+                                    <VerificcationBox 
+                                        data = {data[idx]}
+                                    />
+                                ))
+                            }
                         </VStack>
                     </Center>
                 </Flex>
             </Container>
-        </div>
-    );*/
+        </>
+    )
 }
 
 export default TransactionVerification;

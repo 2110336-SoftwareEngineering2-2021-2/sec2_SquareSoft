@@ -115,16 +115,6 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
     }
     // adminGetUnfinishedUserTX
     
-    async function getUserTransaction(){
-        try{let inp_data = await axios.get(basedURL.concat('transaction/adminGetUnfinishedUserTX'), {
-            headers: { Authorization: "Bearer " + getToken() }
-        })
-        return inp_data.data}
-        catch(err){
-            console.log(err)
-        }
-    }
-    
     function VerificcationBox(props){
         const { isOpen, onOpen, onClose } = useDisclosure();
         // let inp_data = props.data

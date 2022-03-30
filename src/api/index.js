@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 
-// export const basedURL = process.env.NODE_ENV === "production" ? "https://project-launcher-backend.herokuapp.com/" : "http://localhost:3001/";
-export const basedURL = "https://project-launcher-backend.herokuapp.com/"
+export const basedURL = process.env.NODE_ENV === "production" ? "https://project-launcher-backend.herokuapp.com/" : "http://localhost:3001/";
 
 export function getToken(){
     return Cookies.get('token');

@@ -2,7 +2,8 @@ import React from 'react'
 import { registerProjectOwner } from '../api/registration/registrationProjectOwner';
 import Navigator from "../components/navigator";
 import {useNavigate} from 'react-router-dom'
-
+import {basedURL, getToken} from "../api/index.js";
+import axios from 'axios'
 
 function AccountName(){
     return (
@@ -149,30 +150,71 @@ const SignUpProjectOwner = (props) =>{
             if(e.target[i].value === "") state = false;
         }if(!state) err += "Fill in the missing information.\n"
         let accountName = e.target[0].value
-        let email = e.target[1].value
-        let password = e.target[2].value
-        let confirmPassword = e.target[3].value
-        let name = e.target[4].value
-        let surname = e.target[5].value
-        let identificationID = e.target[6].value
-        let birthdate = e.target[7].value
-        let presentAddress = e.target[8].value
-        let province = e.target[9].value
-        let district = e.target[10].value
-        let subDistrict = e.target[11].value
-        let zipCode = e.target[12].value
-        let bankAccountName = e.target[13].value
+        // let email = e.target[1].value
+        // let password = e.target[1].value
+        // let confirmPassword = e.target[2].value
+        let name = e.target[1].value
+        let surname = e.target[2].value
+        // let identificationID = e.target[6].value
+        let birthdate = e.target[3].value
+        let presentAddress = e.target[4].value
+        let province = e.target[5].value
+        let district = e.target[6].value
+        let subDistrict = e.target[7].value
+        let zipCode = e.target[8].value
+        let bankAccountName = e.target[9].value
         //let bankAccountSurname = e.target[14].value
-        let bankAccountNumber = e.target[15].value
-        let bankName = e.target[16].value
-        let bankBook = e.target[17].files[0];
-        let idCardPicture = e.target[18].files[0];
+        let bankAccountNumber = e.target[11].value
+        let bankName = e.target[12].value
+        let bankBook = e.target[13].files[0];
+        let idCardPicture = e.target[14].files[0];
         //console.log(n1)
         //console.log(bankBook)
-        if (confirmPassword!==password){
-            state = false;
-            err += "Password isn't equal to Confirm Password\n"
+        console.log(accountName)
+        console.log(bankName)
+        let result = {
+            "username": accountName,
+            "firstname": name,
+            "lastname": surname,
+            "birthdate": birthdate,
+            "address": presentAddress,
+            "province": province,
+            "district": district,
+            "subDistrict": subDistrict,
+            "postcode": zipCode,
+            "bankAccountName": bankAccountName,
+            "bankAccountNumber": bankAccountNumber,
+            "bankAccountBank": bankName,
+            "bankBookPicture": bankBook,
+            "idCardPicture": idCardPicture
         }
+        let real_result = {}
+        for(let [field, value] of Object.entries(result)){
+            if(value!== "" && value!= undefined){
+                real_result[field] = value;
+            }
+        }
+        // let real_result = {"bankAccountBank": "asdfasdf"}
+        console.log(real_result)
+        try{
+            const response = await axios.patch(basedURL.concat('registration-system/edit-personal-details'), real_result, {
+                headers: { Authorization: "Bearer " + getToken() }
+            })
+            console.log(response)
+            return {status:"success",response}
+        }catch(err){
+            console.log(err.response.status)
+            console.log(err.response.data)
+            let data = err.response.data
+            if(data['msg'] == "update failed: database error"){
+                if(data['err']['code'] == 11000 ){
+                    return { status:"error", message:Object.keys(data['err']['keyPattern'])[0] + " used"}
+                }
+            }
+        }
+        
+
+        // }
         // if(state){
         //     let result = await registerProjectOwner("projectOwner",accountName,email,password,name,surname,identificationID,birthdate,
         //         presentAddress,province,district,subDistrict,zipCode,bankAccountName,bankAccountNumber,bankName,bankBook,idCardPicture,
@@ -201,8 +243,8 @@ const SignUpProjectOwner = (props) =>{
             <form onSubmit={handleSubmit}>
                 <AccountName/>
                 {/* <Email/>  */}
-                <Password/>
-                <ConfirmPassword/>
+                {/* <Password/>
+                <ConfirmPassword/> */}
                 <h3> Personal information </h3>
                 <Name/>
                 <Surname/>
