@@ -1,13 +1,12 @@
 import React, {useState} from 'react'
 import Navigator from "../../components/navigator";
-import VerificcationBox from '../../components/donation-system/admin/transaction-verification';
-import { useNavigate, useParams} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import './ProjectDetail.css'
-import {getProjectById} from '../../api/project-detail/project-detail-api'
+import {getProjectById, donate} from '../../api/project-detail/project-detail-api'
 import {getProjectProgressByID} from '../../api/project-detail/update-project-progression'
 import { 
-    Button, Image,  Table, AspectRatio,
+    Button, Image,  Table,
     Thead,
     Tbody,
     Tr,
@@ -17,7 +16,8 @@ import {
     Text,
     HStack,
     Badge,
-    Progress,} from '@chakra-ui/react'
+    Progress,
+    Input} from '@chakra-ui/react'
 import Cookies from 'js-cookie';
 
 const data = 
@@ -31,22 +31,26 @@ const data =
         targetMoney:'200,000'
     }
 
-function onSupport(){
-    return (
-        alert('SUPPORT SUCCESS')
-    )
-}
-function onBack(){
-    return (
-        alert('BACK SUCCESS')
-    )
-}
-
 const ProjectDetail =()=>{
     
     const [project,setProject]=useState(0);
     const [progress,setProgress]=useState(null);
     const { id } = useParams();
+
+    const navigate = useNavigate();
+
+    const onSupport = (id, value) => {
+        donate(id, Number(value))
+        .then(() =>{
+            navigate(-1);
+        })
+        .catch(() => {
+            alert("Insufficient fund.");
+        }); 
+    }
+
+    const [value, setValue] = useState('0')
+    const handleChange = (event) => setValue(event.target.value)
 
     useEffect(() => {
         getProjectById(id)
@@ -62,7 +66,7 @@ const ProjectDetail =()=>{
                 setProgress(0);
             });
         }
-    }, []);
+    }, [progress, project]);
 
     if (project!==undefined)
     return (
@@ -117,8 +121,15 @@ const ProjectDetail =()=>{
                 </VStack>
             </Box>
             <div className='button-grid'>  
-                <Button colorScheme='blue' variant='solid' onClick={onBack}> BACK </Button>
-                <Button colorScheme='red' variant='solid' onClick={onSupport}> SUPPORT </Button>
+                <VStack>
+                    <Input  w = {100} minH = {10} maxH = {10} 
+                            value={value}
+                            onChange={handleChange}/>
+                    <HStack>
+                        <Button colorScheme='blue' variant='solid' onClick={() => {navigate(-1);}}> BACK </Button>
+                        <Button colorScheme='red' variant='solid' onClick={() => {onSupport(project._id, value);}}> SUPPORT </Button>
+                    </HStack>
+                </VStack>
             </div>
         </div>
     )

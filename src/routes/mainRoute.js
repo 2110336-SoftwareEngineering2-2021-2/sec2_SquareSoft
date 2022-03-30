@@ -20,6 +20,7 @@ import Deposit from '../views/donation-system/Deposit'
 import Withdraw from '../views/donation-system/Withdraw'
 import WithdrawProjectOwner from '../views/donation-system/WithdrawProjectOwner'
 import EditProjectDetail from '../views/EditProjectDetail/EditProjectDetail'
+import PersonalDetails from '../views/PersonalDetails'
 const MainRoutes = () => {
   return (
     <BrowserRouter>
