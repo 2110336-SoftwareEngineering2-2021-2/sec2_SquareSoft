@@ -14,9 +14,7 @@ import {
     Tr,
     Td,Input} from '@chakra-ui/react'
 
-function refreshPage(){
-    window.location.reload(false)
-}
+
 // console.log(props.id)
 //         let req = {"projectID": props.id, "fields": real_result}
 //         try{
@@ -77,6 +75,9 @@ class EditProjectDetail extends React.Component{
             })
         }
     }
+    refreshPage(){
+        window.location.reload(false)
+    }
     async handleConfirm(e, props){
         e.preventDefault();
         let objective = e.target[0].value
@@ -123,8 +124,7 @@ class EditProjectDetail extends React.Component{
             }   
         }
         console.log(this.state.project)
-        // alert("Update Successful")
-        // refreshPage()
+        this.refreshPage()
     }
     render(){
         //test
@@ -132,7 +132,7 @@ class EditProjectDetail extends React.Component{
         if(this.state.project!=null)
         return <div>
             <Navigator/>
-            <div className ='header'>Update Project :{this.props.id}</div>
+            <div className ='header'>Update Project :{this.state.project.projectName}</div>
             <form onSubmit={(e) => {this.handleConfirm(e, this.props)}}> 
             <div className='grid'>
                 <Table variant='simple' colorScheme='teal' size='lg'>
