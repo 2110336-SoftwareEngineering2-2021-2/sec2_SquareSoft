@@ -18,13 +18,20 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
     function approveHandle(){
     
     }
-
-    function rejectClick(data){
-        
+    function refreshPage(){
+        window.location.reload(false)
     }
 
-    function approveClick(data){
-        
+    async function approveClick(TXID){
+        await axios.patch(basedURL.concat('transaction/adminConfirmDeposit'), {"internalTXID":TXID}, {
+            headers: { Authorization: "Bearer " + getToken() }
+        })
+    }
+
+    async function rejectClick(TXID){
+        await axios.patch(basedURL.concat('transaction/adminRejectTX'), {"internalTXID":TXID}, {
+            headers: { Authorization: "Bearer " + getToken() }
+        })
     }
     
     
@@ -105,8 +112,8 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
                     </ModalBody>
                     <ModalFooter>
                         <Button variant='ghost' onClick={onClose} mx = {1} >Close</Button>
-                        <Button colorScheme='pink' variant='solid' mx = {1} onClick = {() => {onClose(); rejectClick(data)}} >Reject</Button>
-                        <Button colorScheme='teal' variant='solid' mx = {1} onClick = {() => {onClose(); approveClick(data)}}>Approve</Button>
+                        <Button colorScheme='pink' variant='solid' mx = {1} onClick = {() => {onClose(); refreshPage(); rejectClick(data._id)}} >Reject</Button>
+                        <Button colorScheme='teal' variant='solid' mx = {1} onClick = {() => {onClose(); refreshPage(); approveClick(data._id)}}>Approve</Button>
                     </ModalFooter>
                     </ModalContent>
                 </Modal>
