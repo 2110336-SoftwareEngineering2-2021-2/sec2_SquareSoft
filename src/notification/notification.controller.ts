@@ -10,7 +10,7 @@ export class NotificationController {
     @Delete('/:id')
     async deleteNotification(@Param("id") id,@Req() req: any) {
       
-        const queryBlock = {_id:id,ownerId:req.user._id}
+        const queryBlock = {_id:id,owner:req.user._id}
         const results=this.notificationService.deleteNotification(queryBlock);
         
         return results;
@@ -18,7 +18,7 @@ export class NotificationController {
 
     @Get('find-by-owner')
     async findByOwnerId(@Req() req: any) {
-        const query= {ownerID:req.user._id}
+        const query= {owner:req.user._id}
         const results=await this.notificationService.findByOwnerID(query);
         return results;
     }

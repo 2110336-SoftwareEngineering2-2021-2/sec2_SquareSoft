@@ -1,22 +1,27 @@
 import { Body, Controller, Get, Headers, Patch, Post, UseGuards,Request } from '@nestjs/common';
-import { getUnpackedSettings } from 'http2';
 import {AdminGuard, AllRoleGuard, DonPOGuard,ProjectOwnerGuard } from 'src/auth/jwt-auth.guard';
-import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserDTO, TransactionUserEntity, UpdateUserTXrefDTO, UserDonateProjectDTO, UserTransactionAccessDTO } from './transaction.model';
+import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserDonateProjectDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
+import { NotificationService } from '../notification/notification.service';
+import { EmailService } from '../email/email.service';
+import { ProjectService } from 'src/project/project.service';
 
 @Controller('transaction')
 export class TransactionController {
-    constructor(private readonly transactionService: TransactionService) {}
+    constructor(private readonly transactionService: TransactionService,
+                private readonly projectService: ProjectService,
+                private readonly notificationService: NotificationService,
+                private readonly emailService: EmailService) {}
 
     // @Post('/transfer')
     // async transfer(@Body() body: any) {
-    //     const result = await this.transactionService.newTransfer(body.username, body.toUsername, TransactionObjective.Donate, body.amount, null);
+    //     const result = await this.transactionService.newTransfer({username: req["user"]["username"], role: req["user"]["role"]}, body.toUsername, TransactionObjective.Donate, body.amount, null);
     //     return result;
     // }
 
     // @Post('/recieve')
     // async recieve(@Body() body: any) {
-    //     const result = await this.transactionService.newRecieve(body.username, body.fromUsername, TransactionObjective.GetDonation, body.amount, null);
+    //     const result = await this.transactionService.newRecieve({username: req["user"]["username"], role: req["user"]["role"]}, body.fromUsername, TransactionObjective.GetDonation, body.amount, null);
     //     return result;
     // }
     
@@ -46,14 +51,14 @@ export class TransactionController {
     @Patch('/adminConfirmDeposit')
     @UseGuards(AdminGuard)
     async adminConfirmDeposit(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminConfirmTX(body.username, body.internalTXID);
+        const result = await this.transactionService.adminConfirmTX({username: req["user"]["username"], role: req["user"]["role"]}, body.internalTXID);
         return result;
     }
 
     @Patch('/adminRejectTX')
     @UseGuards(AdminGuard)
     async adminRejectTX(@Body() body: UserTransactionAccessDTO, @Request() req: Request) {
-        const result = await this.transactionService.adminRejectTX(body.username, body.internalTXID);
+        const result = await this.transactionService.adminRejectTX({username: req["user"]["username"], role: req["user"]["role"]}, body.internalTXID);
         return result;
     }
 
@@ -107,12 +112,23 @@ export class TransactionController {
     @UseGuards(DonPOGuard)
     async userDonateProject(@Body() body: UserDonateProjectDTO, @Request() req: Request) {
         const result = await this.transactionService.userDonateProject(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.projectID, body.amount);
+        const project = await this.projectService.findProjectByID(body.projectID)
+        this.notificationService.createNotification({notificationType:"donateConfirmation",owner:req["user"]["_id"],amount:body.amount,projectName:project.projectName})
+        body["projectName"]=project.projectName;
+        this.emailService.sendDonateConfirmation(req["user"]["_id"],body);
+        return result;
+    }
+
+    @Post('/projectOwnerWithdrawFromProject')
+    @UseGuards(ProjectOwnerGuard)
+    async projectOwnerWithdrawFromProject(@Body() body: UserDonateProjectDTO, @Request() req: Request) {
+        const result = await this.transactionService.projectOwnerWithdrawFromProject(new TransactionUserEntity({username: req["user"]["username"], role: req["user"]["role"]}), body.projectID, body.amount);
         return result;
     }
 
     // @Post('/withdraw')
     // async withdraw(@Body() body: any) {
-    //     const result = await this.transactionService.newWithdraw(body.username, body.amount, null, body.paymentMethod,  body.bank);
+    //     const result = await this.transactionService.newWithdraw({username: req["user"]["username"], role: req["user"]["role"]}, body.amount, null, body.paymentMethod,  body.bank);
     //     return result;
     // }
 }

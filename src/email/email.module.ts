@@ -5,10 +5,12 @@ import { EmailService } from './email.service';
 import { join } from 'path';
 import { EmailController } from './email.controller';
 import { RegistrationSystemModule} from 'src/registration-system/registration-system.module';
+import { ProjectModule } from 'src/project/project.module';
 
 @Module({
   imports: [
     RegistrationSystemModule,
+    ProjectModule,
     MailerModule.forRoot({
       // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
       // or
