@@ -56,13 +56,14 @@ const ProjectDetail =()=>{
         if(!progress && project){
             getProjectProgressByID(id)
             .then((res) => {
+                console.log(res)
                 setProgress(res.data.progress!==undefined ? res.data.progress:0);
             })
             .catch(() => {
                 setProgress(0);
             });
         }
-    }, []);
+    }, [progress, project]);
 
     if (project!==undefined)
     return (
