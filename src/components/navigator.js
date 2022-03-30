@@ -19,7 +19,6 @@ async function numCoins(token, role){
             const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {
                 headers: { Authorization: "Bearer " + token }
             })
-            console.log(response)
             return response.data.balance;
         }
         
@@ -57,7 +56,7 @@ class Navigator extends React.Component{
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
             this.tick()
-            this.interval = setInterval(() => this.tick(), 10000);
+            this.interval = setInterval(() => this.tick(), 1000);
             this.setState({username: Cookies.get('username',), role:Cookies.get('role')})
         }
         
