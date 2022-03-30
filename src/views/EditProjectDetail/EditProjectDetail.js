@@ -17,31 +17,39 @@ import {
 function refreshPage(){
     window.location.reload(false)
 }
-
+// console.log(props.id)
+//         let req = {"projectID": props.id, "fields": real_result}
+//         try{
+//             const response = await axios.patch(basedURL.concat('project/edit-project'), req, {
+//                     headers: { Authorization: "Bearer " + getToken() }
+//                 })
+//                 console.log(response)
+//         }catch(err){
+//             console.log(err.response.status)
+//             console.log(err.response.data)
+//             let data = err.response.data
+        // }
 const test_data = 
-    {
-        url: 'https://bit.ly/dan-abramov',
-        objective : 'เพื่อสร้างเกมแนวเนื้อเรื่อง',
-        description: 'โครงการ Are we still alive? เป็นโครงการที่เราจะสร้างเกมแนวเนื้อเรื่องขึ้นมา',
-        fundingType:'โครงการเชิงพาณิชย์',
-        category:'เทคโนโลยี',
-        deadline:'01/09/2025',
-        fundingGoal:'200,000'
-    }
-async function handleConfirm(e){
-    e.preventDefault();
-    let objective = e.target[0].value
-    let description = e.target[1].value
-    let fundingType = e.target[2].value
-    let category = e.target[3].value
-    let deadline = e.target[4].value
-    let fundingGoal = e.target[5].value
-    // axios.post
-
-    alert("Update Successful")
-    refreshPage()
-
+{
+    "_id": "621f84b4612d6c3c122a2b25",
+    "projectName": "test",
+    "objective": "kill everyone",
+    "description": "asdfasdf",
+    "fundingType": "asddfasdf",
+    "category": "asdfasdfadsf",
+    "deadline": "2022-03-10T14:49:18.000Z",
+    "fundingGoal": 344234234,
+    "fundingMoneyStatus": 0,
+    "projectOwnerID": "620bc28bb193bdd8d0b53718",
+    "projectPicture": "bb2d590a61d57afbc07bb9157001de0a127c5ed9.jpeg",
+    "projectVideo": "test",
+    "projectPublishStatus": "unpublished",
+    "__v": 0,
+    "progress": 21,
+    "withdrawnAmount": 0
 }
+    
+
 class EditProjectDetail extends React.Component{
     constructor(props) {
         super(props);
@@ -55,11 +63,12 @@ class EditProjectDetail extends React.Component{
     async componentDidMount() {
         // Check if logged in
         if (Cookies.get('token')) {
-            let temp = await getProjectById(this.props.id)
+            var temp = await getProjectById(this.props.id)
             this.setState({
                 isLoggedin: true,
                 project: temp
             })
+            console.log(temp)
         }
         else{
             this.setState({
@@ -68,15 +77,63 @@ class EditProjectDetail extends React.Component{
             })
         }
     }
+    async handleConfirm(e, props){
+        e.preventDefault();
+        let objective = e.target[0].value
+        let description = e.target[1].value
+        let fundingType = e.target[2].value
+        let category = e.target[3].value
+        let deadline = e.target[4].value
+        let fundingGoal = e.target[5].value
+        let result = {
+            "objective": objective,
+            "description": description,
+            "fundingType": fundingType,
+            "category": category,
+            "deadline": deadline,
+            "fundingGoal": fundingGoal,    
+        }
+        if(result['fundingGoal']!==""){
+            result['fundingGoal'] = Number(result['fundingGoal'])
+        }
+        let real_result = {}
+        for(let [field, value] of Object.entries(result)){
+            if(value!=="" && value!= undefined){
+                real_result[field] = value
+            }
+        }
+        // console.log(real_result)
+        // let temp = await getProjectById(this.state)
+        // console.log(props.id)
+        let req = {"projectID": props.id, "fields": real_result}
+        try{
+            const response = await axios.patch(basedURL.concat('project/edit-project'), req, {
+                    headers: { Authorization: "Bearer " + getToken() }
+                })
+                console.log(response)
+                return {status:"success",response}
+        }catch(err){
+            console.log(err.response.status)
+            console.log(err.response.data)
+            let data = err.response.data
+            if(data['msg'] == "update failed: database error"){
+                if(data['err']['code'] == 11000 ){
+                    return { status:"error", message:Object.keys(data['err']['keyPattern'])[0] + " used"}
+                }
+            }   
+        }
+        console.log(this.state.project)
+        // alert("Update Successful")
+        // refreshPage()
+    }
     render(){
         //test
-        this.project = test_data
-
-        if(this.project!=null)
+        // this.project = test_data
+        if(this.state.project!=null)
         return <div>
             <Navigator/>
             <div className ='header'>Update Project :{this.props.id}</div>
-            <form onSubmit={handleConfirm}> 
+            <form onSubmit={(e) => {this.handleConfirm(e, this.props)}}> 
             <div className='grid'>
                 <Table variant='simple' colorScheme='teal' size='lg'>
                     <Thead>
@@ -93,7 +150,7 @@ class EditProjectDetail extends React.Component{
                                     Objective :
                                 </div>
                              </Td>
-                            <Td> {this.project.objective}</Td>
+                            <Td> {this.state.project.objective}</Td>
                             <Td>{<Input placeholder='Enter New Objective' className='box'/>}</Td>
                             
                         </Tr>
@@ -103,7 +160,7 @@ class EditProjectDetail extends React.Component{
                                     Description :
                                 </div>
                              </Td> 
-                            <Td> {this.project.description}</Td>
+                            <Td> {this.state.project.description}</Td>
                             <Td>{<Input placeholder='Enter New Description' className='box'/>}</Td>
                             
                         </Tr>
@@ -113,7 +170,7 @@ class EditProjectDetail extends React.Component{
                                     Funding Type :
                                 </div>
                              </Td> 
-                            <Td> {this.project.fundingType}</Td>
+                            <Td> {this.state.project.fundingType}</Td>
                             <Td>{<Input placeholder='Enter New FundingType' className='box'/>}</Td>
                             
                         </Tr>
@@ -123,7 +180,7 @@ class EditProjectDetail extends React.Component{
                                     Category :
                                 </div>
                              </Td> 
-                            <Td> {this.project.category}</Td>
+                            <Td> {this.state.project.category}</Td>
                             <Td>{<Input placeholder='Enter New Category' className='box'/>}</Td>
                             
                         </Tr>
@@ -133,7 +190,7 @@ class EditProjectDetail extends React.Component{
                                     Deadline :
                                 </div>
                              </Td> 
-                            <Td> {this.project.deadline}</Td>
+                            <Td> {this.state.project.deadline}</Td>
                             <Td>{<Input  type = "date" placeholder='Enter New Deadline' className='box'/>}</Td>
                             
                         </Tr>
@@ -143,7 +200,7 @@ class EditProjectDetail extends React.Component{
                                     Funding Goal :
                                 </div>
                              </Td> 
-                            <Td> {this.project.fundingGoal}</Td>
+                            <Td> {this.state.project.fundingGoal}</Td>
                             <Td>{<Input type="number" placeholder='Enter New Funding Goal' className='box'/>}</Td>
                         </Tr>
                     </Tbody>
@@ -157,7 +214,7 @@ class EditProjectDetail extends React.Component{
         else
         return <div>
             <Navigator/>
-            <div> second</div>
+            <div></div>
         </div>
     }
 }
