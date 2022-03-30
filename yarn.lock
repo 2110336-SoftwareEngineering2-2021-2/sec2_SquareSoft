@@ -3305,8 +3305,6 @@ iconv-lite@0.4.24, iconv-lite@^0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-
-
 iconv-lite@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.2.tgz#ce13d1875b0c3a674bd6a04b7f76b01b1b6ded01"
@@ -3325,6 +3323,11 @@ ieee754@1.1.13, ieee754@^1.1.4:
   version "1.1.13"
   resolved "https://registry.npmjs.org/ieee754/-/ieee754-1.1.13.tgz"
   integrity sha512-4vf7I2LYV/HaWerSo3XmlMkp5eZ83i+/CDluXi/IGTs/O1sejBNhTtnxzmRZfvOUqj7lZjqHkeTvpgSFDlWZTg==
+
+ieee754@^1.1.13:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
+  integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
 
 ignore@^4.0.6:
   version "4.0.6"
@@ -4703,7 +4706,7 @@ nodemailer@6.7.0:
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.0.tgz#86614722c4e0c33d1b5b02aecb90d6d629932b0d"
   integrity sha512-AtiTVUFHLiiDnMQ43zi0YgkzHOEWUkhDgPlBXrsDzJiJvB29Alo4OKxHQ0ugF3gRqRQIneCLtZU3yiUo7pItZw==
 
-nodemailer@^6.5.0:
+nodemailer@^6.5.0, nodemailer@^6.7.3:
   version "6.7.3"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.3.tgz#b73f9a81b9c8fa8acb4ea14b608f5e725ea8e018"
   integrity sha512-KUdDsspqx89sD4UUyUKzdlUOper3hRkDVkrKh/89G+d9WKsU5ox51NWS4tB1XR5dPUdR4SP0E3molyEfOvSa3g==
