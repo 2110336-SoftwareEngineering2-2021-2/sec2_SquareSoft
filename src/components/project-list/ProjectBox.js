@@ -64,7 +64,7 @@ function ProjectBox(props) {
                                 <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/update-progression/${props._id}`)}>
                                     Update Project
                                 </Button>
-                                <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='gray' variant='solid' onClick={() => navigate(`/projects/update-progression/${props._id}`)}>
+                                <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='gray' variant='solid' onClick={() => navigate(`/projects/editProjects/${props._id}`)}>
                                     Edit Project
                                 </Button>
                             </VStack>

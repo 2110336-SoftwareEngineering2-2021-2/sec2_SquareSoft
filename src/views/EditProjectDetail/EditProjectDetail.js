@@ -14,6 +14,10 @@ import {
     Tr,
     Td,Input} from '@chakra-ui/react'
 
+function refreshPage(){
+    window.location.reload(false)
+}
+
 const test_data = 
     {
         url: 'https://bit.ly/dan-abramov',
@@ -32,7 +36,10 @@ async function handleConfirm(e){
     let category = e.target[3].value
     let deadline = e.target[4].value
     let fundingGoal = e.target[5].value
-    alert(objective)
+    // axios.post
+
+    alert("Update Successful")
+    refreshPage()
 
 }
 class EditProjectDetail extends React.Component{
