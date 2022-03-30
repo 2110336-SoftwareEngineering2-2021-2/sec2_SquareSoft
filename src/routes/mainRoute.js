@@ -19,7 +19,7 @@ import ChangePassword from '../views/change-password/ChangePassword';
 import Deposit from '../views/donation-system/Deposit'
 import Withdraw from '../views/donation-system/Withdraw'
 import WithdrawProjectOwner from '../views/donation-system/WithdrawProjectOwner'
-
+import EditProjectDetail from '../views/EditProjectDetail/EditProjectDetail'
 const MainRoutes = () => {
   return (
     <BrowserRouter>
