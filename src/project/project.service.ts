@@ -59,7 +59,7 @@ export class ProjectService {
             if(projectPublishStatus)
                 queryBlock['projectPublishStatus']=projectPublishStatus
             
-            const result=await this.projectModel.find(queryBlock,{projectName:1,description:1,projectPicture:1}).exec();
+            const result=await this.projectModel.find(queryBlock,{ projectName:1, description:1, projectPicture:1, fundingMoneyStatus:1, withdrawnAmount:1 }).exec();
             return result;
         }
         catch(err){
