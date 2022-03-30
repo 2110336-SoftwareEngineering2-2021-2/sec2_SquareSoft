@@ -44,7 +44,7 @@ function NotificationBox({text, closeNotification, _id}){
             }
             </GridItem>
             <GridItem colSpan={1}>
-                {mouseOver&&<Button size='xs' onClick={()=>{setApper(false); closeNotification(); deleteNotification(_id);}}>X</Button>}
+                {mouseOver&&<Button size='xs' onClick={()=>{closeNotification(_id); deleteNotification(_id);}}>X</Button>}
             </GridItem>
         </Grid>
     </>
@@ -56,9 +56,15 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
     const [ data, setData ] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ numberOfNotification, setNumberOfNotificationInSight ] = useState(0);
-    const closeNotification = () => {
+    const closeNotification = (_id) => {
+        const newData1= data[1].filter(d  => {
+            return d._id !== _id;
+        });
+        const newData= [numberOfNotification-1,newData1]
+        setData(newData);
         setNumberOfNotification(numberOfNotification-1);
         setNumberOfNotificationInSight(numberOfNotification-1);
+
     };
 
     useEffect(() => {

@@ -196,6 +196,7 @@ const SignUpProjectOwner = (props) =>{
         }
         // let real_result = {"bankAccountBank": "asdfasdf"}
         console.log(real_result)
+        
         try{
             const response = await axios.patch(basedURL.concat('registration-system/edit-personal-details'), real_result, {
                 headers: { Authorization: "Bearer " + getToken() }
@@ -213,6 +214,7 @@ const SignUpProjectOwner = (props) =>{
                     return { status:"error", message:Object.keys(data['err']['keyPattern'])[0] + " used"}
                 }
             }
+            alert("Error")
         }
         
 

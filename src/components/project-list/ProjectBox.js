@@ -6,12 +6,18 @@ import { changeProjectStatus, getProjectStatus } from '../../api/project-status/
 import { withdraw } from '../../api/project-list/project-list-api.js';
 
 function ProjectBox(props) {
-    const [value, setValue] = useState('')
+
+    const [ value, setValue ] = useState(0)
     const handleChange = (event) => setValue(event.target.value)
     
     const navigate = useNavigate();
     const toast = useToast();
     const [status, setStatus] = useState('unpublished');
+
+    useEffect(()=>{
+        if(props) 
+            setValue(String(props.fundingMoneyStatus-props.withdrawnAmount));
+    }, [props]);
 
     useEffect(async () => {
         const token = Cookies.get('token')
@@ -24,6 +30,7 @@ function ProjectBox(props) {
         try {
             const token = Cookies.get('token')
             changeProjectStatus(props._id, status, token)
+            props.removeProject(props._id)
             toast({
                 position: 'top',
                 title: `Project status has been changed successfully.`,
