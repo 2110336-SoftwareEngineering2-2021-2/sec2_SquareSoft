@@ -73,7 +73,7 @@ export class TransactionController {
     @UseGuards(AdminGuard)
     async adminGetUnfinishedUserTX(@Body() body: AdminMarkTxAsInProgressDTO) {
         if (!body.limit){
-            body.limit = 10;
+            body.limit = 100000000;
         }
         const result = await this.transactionService.getUnfinishedUserTX(body.limit);
         return result;

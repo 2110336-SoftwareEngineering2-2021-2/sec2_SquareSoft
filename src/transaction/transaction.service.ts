@@ -268,7 +268,7 @@ export class TransactionService {
         return result
     }
 
-    async getUnfinishedUserTX(limit: number = 10){
+    async getUnfinishedUserTX(limit: number = 100000000){
         const result = await this.transactionModel.find({
             $or:[
                 {
