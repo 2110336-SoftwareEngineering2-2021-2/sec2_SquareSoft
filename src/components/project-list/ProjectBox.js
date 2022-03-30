@@ -6,7 +6,11 @@ import { changeProjectStatus, getProjectStatus } from '../../api/project-status/
 import { withdraw } from '../../api/project-list/project-list-api.js';
 
 function ProjectBox(props) {
-    const [value, setValue] = useState('')
+    console.log(props);
+    const [ withdrawAmount, setWithdrawAmount ] = useState(0)
+    //setWithdrawAmount(props.fundingMoneyStatus-props.withdrawnAmount)
+
+    const [ value, setValue ] = useState(String(withdrawAmount))
     const handleChange = (event) => setValue(event.target.value)
     
     const navigate = useNavigate();

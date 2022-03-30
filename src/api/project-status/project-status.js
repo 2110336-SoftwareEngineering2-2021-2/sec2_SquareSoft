@@ -21,6 +21,7 @@ async function getProjectStatus(projectid, token) {
                 'Authorization': `Bearer ${token}`
             }
         })
+        console.log(response)
         return response.data
 
     } catch (err) {
