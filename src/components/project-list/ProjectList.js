@@ -16,7 +16,9 @@ function ProjectList(props) {
                                         isOwner={props.isOwner} 
                                         isAdmin={props.isAdmin} 
                                         fundingMoneyStatus={e.fundingMoneyStatus} 
-                                        withdrawnAmount={e.withdrawnAmount}/></Center>
+                                        withdrawnAmount={e.withdrawnAmount}
+                                        removeProject={props.removeProject}
+                                        /></Center>
                 </GridItem>
               )
             }
