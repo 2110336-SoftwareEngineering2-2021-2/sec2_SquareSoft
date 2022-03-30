@@ -1,16 +1,13 @@
 import axios from 'axios'
 import {
-    basedURL, getToken
+    basedURL
 } from '../index.js';
 const getProjectById=async (id)=> {
-    let req = { "projectID": id, "fields": {}}
-    const response = await axios.patch(basedURL.concat('project/edit-project'), req, {
-        headers: { Authorization: "Bearer " + getToken() }
+    const response = await axios.get(basedURL.concat(`project/find-by-id?_id=${id}`), {
     })
     const project=response.data
 
     return {
-        objective: project.objective,
         projectName: project.projectName,
         description: project.description,
         fundingType: project.fundingType,
