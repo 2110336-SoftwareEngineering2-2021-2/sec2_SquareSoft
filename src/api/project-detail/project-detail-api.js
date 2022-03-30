@@ -10,6 +10,7 @@ const getProjectById=async (id)=> {
     const project=response.data
 
     return {
+        objective: project.objective,
         projectName: project.projectName,
         description: project.description,
         fundingType: project.fundingType,
