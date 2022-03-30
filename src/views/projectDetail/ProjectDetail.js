@@ -5,13 +5,20 @@ import { useNavigate, useParams} from "react-router-dom";
 import { useEffect } from 'react';
 import './ProjectDetail.css'
 import {getProjectById} from '../../api/project-detail/project-detail-api'
-
+import {getProjectProgressByID} from '../../api/project-detail/update-project-progression'
 import { 
-    Button, Image,  Table,AspectRatio ,
+    Button, Image,  Table, AspectRatio,
     Thead,
     Tbody,
     Tr,
-    Td,} from '@chakra-ui/react'
+    Td,
+    Box,
+    VStack,
+    Text,
+    HStack,
+    Badge,
+    Progress,} from '@chakra-ui/react'
+import Cookies from 'js-cookie';
 
 const data = 
     {
@@ -38,11 +45,23 @@ function onBack(){
 const ProjectDetail =()=>{
     
     const [project,setProject]=useState(0);
+    const [progress,setProgress]=useState(null);
     const { id } = useParams();
 
     useEffect(() => {
         getProjectById(id)
-            .then(res => {console.log(res);setProject(res);})
+            .then(res => {
+                setProject(res);
+            })
+        if(!progress && project){
+            getProjectProgressByID(id)
+            .then((res) => {
+                setProgress(res.data.progress!==undefined ? res.data.progress:0);
+            })
+            .catch(() => {
+                setProgress(0);
+            });
+        }
     }, []);
 
     if (project!==undefined)
@@ -54,6 +73,10 @@ const ProjectDetail =()=>{
                 <Thead>
                 </Thead>
                 <Tbody>
+                    <Tr className='item'>
+                        <Td>Name :</Td>
+                        <Td>{project.projectName}</Td>
+                    </Tr>
                     <Tr className='item'>
                         <Td>Objective :</Td>
                         <Td>{project.objective}</Td>
@@ -84,6 +107,15 @@ const ProjectDetail =()=>{
                     </Tr>                 
                 </Tbody>
             </Table>
+            <Box w = "100%" h = {10} m = {5}>
+                <VStack align="left">
+                    <HStack>
+                        <Text>ความคืบหน้า : </Text>
+                        <Badge>{progress} %</Badge>
+                    </HStack>
+                    <Progress w = "97%" value={progress} colorScheme='purple' isAnimated hasStripe/>
+                </VStack>
+            </Box>
             <div className='button-grid'>  
                 <Button colorScheme='blue' variant='solid' onClick={onBack}> BACK </Button>
                 <Button colorScheme='red' variant='solid' onClick={onSupport}> SUPPORT </Button>

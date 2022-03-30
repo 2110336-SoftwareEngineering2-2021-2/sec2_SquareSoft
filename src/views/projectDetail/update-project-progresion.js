@@ -1,15 +1,29 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Box, Text, Badge, Button, VStack , HStack, Textarea, Center } from '@chakra-ui/react'
+import { useNavigate, useParams } from "react-router-dom";
+import { Box, Text, Badge, Button, VStack , HStack, Center } from '@chakra-ui/react'
 import { Slider, SliderTrack, SliderFilledTrack, SliderThumb } from '@chakra-ui/react'
-import { Progress } from '@chakra-ui/react'
 import Navigator from './../../components/navigator'
+import { getProjectProgressByID, setProjectProgression } from '../../api/project-detail/update-project-progression';
 
 
 function UpdateProjectProgression(){
 
     const navigate = useNavigate(); 
-    const [startValueOfSlider, setStartValueOfSlider] = useState(30);
+    const [startValueOfSlider, setStartValueOfSlider] = useState(null);
+    const { id } = useParams();
+
+    useEffect(() => {
+        if(!startValueOfSlider){
+            getProjectProgressByID(id)
+            .then((res) => {
+                setStartValueOfSlider(res.data.progress!==undefined ? res.data.progress:0);
+                setValueOfSlider(res.data.progress!==undefined ? res.data.progress:0);
+            })
+            .catch(() => {
+                setStartValueOfSlider(0);
+            });
+        }
+    }, []);
 
     const [valueOfSlider, setValueOfSlider] = useState(startValueOfSlider);
 
@@ -21,10 +35,6 @@ function UpdateProjectProgression(){
                 <VStack>
                     <Text fontWeight="bold" fontSize={30} >ปรับปรุงความเคือบหน้าของโครงการ</Text>
                     <Text fontWeight="bold" fontSize={25} >Are we still alive ?</Text>
-                    <HStack p = {5}>
-                        <Text>กิจกรรมปัจจุบัน</Text>
-                        <Textarea width = {500} minH = {10} maxH = {10}></Textarea>
-                    </HStack>
                     <HStack p = {1}>
                         <Text>ความคืบหน้า</Text>
                         <Badge>{valueOfSlider} %</Badge>
@@ -46,8 +56,8 @@ function UpdateProjectProgression(){
                         </Slider>
                     </HStack>
                     <HStack>
-                        <Button onClick = {() => {navigate(-1); console.log("Back")}}>ย้อนกลับ</Button>
-                        <Button colorScheme='purple' onClick = {() => {navigate("/projects/my-project"); console.log("Back")}}>ยืนยัน</Button>
+                        <Button onClick = {() => {navigate(-1); }}>ย้อนกลับ</Button>
+                        <Button colorScheme='purple' onClick = {() => {navigate(-1); setProjectProgression(id, valueOfSlider);}}>ยืนยัน</Button>
                     </HStack>
                     <HStack>
                     </HStack>
@@ -55,18 +65,14 @@ function UpdateProjectProgression(){
             </Box>
         </Center>
 
-        <Box w = {500} h = {10}>
-            <VStack align="left">
-                <Text>กิจกรรม : </Text>
-                <HStack>
-                    <Text>ความคืบหน้า : </Text>
-                    <Badge>{valueOfSlider} %</Badge>
-                </HStack>
-                <Progress w = {400} value={valueOfSlider} colorScheme='purple' isAnimated hasStripe/>
-            </VStack>
-        </Box>
     </>
     );
 }
 
 export default UpdateProjectProgression
+
+
+/*<HStack p = {5}>
+                        <Text>กิจกรรมปัจจุบัน</Text>
+                        <Textarea width = {500} minH = {10} maxH = {10}></Textarea>
+                    </HStack>*/

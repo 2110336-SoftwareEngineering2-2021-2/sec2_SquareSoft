@@ -1,10 +1,11 @@
 import { Flex, Center, Text, Container, VStack } from '@chakra-ui/react'
 import VerificcationBox from '../../../components/donation-system/admin/transaction-verification';
 import { useEffect, useState } from 'react';
-import Navigator from "../../../components/navigator";
+import NavigatorAdmin from "../../../components/navigator-admin";
+import useForAdmin from '../../../components/for-admin';
 
 function TransactionVerification(){
-
+    useForAdmin();
     const [load, setLoad] = useState(false);
 
     //uncomment to edit loading API
@@ -29,10 +30,10 @@ function TransactionVerification(){
             <Text>loading data...</Text>
         </div>
     );*/
-
+        // Do not forget to add key to each verification box
     return(
         <div>
-            <Navigator />
+            <NavigatorAdmin />
             <Container maxW = "container.xl" p = {0}>
                 <Flex px = {20} alignContent = "center">
                     <Center w='full' py = {5}>

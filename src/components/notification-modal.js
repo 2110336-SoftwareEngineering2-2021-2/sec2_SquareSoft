@@ -15,23 +15,66 @@ import {
     Box
   } from '@chakra-ui/react'
 
+import { getNotification, deleteNotification } from './../api/notification/notification-api';
+
+function NotificationBox({text, closeNotification, _id}){
+    const [ mouseOver, setmouseOver ] = useState(false);
+    const [ appear, setApper ] = useState(true);
+    return(
+    appear&&<>
+        <Grid   templateRows='repeat(1, 1fr)'
+                templateColumns='repeat(7, 1fr)'
+                gap={4}
+                onMouseOver={() => {setmouseOver(true);}}
+                onMouseLeave={() => {setmouseOver(false);}}
+                marginBottom = "8px"
+        >
+            <GridItem colSpan={6}>
+            {
+                !mouseOver && 
+                <Box borderWidth='1px' borderRadius='xs' overflow='hidden'>
+                <Text p = "9px">{text}</Text>
+                </Box>
+            }
+            {
+                mouseOver && 
+                <Box borderWidth='3px' borderRadius='lg' overflow='hidden'>
+                <Text p = "7px">{text}</Text>
+                </Box>
+            }
+            </GridItem>
+            <GridItem colSpan={1}>
+                {mouseOver&&<Button size='xs' onClick={()=>{setApper(false); closeNotification(); deleteNotification(_id);}}>X</Button>}
+            </GridItem>
+        </Grid>
+    </>
+    );
+}
+
 function NotificationModal({setNumberOfNotification, setNotificationIsOpen, notificationIsOpen}){
     const [ updated, setUpdated ] = useState(false);
+    const [ data, setData ] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ numberOfNotification, setNumberOfNotificationInSight ] = useState(0);
-    const [ appear, setAppear ] = useState(false);
-    
-    useEffect(()=>{
-        if(!updated){
-            setNumberOfNotificationInSight(100);
-            setNumberOfNotification(numberOfNotification);
-            setUpdated(true);
-        }
-    }, [updated]);
+    const closeNotification = () => {
+        setNumberOfNotification(numberOfNotification-1);
+        setNumberOfNotificationInSight(numberOfNotification-1);
+    };
 
-    useEffect(()=>{
-        setNumberOfNotification(numberOfNotification);
-    }, [numberOfNotification]);
+    useEffect(() => {
+        if(!data){
+            getNotification()
+            .then(res => {
+                setData(res.data);
+                setNumberOfNotificationInSight(res.data[0]);
+                setNumberOfNotification(res.data[0]);
+            })
+            .catch(() => {
+                setNumberOfNotificationInSight(0);
+                setNumberOfNotification(0);
+            });
+        }
+    },[data]);
 
     useEffect(()=>{
         if(notificationIsOpen){
@@ -39,6 +82,10 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
             onOpen();
         }
     }, [notificationIsOpen]);
+
+    if(!data){
+        return <></>
+    }
 
     return (
         <>
@@ -48,38 +95,19 @@ function NotificationModal({setNumberOfNotification, setNotificationIsOpen, noti
             <ModalHeader>Notification({numberOfNotification})</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <Grid   templateRows='repeat(1, 1fr)'
-                        templateColumns='repeat(7, 1fr)'
-                        gap={4}
-                        onMouseEnter={() => {setAppear(true);}}
-                        onMouseLeave={() => {setAppear(false);}}
-                >
-                    <GridItem colSpan={6}>
-                    {
-                        !appear && 
-                        <Box borderWidth='1px' borderRadius='xs' overflow='hidden'>
-                        <Text p = "9px">
-                            Lorem ipsum is placeholder text commonly used in the graphic, print, and
-                            publishing industries for previewing layouts and visual mockups.1111112dafgmklsdjfgljdlsfgjl;ksdfjgl;jsdlfgjklsdfjgljsdfgljsldkfjgl;sdjfgkljsdflg;jls;dkfjgkl;sdjfgkl;jsdfl;gjs;dlfg
-                        </Text>
-                        </Box>
-                    }
-                    {
-                        appear && 
-                        <Box borderWidth='3px' borderRadius='lg' overflow='hidden'>
-                        <Text p = "7px">
-                            Lorem ipsum is placeholder text commonly used in the graphic, print, and
-                            publishing industries for previewing layouts and visual mockups.1111112dafgmklsdjfgljdlsfgjl;ksdfjgl;jsdlfgjklsdfjgljsdfgljsldkfjgl;sdjfgkljsdflg;jls;dkfjgkl;sdjfgkl;jsdfl;gjs;dlfg
-                        </Text>
-                        </Box>
-                    }
-                    </GridItem>
-                    <GridItem colSpan={1}>
-                        {appear&&<Button size='xs' >X</Button>}
-                    </GridItem>
-                </Grid>
+                {
+                    Array
+                    .from({ length: data[0] })
+                    .map((_, idx) => (
+                        <NotificationBox 
+                            _id = {data[1][idx]._id}  
+                            text = {data[1][idx].text} 
+                            closeNotification ={closeNotification}
+                            key={idx.toString()}
+                        />
+                    ))
+                }
             </ModalBody>
-
             <ModalFooter>
                 <Button colorScheme='purple' mr={3} onClick={onClose}> Close </Button>
             </ModalFooter>

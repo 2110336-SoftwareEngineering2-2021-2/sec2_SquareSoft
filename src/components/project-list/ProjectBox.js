@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import Cookies from "js-cookie"
 import { Box, Center, Image, Button, VStack, HStack, Select, Stack, useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import { changeProjectStatus, getProjectStatus } from '../../api/project-status/project-status.js'
@@ -7,16 +8,19 @@ function ProjectBox(props) {
     
     const navigate = useNavigate();
     const toast = useToast();
-    const [status, setStatus] = useState('option3');
+    const [status, setStatus] = useState('unpublished');
 
-    useEffect(() => {
-        const projectStatus = getProjectStatus(props._id)
+    useEffect(async () => {
+        const token = Cookies.get('token')
+        const projectStatus = await getProjectStatus(props._id, token)
         setStatus(projectStatus)
     }, [])
 
     const handleSave = () => {
+        
         try {
-            changeProjectStatus(props._id, status)
+            const token = Cookies.get('token')
+            changeProjectStatus(props._id, status, token)
             toast({
                 position: 'top',
                 title: `Project status has been changed successfully.`,
@@ -57,10 +61,10 @@ function ProjectBox(props) {
                     {
                         (props.isOwner)? 
                             <VStack w='100%'>
-                                <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid'>
+                                <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='purple' variant='solid' onClick={() => navigate(`/projects/update-progression/${props._id}`)}>
                                     Update Project
                                 </Button>
-                                <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='gray' variant='solid'>
+                                <Button borderRadius='md' px={4} h={8} mt='5' w='100%' colorScheme='gray' variant='solid' onClick={() => navigate(`/projects/update-progression/${props._id}`)}>
                                     Edit Project
                                 </Button>
                             </VStack>
@@ -69,7 +73,7 @@ function ProjectBox(props) {
                                 <VStack w='100%'>
                                     <Select mt='5' value={status} onChange={(e) => {setStatus(e.target.selectedOptions[0].value)}}>
                                         <option value='unpublished'>Unpublished</option>
-                                        <option value='in-progress'>In Progress</option>
+                                        <option value='published'>Published</option>
                                         <option value='successful'>Successful</option>
                                     </Select>
                                     
