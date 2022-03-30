@@ -92,6 +92,8 @@ async function getMyProjects(token) {
             _id: e._id,
             title: e.projectName,
             description: e.description,
+            fundingMoneyStatus: e.fundingMoneyStatus, 
+            withdrawnAmount: e.withdrawnAmount,
             imageUrl: imgUrl,
         }
     }))
