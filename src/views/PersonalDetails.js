@@ -201,6 +201,7 @@ const SignUpProjectOwner = (props) =>{
                 headers: { Authorization: "Bearer " + getToken() }
             })
             console.log(response)
+            alert("Update Success")
             return {status:"success",response}
         }catch(err){
             console.log(err.response.status)
@@ -211,6 +212,7 @@ const SignUpProjectOwner = (props) =>{
                     return { status:"error", message:Object.keys(data['err']['keyPattern'])[0] + " used"}
                 }
             }
+            alert("Error")
         }
         
 
