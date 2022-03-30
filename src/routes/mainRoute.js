@@ -17,7 +17,7 @@ import AdminProjectList from '../views/project-list/AdminProjectList';
 import Deposit from '../views/donation-system/Deposit'
 import Withdraw from '../views/donation-system/Withdraw'
 import WithdrawProjectOwner from '../views/donation-system/WithdrawProjectOwner'
-
+import EditProjectDetail from '../views/EditProjectDetail/EditProjectDetail'
 const MainRoutes = () => {
   return (
     <BrowserRouter>
@@ -40,6 +40,7 @@ const MainRoutes = () => {
           <Route path= "donation/deposit" element={<Deposit/>}/> 
           <Route path= "donation/withdraw" element={<Withdraw/>}/> 
           <Route path= "donation/withdrawProjectOwner" element={<WithdrawProjectOwner/>}/> 
+          <Route path="editProjects/:id" element={<EditProjectDetail/>}/> 
         </Routes>
     </BrowserRouter>
   );
