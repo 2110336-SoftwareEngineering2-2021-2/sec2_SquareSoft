@@ -192,7 +192,6 @@ class EditProjectDetail extends React.Component{
                              </Td> 
                             <Td> {this.state.project.deadline}</Td>
                             <Td>{<Input  type = "date" placeholder='Enter New Deadline' className='box'/>}</Td>
-                            
                         </Tr>
                         <Tr className='item'>
                             <Td> 
@@ -225,4 +224,3 @@ function WithEditProjectDetail(props){
 }
 
 export default WithEditProjectDetail
-

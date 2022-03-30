@@ -29,7 +29,7 @@ async function handleConfirm(e){
                     headers: { Authorization: "Bearer "+getToken() },
                 }
             );
-    
+            
             let inp_data2 = await axios.patch(basedURL.concat('transaction/updateUserDepositRef'), 
             {    
                 
@@ -42,9 +42,10 @@ async function handleConfirm(e){
             }
         );
     
-            return inp_data.data;
+            alert("Success")
         }
         catch(err){
+            alert(err)
             console.log(err)
         }
     }else{
