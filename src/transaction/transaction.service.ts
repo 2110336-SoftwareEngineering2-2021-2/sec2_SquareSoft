@@ -215,7 +215,7 @@ export class TransactionService {
             }, HttpStatus.NOT_FOUND);
         }
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
-        if (project.projectOwnerID !== user._id ){
+        if (project.projectOwnerID != user._id ){
             throw new HttpException({
                 "msg": "this project owner has no permission on this project"
             }, HttpStatus.FORBIDDEN);
