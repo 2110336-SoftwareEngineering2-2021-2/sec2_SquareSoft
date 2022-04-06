@@ -15,6 +15,7 @@ export const ProjectSchema = new mongoose.Schema({
   projectPublishStatus: { type: String, required: true },
   progress: { type: Number, required: true, default: 0 },
   withdrawnAmount: { type: Number, required: true, default: 0 },
+  avgStar: { type: Number, required: true, default: 0 }
 });
 
 export interface project{
@@ -31,5 +32,5 @@ export interface project{
   projectPublishStatus: string;
   progress: number;
   withdrawnAmount: number;
+  avgStar: number;
 }
-
