@@ -13,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { EmailModule } from './email/email.module';
 import { NotificationModule } from './notification/notification.module'
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { NotificationModule } from './notification/notification.module'
     ProjectModule,
     FileUploaderModule,
     EmailModule,
-    NotificationModule
+    NotificationModule,
+    ReviewModule
   ],
   controllers: [AppController],
   providers: [AppService],
