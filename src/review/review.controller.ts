@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
+import { CreateReviewDTO } from './review.dto';
 
 @Controller('review')
 export class ReviewController {
@@ -8,20 +9,21 @@ export class ReviewController {
 
     @UseGuards(RoleGuard.AllRoleGuard)
     @Post('')
-    async createReview(@Req() req: any, @Body() body) {
+    async createReview(@Req() req: any, @Body() body: CreateReviewDTO) {
         const results = this.reviewService.createReview(body.text, body.star, req.user._id, body.projectID);
         return results;
     }
     
-    @Delete('')
-    async deleteReview(@Body() review) {
-        const results={hello: 'hello'}
+    @UseGuards(RoleGuard.AllRoleGuard)
+    @Delete(':id')
+    async deleteReview(@Req() req: any, @Param('id') reviewID) {
+        const results = this.reviewService.deleteReview(reviewID, req.user._id)
         return results;
     }
 
     @Get('')
-    async getReview(@Body() review) {
-        const results={hello: 'hello'}
+    async getReview(@Query() query) {
+        const results = this.reviewService.getReview(query.projectID);
         return results;
     }
 }
