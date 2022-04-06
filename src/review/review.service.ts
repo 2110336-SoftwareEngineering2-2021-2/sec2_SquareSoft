@@ -56,6 +56,7 @@ export class ReviewService {
     }
     
     async deleteReview(reviewID: String, userID: String) {
+        
 
         const reviewObject = await this.reviewModel.findOne({ _id: reviewID, userID: userID});
 
@@ -65,6 +66,18 @@ export class ReviewService {
 
         try {
             const result = await reviewObject.remove()
+            const projectID = reviewObject.projectID
+            const projectObject = await this.projectModel.findOne({ _id: projectID})
+
+            const avgStar = await this.reviewModel.aggregate([{
+                $group: {
+                    "_id": projectID,
+                    avgStar: { $avg: "$star" }
+                }
+            }])
+
+            await projectObject.updateOne({avgStar: avgStar[0].avgStar})
+
             return result
         } catch (err) {
             throw new HttpException({
