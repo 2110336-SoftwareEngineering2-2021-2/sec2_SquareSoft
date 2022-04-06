@@ -36,6 +36,7 @@ export class ReviewService {
             const newReviewCreated = new this.reviewModel(newReview);
             const result = await newReviewCreated.save();
 
+
             const avgStar = await this.reviewModel.aggregate([{
                 $group: {
                     "_id": projectID,
@@ -56,7 +57,6 @@ export class ReviewService {
     }
     
     async deleteReview(reviewID: String, userID: String) {
-        
 
         const reviewObject = await this.reviewModel.findOne({ _id: reviewID, userID: userID});
 
