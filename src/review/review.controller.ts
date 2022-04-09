@@ -10,7 +10,7 @@ export class ReviewController {
     @UseGuards(RoleGuard.AllRoleGuard)
     @Post('')
     async createReview(@Req() req: any, @Body() body: CreateReviewDTO) {
-        const results = this.reviewService.createReview(body.text, body.star, req.user._id, body.projectID);
+        const results = this.reviewService.createReview(body.text, body.star, req.user, body.projectID);
         return results;
     }
     

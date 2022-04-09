@@ -396,4 +396,18 @@ export class TransactionService {
         }
     }
 
+    async didUserDonateProject(user: any, projectID: String){
+
+        const result = await this.transactionModel.findOne({
+            'username.username': user.username,
+            'username.role': user.role,
+            'type': TransactionType.Transfer,
+            'data.transferType': TransferType.Donate,
+            'data.data.toProjectID': projectID
+        })
+
+        if (result) return true;
+        else return false;
+    }
+
 }
