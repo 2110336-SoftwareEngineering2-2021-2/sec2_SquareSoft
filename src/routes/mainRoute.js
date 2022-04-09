@@ -21,6 +21,7 @@ import Withdraw from '../views/donation-system/Withdraw'
 import WithdrawProjectOwner from '../views/donation-system/WithdrawProjectOwner'
 import EditProjectDetail from '../views/EditProjectDetail/EditProjectDetail'
 import PersonalDetails from '../views/PersonalDetails'
+import ReviewReported from '../views/admin/review-reported';
 const MainRoutes = () => {
   return (
     <BrowserRouter>
@@ -37,6 +38,7 @@ const MainRoutes = () => {
           <Route path="admin/project-owner" element={<OverviewVerification />} />
           <Route path="admin/transaction" element={<TransactionVerification />} />
           <Route path="admin/projects" element={<AdminProjectList />} />
+          <Route path="admin/review-reported" element={<ReviewReported />} />
           <Route path= "sign-up" element={<SignUp/>}/> 
           <Route path= "sign-up-projectOwner" element={<SignUpProjectOwner/>}/> 
           <Route path= "create-project" element={<CreateProject/>}/>

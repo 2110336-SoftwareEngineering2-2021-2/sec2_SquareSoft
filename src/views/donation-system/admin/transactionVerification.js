@@ -19,7 +19,6 @@ function TransactionVerification(){
             .catch();
         }
     });
-    console.log(data)
 
     //uncomment to eding loading state views
     /*if(!load)
