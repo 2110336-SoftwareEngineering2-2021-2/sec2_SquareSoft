@@ -23,6 +23,7 @@ import { ProjectModule } from 'src/project/project.module';
     EmailModule
   ],
   controllers: [TransactionController],
-  providers: [TransactionService]
+  providers: [TransactionService],
+  exports: [TransactionService]
 })
 export class TransactionModule {}
