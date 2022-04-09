@@ -3,7 +3,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { Module } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { join } from 'path';
-import { EmailController } from './email.controller';
 import { RegistrationSystemModule} from 'src/registration-system/registration-system.module';
 import { ProjectModule } from 'src/project/project.module';
 
@@ -35,7 +34,6 @@ import { ProjectModule } from 'src/project/project.module';
     }),
   ],
   providers: [EmailService],
-  controllers: [EmailController],
   exports: [EmailService], // 👈 export for DI
 
 })

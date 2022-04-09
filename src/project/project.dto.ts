@@ -1,7 +1,9 @@
 import { Type } from "class-transformer";
 import { IsDate, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, isURL, Max, Min, ValidateNested } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class GetProjectDTO{
+
     @IsNotEmpty()
     @IsString()
     projectID: string;
@@ -60,4 +62,56 @@ export class EditProjectDTO extends GetProjectDTO{
     @ValidateNested()
     fields: EditProjectField;
 }
+
+export class FindProjectDTO{
+
+    @ApiProperty()
+    @IsString()
+    projectID: string;
+
+    @ApiProperty()
+    @IsString()
+    projectName: string;
+
+    @ApiProperty()
+    @IsString()
+    objective: string;
+
+    @ApiProperty()
+    @IsString()
+    description: string;
+
+    @ApiProperty()
+    @IsString()
+    fundingType: string;
+
+    @ApiProperty()
+    @IsString()
+    category: string;
+
+    @ApiProperty()
+    @IsDateString()
+    deadline: string;
+
+    @ApiProperty()
+    @IsNumber()
+    fundingGoal: number;
+
+    @ApiProperty()
+    @IsString()
+    projectOwnerID: string;
+
+    @ApiProperty()
+    @IsUrl()
+    projectPicture: string;
+}
+
+export class FindProjectByOwnerDTO {
+
+  
+    @ApiProperty({ type: FindProjectDTO })
+    @ValidateNested()
+    @Type(() => FindProjectDTO)
+    doc_list: FindProjectDTO[]
+  }
   

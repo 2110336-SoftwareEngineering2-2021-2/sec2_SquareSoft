@@ -1,8 +1,20 @@
 import { Body, Controller, Get, Post ,UseGuards,Query,Req, Delete, Patch, Request, Param} from '@nestjs/common';
 import { ProjectService } from './project.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
-import { EditProjectDTO, UpdateProjectDTO } from './project.dto';
+import { EditProjectDTO, UpdateProjectDTO ,FindProjectByOwnerDTO} from './project.dto';
+import {
+    ApiBearerAuth,
+    ApiForbiddenResponse,
+    ApiOkResponse,
+    ApiParam,
+    ApiBody,
+    ApiQuery,
+    ApiTags,
+    ApiUnauthorizedResponse,
+    ApiNotFoundResponse
+  } from "@nestjs/swagger"
 
+@ApiTags("project")
 @Controller('project')
 export class ProjectController {
     constructor(private projectService: ProjectService ){}
@@ -14,12 +26,15 @@ export class ProjectController {
         return results;
     }
 
+    @ApiQuery({ name: "projectOwnerID", type: String, required: true })
+    @ApiOkResponse({ description: "Return list of published project with id of owner = query.projectOwnerID",type:FindProjectByOwnerDTO})
     @Get('find-by-owner-publish')
     async findByOwnerPublish(@Query() query) {
         const results=await this.projectService.findByProjectOwnerID(query,"published");
         return results;
     }
-
+    
+    @ApiOkResponse({ description: "Return list of project with id of owner = id of request owner",type:FindProjectByOwnerDTO})
     @UseGuards(RoleGuard.ProjectOwnerGuard)
     @Get('find-by-owner')
     async findByOwnerId(@Req() req: any) {
