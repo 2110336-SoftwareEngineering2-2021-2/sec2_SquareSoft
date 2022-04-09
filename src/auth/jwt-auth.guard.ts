@@ -115,3 +115,24 @@ export class DonPOGuard extends AuthGuard("jwt") {
         return true
     }
 }
+
+@Injectable()
+export class GuestAndAllRoleGuard extends AuthGuard("jwt") {
+    constructor(private readonly registrationSystemService: RegistrationSystemService) {
+        super();
+    }
+
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+        try{
+            const valid = await super.canActivate(context);
+            if (!valid) throw "invalid token";
+            const payload = context.switchToHttp().getRequest().user;
+            const user = await this.registrationSystemService.findByID(payload._id, payload.role);
+            if (!user || user.username != payload.username) throw "invalid token";
+        } catch {
+            context.switchToHttp().getRequest().user = null
+        } finally {
+            return true
+        }
+    }
+}
