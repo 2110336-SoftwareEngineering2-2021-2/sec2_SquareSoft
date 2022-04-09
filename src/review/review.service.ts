@@ -87,9 +87,19 @@ export class ReviewService {
         }
     }
 
-    async getReview(projectID: String) {
+    async getReview(projectID: String, userID: String) {
         try {
-            const result = await this.reviewModel.find({ projectID: projectID });
+            const reviewList = await this.reviewModel.find({ projectID: projectID });
+            const result = reviewList.map(e => {
+                return {
+                    _id: e._id,
+                    userID: e.userID,
+                    projectID: e.projectID,
+                    text: e.text,
+                    star: e.star,
+                    isOwner: (e.userID === userID)
+                }
+            })
             return result;
         } catch (err) {
             throw new HttpException({

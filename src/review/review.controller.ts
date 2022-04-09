@@ -17,13 +17,19 @@ export class ReviewController {
     @UseGuards(RoleGuard.AllRoleGuard)
     @Delete(':id')
     async deleteReview(@Req() req: any, @Param('id') reviewID) {
-        const results = this.reviewService.deleteReview(reviewID, req.user._id)
+        const results = this.reviewService.deleteReview(reviewID, req.user._id);
         return results;
     }
 
+    @UseGuards(RoleGuard.GuestAndAllRoleGuard)
     @Get('')
-    async getReview(@Query() query) {
-        const results = this.reviewService.getReview(query.projectID);
+    async getReview(@Req() req: any, @Query() query) {
+        let results;
+        if (!req.user) {
+            results = this.reviewService.getReview(query.projectID, null);
+        } else {
+            results = this.reviewService.getReview(query.projectID, req.user._id);
+        }
         return results;
     }
 }
