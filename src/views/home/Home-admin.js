@@ -40,6 +40,15 @@ function AdminHome(){
                         </Button>
                     </Flex>
                 </Box>
+                <Box  w="1000px" h="50px" borderWidth="1px" p = "10px">
+                    <Flex align="center">
+                        <Text fontWeight="bold">Reported Review Consideration</Text>
+                        <Spacer/>
+                        <Button size = "sm" onClick = {()=>{navigate('/admin/review-reported');}}>
+                            Go
+                        </Button>
+                    </Flex>
+                </Box>
             </VStack>
         </Center>
     </>
