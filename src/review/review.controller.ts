@@ -78,7 +78,7 @@ export class ReviewController {
     @ApiBadRequestResponse({description: "invalid report id"})
     @ApiOperation({ summary: 'An API for deleting a reported review for a project by admin.' })
     @UseGuards(RoleGuard.AdminGuard)
-    @Post('admin/reported/delete')
+    @Delete('admin/reported/delete')
     async deleteReportedReview(@Query() query) {
         return ;
     }
