@@ -18,7 +18,7 @@ import {
     Badge,
     Progress,
     Input} from '@chakra-ui/react'
-import Cookies from 'js-cookie';
+import CreateReviewBox from './create-review-box';
 
 const data = 
     {
@@ -131,6 +131,7 @@ const ProjectDetail =()=>{
                     </HStack>
                 </VStack>
             </div>
+            <CreateReviewBox projectID={project._id}/>
         </div>
     )
     else 
