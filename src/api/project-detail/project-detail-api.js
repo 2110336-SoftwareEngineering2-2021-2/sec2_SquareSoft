@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {
-    basedURL, getToken, getConfigWithToken
+    basedURL, getConfigWithToken
 } from '../index.js';
 const getProjectById=async (id)=> {
     const response = await axios.get(basedURL.concat(`project/find-by-id?_id=${id}`), {
