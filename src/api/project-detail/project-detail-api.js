@@ -26,5 +26,6 @@ const createReview = async(id, star, text)=> {
 
 export {
     getProjectById,
-    donate
+    donate,
+    createReview
 };
