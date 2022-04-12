@@ -12,7 +12,7 @@ function ProjectBox(props) {
     
     const navigate = useNavigate();
     const toast = useToast();
-    const [status, setStatus] = useState('unpublished');
+    const [status, setStatus] = useState(null);
 
     useEffect(()=>{
         if(props) 
@@ -20,9 +20,11 @@ function ProjectBox(props) {
     }, [props]);
 
     useEffect(async () => {
-        const token = Cookies.get('token')
-        const projectStatus = await getProjectStatus(props._id, token)
-        setStatus(projectStatus)
+        if (props.isAdmin) {
+            const token = Cookies.get('token')
+            const projectStatus = await getProjectStatus(props._id, token)
+            setStatus(projectStatus)
+        }
     }, [])
 
     const handleSave = () => {
