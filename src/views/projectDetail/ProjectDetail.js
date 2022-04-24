@@ -17,7 +17,8 @@ import {
     HStack,
     Badge,
     Progress,
-    Input} from '@chakra-ui/react'
+    Input,
+    Center} from '@chakra-ui/react'
 import CreateReviewBox from './create-review-box';
 
 const data = 
@@ -121,15 +122,20 @@ const ProjectDetail =()=>{
                 </VStack>
             </Box>
             <div className='button-grid'>  
+            <Center>
                 <VStack>
-                    <Input  w = {100} minH = {10} maxH = {10} 
-                            value={value}
-                            onChange={handleChange}/>
+                    <HStack>
+                        <Text>Donate Amount : </Text>
+                        <Input  w = {100} minH = {10} maxH = {10} 
+                                value={value}
+                                onChange={handleChange}/>
+                    </HStack>
                     <HStack>
                         <Button colorScheme='blue' variant='solid' onClick={() => {navigate(-1);}}> BACK </Button>
                         <Button colorScheme='red' variant='solid' onClick={() => {onSupport(project._id, value);}}> SUPPORT </Button>
                     </HStack>
                 </VStack>
+            </Center>
             </div>
             <CreateReviewBox projectID={project._id}/>
         </div>
