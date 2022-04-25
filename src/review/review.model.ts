@@ -14,3 +14,15 @@ export interface review{
   star: number;
 }
 
+export const ReportedReviewSchema = new mongoose.Schema({
+    reviewID: { type: String, required: true },
+    datetime: { type: Date, required: true },
+    status: { type: String, required: true },
+});
+
+export interface reportedReview{
+  reviewID: string;
+  datetime: string;
+  status: string;
+}
+

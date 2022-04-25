@@ -72,3 +72,26 @@ export class GetReviewReturnDTO {
     @ApiProperty()
     isOwner: boolean;
 }
+
+export class ReportReviewReturnDTO {
+    @ApiProperty()
+    reviewID: string;
+
+}
+
+export class ReportedReviewReturnDTO {
+    @ApiProperty()
+    _id: string;
+
+    @ApiProperty()
+    reviewID: string;
+
+
+    @ApiProperty()
+    datetime: Date;
+
+    @ApiProperty()
+    status: string;
+
+
+}

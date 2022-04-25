@@ -7,7 +7,7 @@ import { RegistrationSystemModule } from 'src/registration-system/registration-s
 import { TransactionSchema } from 'src/transaction/transaction.model';
 import { TransactionModule } from 'src/transaction/transaction.module';
 import { ReviewController } from './review.controller';
-import { ReviewSchema } from './review.model';
+import { ReviewSchema ,ReportedReviewSchema} from './review.model';
 import { ReviewService } from './review.service';
 
 @Module({
@@ -15,6 +15,7 @@ import { ReviewService } from './review.service';
         MongooseModule.forFeature([
             { name: 'review', schema: ReviewSchema }, 
             { name: 'project', schema: ProjectSchema },
+            { name: 'reportedReview', schema: ReportedReviewSchema },
         ]), 
         forwardRef(() => AuthModule),
         RegistrationSystemModule,

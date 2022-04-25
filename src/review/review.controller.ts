@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import * as RoleGuard from "src/auth/jwt-auth.guard"
-import { CreateReviewDTO, CreateReviewReturnDTO, DeleteReviewReturnDTO, GetReviewReturnDTO } from './review.dto';
+import { CreateReviewDTO, CreateReviewReturnDTO, DeleteReviewReturnDTO, GetReviewReturnDTO ,ReportReviewReturnDTO,ReportedReviewReturnDTO} from './review.dto';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -56,6 +56,18 @@ export class ReviewController {
         } else {
             results = this.reviewService.getReview(query.projectID, req.user._id);
         }
+        return results;
+    }
+
+    @ApiBearerAuth()
+    @ApiBody({ type: ReportReviewReturnDTO })
+    @ApiOkResponse({ description: "Return a reported review", type: ReportedReviewReturnDTO })
+    @ApiNotFoundResponse({description: "the review is not found"})
+    // @UseGuards(RoleGuard.DonPOGuard)
+    @Post('report')
+    async reportReview(@Body() body) {
+        let results = await this.reviewService.reportReview(body.reviewID);
+
         return results;
     }
 }

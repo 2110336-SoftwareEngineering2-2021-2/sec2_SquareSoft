@@ -3,12 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { project } from 'src/project/project.model';
 import { TransactionService } from 'src/transaction/transaction.service';
-import { review } from './review.model';
+import { review,reportedReview } from './review.model';
 
 @Injectable()
 export class ReviewService {
     constructor(
         @InjectModel('review') private readonly reviewModel: Model<review>,
+        @InjectModel('reportedReview') private readonly reportedReviewModel: Model<reportedReview>,
         @InjectModel('project') private readonly projectModel: Model<project>,
         private transactionService: TransactionService
     ) { }
@@ -113,4 +114,28 @@ export class ReviewService {
             }, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
+
+    async reportReview(reviewID: String) {
+        try {
+            const review = await this.reviewModel.findById(reviewID);
+            if(!review)
+            {
+                throw new HttpException({
+                    "msg": "the review is not found",
+                }, HttpStatus.NOT_FOUND);
+            }
+            const newReportedReview = {reviewID, "datetime":new Date(), status:"unreviewed"}
+
+            const newReportedReviewCreated = new this.reportedReviewModel(newReportedReview);
+            const result = await newReportedReviewCreated.save();
+            return result;
+        } catch (err) {
+            throw new HttpException({
+                "msg": "review report failed: database error",
+                "err": err
+            }, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
+
 }
