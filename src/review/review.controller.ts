@@ -6,13 +6,13 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
-  ApiNotFoundResponse,
-  ApiForbiddenResponse,
   ApiOkResponse,
   ApiParam,
   ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
+  ApiOperation,
+  ApiNotFoundResponse
 } from "@nestjs/swagger"
 
 @ApiTags("review")
@@ -25,6 +25,7 @@ export class ReviewController {
     @ApiBody({ type: CreateReviewDTO })
     @ApiOkResponse({ description: "Return a review", type: CreateReviewReturnDTO })
     @ApiBadRequestResponse({description: "invalid body"})
+    @ApiOperation({ summary: 'An API for creating review for a project by a donator of the project.' })
     @UseGuards(RoleGuard.AllRoleGuard)
     @Post('')
     async createReview(@Req() req: any, @Body() body: CreateReviewDTO) {
@@ -35,6 +36,7 @@ export class ReviewController {
     @ApiBearerAuth()
     @ApiParam({ name: "id", type: String, description: "A review's ObjectID" })
     @ApiOkResponse({ description: "Return a deleted review", type: DeleteReviewReturnDTO })
+    @ApiOperation({ summary: 'An API for deleting review for a review by a reviewer.' })
     @ApiBadRequestResponse({description: "invalid review id"})
     @UseGuards(RoleGuard.AllRoleGuard)
     @Delete(':id')
@@ -47,6 +49,7 @@ export class ReviewController {
     @ApiQuery({ name: "projectID", type: String, required: true })
     @ApiOkResponse({ description: "Return a list of reviews", type: GetReviewReturnDTO, isArray: true })
     @ApiBadRequestResponse({description: "invalid project id"})
+    @ApiOperation({ summary: 'An API for getting a review for a project and donator indentifying for a user.' })
     @UseGuards(RoleGuard.GuestAndAllRoleGuard)
     @Get('')
     async getReview(@Req() req: any, @Query() query) {
@@ -63,11 +66,43 @@ export class ReviewController {
     @ApiBody({ type: ReportReviewReturnDTO })
     @ApiOkResponse({ description: "Return a reported review", type: ReportedReviewReturnDTO })
     @ApiNotFoundResponse({description: "the review is not found"})
-    // @UseGuards(RoleGuard.DonPOGuard)
+    @UseGuards(RoleGuard.DonPOGuard)
     @Post('report')
     async reportReview(@Body() body) {
         let results = await this.reviewService.reportReview(body.reviewID);
 
         return results;
+    }
+
+
+    @ApiBearerAuth()
+    @ApiQuery({ name: "reportID", type: String, required: true })
+    @ApiOkResponse({ description: "Return a response status for successed deleting.", type: GetReviewReturnDTO, isArray: true })
+    @ApiBadRequestResponse({description: "invalid report id"})
+    @ApiOperation({ summary: 'An API for deleting a reported review for a project by admin.' })
+    @UseGuards(RoleGuard.AdminGuard)
+    @Delete('admin/reported')
+    async deleteReportedReview(@Query() query) {
+        return ;
+    }
+
+    @ApiBearerAuth()
+    @ApiQuery({ name: "reportID", type: String, required: true })
+    @ApiOkResponse({ description: "Return a response status for successed passing.", type: GetReviewReturnDTO, isArray: true })
+    @ApiBadRequestResponse({description: "invalid report id"})
+    @ApiOperation({ summary: 'An API for passing a reported review for a project by admin.' })
+    @UseGuards(RoleGuard.AdminGuard)
+    @Post('admin/reported')
+    async passReportedReview(@Query() query) {
+        return ;
+    }
+
+    @ApiBearerAuth()
+    @ApiOkResponse({ description: "Return a list of reported reviews for successed passing.", type: GetReviewReturnDTO, isArray: true })
+    @ApiOperation({ summary: 'An API for getting a list of reported reviews by admin.' })
+    @UseGuards(RoleGuard.AdminGuard)
+    @Get('admin/reported')
+    async getReportedReview() {
+        return ;
     }
 }

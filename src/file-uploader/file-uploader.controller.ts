@@ -25,7 +25,7 @@ export class FileUploaderController {
     @Post()
     @ApiBadRequestResponse({ description: "Invalid file" })
     @ApiInternalServerErrorResponse({ description: "Defective file storage server" })
-    @ApiOperation({ summary: 'A API for uploading file to a desired S3 bucket and return the new name of the file.' })
+    @ApiOperation({ summary: 'An API for uploading file to a desired S3 bucket and return the new name of the file.' })
     @UseInterceptors(FileInterceptor('file'))
     @ApiConsumes('multipart/form-data')
     @ApiBody({
@@ -39,7 +39,7 @@ export class FileUploaderController {
 
     @Get("/:filename")
     @ApiParam({ name: "filename", type: String, description: "The name of a stored file." })
-    @ApiOperation({ summary: 'A API for getting presigned URL or ready-to-use URL in a desired S3 bucket of a specific filename.' })
+    @ApiOperation({ summary: 'An API for getting presigned URL or ready-to-use URL in a desired S3 bucket of a specific filename.' })
     @ApiOkResponse({ description: "Return the URL string of a file-name."})
     async getPreSignedURL(@Param() {filename}){
         return this.fileUploaderService.getPreSignedURL(filename);
