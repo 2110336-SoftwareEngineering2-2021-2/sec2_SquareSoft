@@ -16,7 +16,7 @@ export class ReviewService {
 
     async createReview(text: String, star: Number, user: any, projectID: String) {
 
-        const donated = await this.transactionService.didUserDonateProject(user, projectID)
+        const donated = await this.transactionService.checkDonatorForAProject(user, projectID)
         if (!donated) throw new HttpException({ "msg": "the user has not donated this project" }, HttpStatus.BAD_REQUEST)
 
         let projectObject;
@@ -43,14 +43,16 @@ export class ReviewService {
             const result = await newReviewCreated.save();
 
 
-            const avgStar = await this.reviewModel.aggregate([{
-                $group: {
-                    "_id": projectID,
-                    avgStar: { $avg: "$star" }
-                }
-            }])
+            const avgStar = await this.reviewModel.aggregate([
+                    {$match: {projectID: projectID}},
+                    {$group: {_id: "$projectID", avgStar: { $avg: "$star" }}}
+            ])
 
-            await projectObject.updateOne({avgStar: avgStar[0].avgStar})
+            console.log(avgStar)
+
+            const updatedAvgStar = (avgStar.length === 0)? 0: avgStar[0].avgStar
+
+            await projectObject.updateOne({avgStar: updatedAvgStar})
 
             return result;
         }
@@ -75,14 +77,18 @@ export class ReviewService {
             const projectID = reviewObject.projectID
             const projectObject = await this.projectModel.findOne({ _id: projectID})
 
-            const avgStar = await this.reviewModel.aggregate([{
-                $group: {
-                    "_id": projectID,
-                    avgStar: { $avg: "$star" }
-                }
-            }])
+            //const allReviews = await this.reviewModel.find({projectID: projectID})
 
-            await projectObject.updateOne({avgStar: avgStar[0].avgStar})
+            const avgStar = await this.reviewModel.aggregate([
+                    {$match: {projectID: projectID}},
+                    {$group: {_id: "$projectID", avgStar: { $avg: "$star" }}}
+            ])
+
+            console.log(avgStar)
+
+            const updatedAvgStar = (avgStar.length === 0)? 0: avgStar[0].avgStar
+
+            await projectObject.updateOne({avgStar: updatedAvgStar})
 
             return result
         } catch (err) {
@@ -93,7 +99,7 @@ export class ReviewService {
         }
     }
 
-    async getReview(projectID: String, userID: String) {
+    async getReviewByProjectID(projectID: String, userID: String) {
         try {
             const reviewList = await this.reviewModel.find({ projectID: projectID });
             const result = reviewList.map(e => {

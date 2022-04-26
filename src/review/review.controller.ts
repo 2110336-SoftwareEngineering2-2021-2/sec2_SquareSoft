@@ -52,12 +52,12 @@ export class ReviewController {
     @ApiOperation({ summary: 'An API for getting a review for a project and donator indentifying for a user.' })
     @UseGuards(RoleGuard.GuestAndAllRoleGuard)
     @Get('')
-    async getReview(@Req() req: any, @Query() query) {
+    async getReviewByProjectID(@Req() req: any, @Query() query) {
         let results;
         if (!req.user) {
-            results = this.reviewService.getReview(query.projectID, null);
+            results = this.reviewService.getReviewByProjectID(query.projectID, null);
         } else {
-            results = this.reviewService.getReview(query.projectID, req.user._id);
+            results = this.reviewService.getReviewByProjectID(query.projectID, req.user._id);
         }
         return results;
     }

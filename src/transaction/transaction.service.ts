@@ -396,7 +396,7 @@ export class TransactionService {
         }
     }
 
-    async didUserDonateProject(user: any, projectID: String){
+    async checkDonatorForAProject(user: any, projectID: String){
 
         const result = await this.transactionModel.findOne({
             'username.username': user.username,
