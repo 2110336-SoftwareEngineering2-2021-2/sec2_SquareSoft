@@ -48,8 +48,6 @@ export class ReviewService {
                     {$group: {_id: "$projectID", avgStar: { $avg: "$star" }}}
             ])
 
-            console.log(avgStar)
-
             const updatedAvgStar = (avgStar.length === 0)? 0: avgStar[0].avgStar
 
             await projectObject.updateOne({avgStar: updatedAvgStar})
@@ -77,14 +75,10 @@ export class ReviewService {
             const projectID = reviewObject.projectID
             const projectObject = await this.projectModel.findOne({ _id: projectID})
 
-            //const allReviews = await this.reviewModel.find({projectID: projectID})
-
             const avgStar = await this.reviewModel.aggregate([
                     {$match: {projectID: projectID}},
                     {$group: {_id: "$projectID", avgStar: { $avg: "$star" }}}
             ])
-
-            console.log(avgStar)
 
             const updatedAvgStar = (avgStar.length === 0)? 0: avgStar[0].avgStar
 
