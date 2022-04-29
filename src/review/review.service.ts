@@ -7,12 +7,69 @@ import { review,reportedReview } from './review.model';
 
 @Injectable()
 export class ReviewService {
+   
+    
+    
     constructor(
         @InjectModel('review') private readonly reviewModel: Model<review>,
         @InjectModel('reportedReview') private readonly reportedReviewModel: Model<reportedReview>,
         @InjectModel('project') private readonly projectModel: Model<project>,
         private transactionService: TransactionService
     ) { }
+    async getReportedReview() {
+        return this.reportedReviewModel.find();
+    }
+    async deleteReviewByAdmin(reviewID: string) {
+        const reviewObject = await this.reviewModel.findOne({ _id: reviewID});
+
+        if (!reviewObject) {
+            throw new HttpException({ "msg": "review not found" }, HttpStatus.BAD_REQUEST)
+        }
+
+        try {
+            const result = await reviewObject.remove()
+            const projectID = reviewObject.projectID
+            const projectObject = await this.projectModel.findOne({ _id: projectID})
+
+            const avgStar = await this.reviewModel.aggregate([
+                    {$match: {projectID: projectID}},
+                    {$group: {_id: "$projectID", avgStar: { $avg: "$star" }}}
+            ])
+
+            const updatedAvgStar = (avgStar.length === 0)? 0: avgStar[0].avgStar
+
+            await projectObject.updateOne({avgStar: updatedAvgStar})
+
+            return result
+        } catch (err) {
+            throw new HttpException({
+                "msg": "review deletion failed: database error",
+                "err": err
+            }, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+    async deleteReportedReview(reportID: string) {
+        
+        const result=await this.reportedReviewModel.findOne({_id:reportID});
+        if(!result) throw new HttpException({"msg": "report not found"}, HttpStatus.FORBIDDEN);
+        const result2= await this.deleteReviewByAdmin(result['reviewID']);
+        if(!result2) return result2;
+        const result3=await result.updateOne({status: "deleted"});
+        if(!result3) throw new HttpException({"msg": "cannot update review deletion on report"
+    }, HttpStatus.FORBIDDEN); 
+        return {review: result2,report: await this.reportedReviewModel.findOne({_id:reportID}) };
+
+
+    }
+    async passReportedReview(reportID: string) {
+        const result=await this.reportedReviewModel.findOne({_id:reportID});
+        if(!result) throw new HttpException({"msg": "report not found"
+    }, HttpStatus.FORBIDDEN);        
+        const result2=await result.updateOne({status:"passed"})
+        if(!result2) throw new HttpException({"msg": "cannot pass report"
+    }, HttpStatus.FORBIDDEN); 
+        return await this.reportedReviewModel.findOne({_id:reportID});
+    }
 
     async createReview(text: String, star: Number, user: any, projectID: String) {
 

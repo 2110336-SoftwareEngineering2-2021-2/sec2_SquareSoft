@@ -83,7 +83,8 @@ export class ReviewController {
     @UseGuards(RoleGuard.AdminGuard)
     @Delete('admin/reported')
     async deleteReportedReview(@Query() query) {
-        return ;
+        const results=this.reviewService.deleteReportedReview(query['reportID']);
+        return results;
     }
 
     @ApiBearerAuth()
@@ -94,7 +95,9 @@ export class ReviewController {
     @UseGuards(RoleGuard.AdminGuard)
     @Post('admin/reported')
     async passReportedReview(@Query() query) {
-        return ;
+        const results=this.reviewService.passReportedReview(query['reportID']);
+
+        return  results;
     }
 
     @ApiBearerAuth()
@@ -103,6 +106,7 @@ export class ReviewController {
     @UseGuards(RoleGuard.AdminGuard)
     @Get('admin/reported')
     async getReportedReview() {
-        return ;
+        const results=this.reviewService.getReportedReview();
+        return results;
     }
 }
