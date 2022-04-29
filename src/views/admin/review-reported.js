@@ -15,8 +15,7 @@ function ReviewReported(){
                 "_id":"1234567890",
                 "review_id":"1234567890",
                 "datetime" :"2022-02-24T07:23:43.618+00:00",
-                "status":"unreviewed",
-                "numberOfReported":0
+                "status":"unreviewed"
             });
         }
     }, [data]);

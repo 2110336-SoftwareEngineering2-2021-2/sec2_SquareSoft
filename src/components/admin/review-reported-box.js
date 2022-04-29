@@ -118,8 +118,6 @@ function ReportedReviewBox({ data }){
                             <Text fontWeight="bold">{data.datetime.slice(0, 9)}</Text>
                             <Text>เวลา : </Text>
                             <Text fontWeight="bold">{data.datetime.slice(11, 19)}</Text>
-                            <Text>จำนวนครั้ง : </Text>
-                            <Text fontWeight="bold">{data.numberOfReported}</Text>
                         </HStack>
                     </GridItem>
                     <GridItem colSpan={1}>
