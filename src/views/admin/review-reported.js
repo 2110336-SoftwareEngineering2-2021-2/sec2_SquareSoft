@@ -7,8 +7,8 @@ import ReportedReviewBox from '../../components/admin/review-reported-box';
 function ReviewReported(){
     useForAdmin();
     const [data, setData] = useState(null);
-    // Mock up data
-
+    
+    //=============================Change here to get all reported reviews =============================
     useEffect(()=>{
         if(!data){
             setData({

@@ -13,6 +13,7 @@ function ReportedReviewModal({isOpen, onClose, setHide, _id}){
     const [data, setData] = useState(null);
     const navigate = useNavigate();
 
+    //=============================Change here to get a review detail by review id =============================
     useEffect(()=>{
         if(!data){
             setData({
