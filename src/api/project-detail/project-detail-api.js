@@ -18,8 +18,8 @@ const donate = async(id,amount)=> {
     return response
 }
 
-const createReview = async(id, star, text)=> {
-    let body = { "projectID": id, "star": star, "text": text };
+const createReview = async(projectID, star, text)=> {
+    let body = { "projectID": projectID, "star": star, "text": text };
     const response = await axios.post(basedURL.concat('review'), body, getConfigWithToken());
     return response;
 }
