@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, PreconditionFailedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcryptjs';
-import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
+import { RegistrationSystemService } from '../../src/registration-system/registration-system.service';
 
 @Injectable()
 export class AuthService {
@@ -55,5 +55,8 @@ export class AuthService {
                 }
             } else throw new PreconditionFailedException("Old password is incorrect.");
         } else throw new BadRequestException("Please provide old password and new password.")
+    }
+    async getHello(){
+      return "f"
     }
 }
