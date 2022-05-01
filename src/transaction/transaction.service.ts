@@ -2,10 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { query } from 'express';
 import { Model } from 'mongoose';
-import { Role } from 'src/enums/role.enum';
-import { project } from 'src/project/project.model';
-import { userDonator, userProjectOwner } from 'src/registration-system/registration-system.model';
-import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
+import { Role } from '../../src/enums/role.enum';
+import { project } from '../../src/project/project.model';
+import { userDonator, userProjectOwner } from '../../src/registration-system/registration-system.model';
+import { RegistrationSystemService } from '../../src/registration-system/registration-system.service';
 import { RecieveType, TransactionDTO, TransactionObjective, TransactionStatus, TransactionType, TransactionUserEntity, TransferType } from './transaction.model';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { ExecutionContext, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Role } from 'src/enums/role.enum';
-import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
+import { Role } from '../../src/enums/role.enum';
+import { RegistrationSystemService } from '../../src/registration-system/registration-system.service';
 
 @Injectable()
 export class NoRoleGuard extends AuthGuard('jwt') { }

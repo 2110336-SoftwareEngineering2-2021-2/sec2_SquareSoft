@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Headers, Patch, Post, UseGuards,Request } from '@nestjs/common';
-import {AdminGuard, AllRoleGuard, DonPOGuard,ProjectOwnerGuard } from 'src/auth/jwt-auth.guard';
+import {AdminGuard, AllRoleGuard, DonPOGuard,ProjectOwnerGuard } from '../../src/auth/jwt-auth.guard';
 import { AdminMarkTxAsInProgressDTO, GetListDTO, newUserDepositDTO, NewUserWithdrawDTO, TransactionObjective, TransactionUserEntity, UpdateUserTXrefDTO, UserDonateProjectDTO, UserTransactionAccessDTO } from './transaction.model';
 import { TransactionService } from './transaction.service';
 import { NotificationService } from '../notification/notification.service';
 import { EmailService } from '../email/email.service';
-import { ProjectService } from 'src/project/project.service';
+import { ProjectService } from '../../src/project/project.service';
 
 @Controller('transaction')
 export class TransactionController {
@@ -131,4 +131,8 @@ export class TransactionController {
     //     const result = await this.transactionService.newWithdraw({username: req["user"]["username"], role: req["user"]["role"]}, body.amount, null, body.paymentMethod,  body.bank);
     //     return result;
     // }
+    @Get()
+    getHello(): string {
+      return "Hello";
+    }
 }

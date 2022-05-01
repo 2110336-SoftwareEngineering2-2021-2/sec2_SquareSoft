@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
-import { ProjectService } from 'src/project/project.service';
+import { RegistrationSystemService } from '../../src/registration-system/registration-system.service';
+import { ProjectService } from '../../src/project/project.service';
 import { Role } from '../enums/role.enum';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, IS_ALPHA, Min, Validate, ValidateNested } from 'class-validator';
 import * as mongoose from 'mongoose';
-import { Role } from 'src/enums/role.enum';
+import { Role } from '../../src/enums/role.enum';
 
 export const TransactionSchema = new mongoose.Schema({
     timestamp: { type: Date, required: true},
