@@ -16,8 +16,9 @@ describe('AuthService', () => {
   //   expect(service).toBeDefined();
   // });
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(service.getHello()).toBe("f");
+    it('should return "Hello World!"', async () => {
+      let r = await service.getHello()
+      expect(r).toBe("f");
     });
   });
 });
