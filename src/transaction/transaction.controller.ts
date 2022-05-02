@@ -115,7 +115,7 @@ export class TransactionController {
         const project = await this.projectService.findProjectByID(body.projectID)
         this.notificationService.createNotification({notificationType:"donateConfirmation",owner:req["user"]["_id"],amount:body.amount,projectName:project.projectName})
         body["projectName"]=project.projectName;
-        this.emailService.sendDonateConfirmation(req["user"]["_id"],body);
+        //this.emailService.sendDonateConfirmation(req["user"]["_id"],body);
         return result;
     }
 
