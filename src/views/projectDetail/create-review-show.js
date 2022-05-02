@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
-import { Box, Button, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
-import { getReviews, re } from './../../api/review/review';
+import { Box, Button, HStack, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { getReviews, report } from './../../api/review/review';
 import { StarIcon } from "@chakra-ui/icons";
 
 
@@ -21,9 +21,42 @@ function Star({number}){
         }
     </div>);
 }
+function ReviewModal({isOpen, onClose, text, star, reviewID, setAppear}){
+    return(
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>คุณต้องการรายงานจริงๆ หรอ</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+              <VStack>
+                <Text>ข้อความ : {text}</Text>
+                <HStack>
+                    <Text>ดาว : </Text>
+                    <Star number = {star}/>
+                </HStack>
+              </VStack>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant='ghost' onClick = {()=>{
+                report(reviewID);
+                onClose();
+                setAppear(false);
+            }}>Report</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+}
 
 function ReviewItem(props){
     const {data} = props;
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [ appear, setAppear ] = useState(true);
     return(
         <Box p="5" maxW="100%" borderWidth="1px">
             <HStack>
@@ -32,7 +65,13 @@ function ReviewItem(props){
                     {data.text}
                 </Text>
                 <Spacer/>
-                <Button>Report</Button>
+                {appear && <Button onClick = {onOpen}>Report</Button>}
+                <ReviewModal    isOpen = {isOpen} 
+                                onClose = {onClose} 
+                                text = {data.text} 
+                                star = {data.star} 
+                                reviewID = {data._id}
+                                setAppear = {setAppear}/>
             </HStack>
         </Box>
     )

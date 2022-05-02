@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import './ProjectDetail.css'
 import {getProjectById, donate} from '../../api/project-detail/project-detail-api'
 import {getProjectProgressByID} from '../../api/project-detail/update-project-progression'
+import {getImageURL} from '../../api/image/image';
 import { 
     Button, Image,  Table,
     Thead,
@@ -37,6 +38,7 @@ const ProjectDetail =()=>{
     
     const [project,setProject]=useState(0);
     const [progress,setProgress]=useState(null);
+    const [ imageURL, setImageURL ] = useState(null);
     const { id } = useParams();
 
     const navigate = useNavigate();
@@ -61,22 +63,29 @@ const ProjectDetail =()=>{
                 setProject(res);
             })
         }
-        if(!progress && project){
-            getProjectProgressByID(id)
-            .then((res) => {
-                setProgress(res.data.progress!==undefined ? res.data.progress:0);
-            })
-            .catch(() => {
-                setProgress(0);
-            });
+        if(project){
+            if(!imageURL){
+                getImageURL(project.projectPicture).then(res => {
+                    setImageURL(res);
+                });
+            }
+            if(!progress){
+                getProjectProgressByID(id)
+                .then((res) => {
+                    setProgress(res.data.progress!==undefined ? res.data.progress:0);
+                })
+                .catch(() => {
+                    setProgress(0);
+                });
+            }
         }
-    }, [progress, project]);
+    }, [progress, project, imageURL]);
 
     if (project!==undefined)
     return (
         <div>
             <Navigator/>
-            <Image boxSize='300px' objectFit='cover' src={project.imageUrl} className='image-logo'/>
+            <Image boxSize='300px' objectFit='cover' src={imageURL} className='image-logo'/>
             <Table variant='simple'>
                 <Thead>
                 </Thead>
