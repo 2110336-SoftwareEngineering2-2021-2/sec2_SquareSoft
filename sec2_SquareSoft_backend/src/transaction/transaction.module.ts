@@ -6,7 +6,9 @@ import { RegistrationSystemModule } from 'src/registration-system/registration-s
 import { TransactionController } from './transaction.controller';
 import { TransactionSchema } from './transaction.model';
 import { TransactionService } from './transaction.service';
-
+import { NotificationModule } from "src/notification/notification.module"
+import { EmailModule } from "src/email/email.module"
+import { ProjectModule } from 'src/project/project.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'transaction', schema: TransactionSchema }]),
@@ -15,9 +17,13 @@ import { TransactionService } from './transaction.service';
       {name: 'userProjectOwner', schema: UserProjectOwnerSchema},
       {name: 'project', schema: ProjectSchema}
     ]),
-    RegistrationSystemModule
+    RegistrationSystemModule,
+    ProjectModule,
+    NotificationModule,
+    EmailModule
   ],
   controllers: [TransactionController],
-  providers: [TransactionService]
+  providers: [TransactionService],
+  exports: [TransactionService]
 })
 export class TransactionModule {}

@@ -111,6 +111,16 @@ export class RegistrationSystemService {
         }
         return user;
     }
+    async editPersonalDetails(userID: string, role: string, fields: Object){
+        let personalDetails = await this.findByID(userID, role);
+        for(let [field, value] of Object.entries(fields)){
+            if(value!== ""){
+                personalDetails[field] = value;
+            }   
+        }
+        let result = await personalDetails.save()
+        return result;
+    }
 
 }
 // username: string, hashpassword: string, firstname: string, lastname: string, birthdate: string, email: string, bankAccountFirstname: string, bankAccountLastname: string, bankAccountNumber: string, bankAccountBank: string

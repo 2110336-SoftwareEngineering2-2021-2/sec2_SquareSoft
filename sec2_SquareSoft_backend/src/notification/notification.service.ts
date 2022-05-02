@@ -12,7 +12,7 @@ export class NotificationService {
     
     async findByOwnerID(query: any) {
         try{
-            let queryBlock={ ownerID: query['ownerID']}
+            let queryBlock={ owner: query['owner']}
             
             const result=await this.notificationModel.find(queryBlock).exec();
             return [result.length,result];

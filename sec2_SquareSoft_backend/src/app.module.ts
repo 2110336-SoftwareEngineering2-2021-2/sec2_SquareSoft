@@ -7,10 +7,14 @@ import { RegistrationSystemModule } from './registration-system/registration-sys
 import { AuthModule } from './auth/auth.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { ProjectModule } from './project/project.module';
-import { EmailModule } from './email/email.module';
-import { NotificationModule } from './notification/notification.module';
+
 import { FileUploaderModule } from './file-uploader/file-uploader.module';
 import { ConfigModule } from '@nestjs/config';
+
+import { EmailModule } from './email/email.module';
+import { NotificationModule } from './notification/notification.module'
+import { ReviewModule } from './review/review.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -22,7 +26,8 @@ import { ConfigModule } from '@nestjs/config';
     ProjectModule,
     FileUploaderModule,
     EmailModule,
-    NotificationModule
+    NotificationModule,
+    ReviewModule
   ],
   controllers: [AppController],
   providers: [AppService],

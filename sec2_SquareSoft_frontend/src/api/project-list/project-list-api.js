@@ -1,10 +1,21 @@
 import axios from 'axios'
 import {
-    basedURL
+    basedURL, getConfigWithToken
 } from '../index.js';
 import {
     getFileURL
 } from '../file-uploader/file-uploader.js'
+
+async function withdraw(projectID, amount) {
+    const config = getConfigWithToken();
+    const req = {
+        "projectID" : projectID,
+        "amount" : amount
+    };
+    const response = await axios.post(basedURL.concat(`transaction/projectOwnerWithdrawFromProject`), req, config);
+    console.log(response);
+    return await response;
+}
 
 function getAllProjects() {
     return [{
@@ -40,30 +51,30 @@ function getAllProjects() {
     ]
 }
 
-function getFilteredProjects(searchValue, status, type, category) {
-    console.log(searchValue)
-    console.log(status)
-    console.log(type)
-    console.log(category)
-    return [{
-            _id: "id1",
-            title: "Search 1",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id2",
-            title: "Search 2",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-        {
-            _id: "id3",
-            title: "Search 3",
-            description: "description1 description1 description1 description1 description1 description1 description1 ",
-            imageUrl: 'https://picsum.photos/500/300?random=1'
-        },
-    ]
+async function getFilteredProjects(searchValue, status, type, category) {
+    try {
+        const response = await axios.post(basedURL.concat(`project/find-by-name-and-cat`), {
+            projectName: searchValue,
+            fundingType: type,
+            category: category,
+            projectPublishStatus: status
+        })
+        const projectList = await Promise.all(response.data.map(async (e) => {
+            const img_response = await getFileURL(e.projectPicture)
+            const imgUrl = img_response.data
+            return {
+                _id: e._id,
+                title: e.projectName,
+                description: e.description,
+                imageUrl: imgUrl,
+            }
+        }))
+        return projectList
+
+    } catch (err) {
+        console.log(err)
+        return []
+    }
 }
 
 async function getMyProjects(token) {
@@ -81,6 +92,8 @@ async function getMyProjects(token) {
             _id: e._id,
             title: e.projectName,
             description: e.description,
+            fundingMoneyStatus: e.fundingMoneyStatus, 
+            withdrawnAmount: e.withdrawnAmount,
             imageUrl: imgUrl,
         }
     }))
@@ -106,9 +119,52 @@ async function getProjectsOfAnOwner(ownerid, token) {
     return projectList
 }
 
+async function getAllUnpublishedProjects(token) {
+    const response = await axios.get(basedURL.concat(`project/find-by-unpublish`), {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    const projectList = await Promise.all(response.data.map(async (e) => {
+        const img_response = await getFileURL(e.projectPicture)
+        const imgUrl = img_response.data
+        //const imgUrl = 'https://picsum.photos/500/300?random=1'
+        return {
+            _id: e._id,
+            title: e.projectName,
+            description: e.description,
+            imageUrl: imgUrl,
+        }
+    }))
+
+    return projectList
+}
+
+async function getRecommendedProjects(token) {
+    const response = await axios.get(basedURL.concat(`project/find-recommended-project`))
+
+    const projectList = await Promise.all(response.data.map(async (e) => {
+        const img_response = await getFileURL(e.projectPicture)
+        const imgUrl = img_response.data
+        //const imgUrl = 'https://picsum.photos/500/300?random=1'
+        return {
+            _id: e._id,
+            title: e.projectName,
+            description: e.description,
+            imageUrl: imgUrl,
+        }
+    }))
+
+    return projectList
+}
+
 export {
     getAllProjects,
     getFilteredProjects,
     getMyProjects,
-    getProjectsOfAnOwner
+    getProjectsOfAnOwner,
+    getAllUnpublishedProjects,
+    getRecommendedProjects,
+    withdraw
 };

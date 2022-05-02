@@ -13,6 +13,9 @@ export const ProjectSchema = new mongoose.Schema({
   projectPicture: { type: String, required: true },
   projectVideo: { type: String, required: true },
   projectPublishStatus: { type: String, required: true },
+  progress: { type: Number, required: true, default: 0 },
+  withdrawnAmount: { type: Number, required: true, default: 0 },
+  avgStar: { type: Number, required: true, default: 0 }
 });
 
 export interface project{
@@ -27,5 +30,7 @@ export interface project{
   projectOwnerID: string;
   projectPicture: string;
   projectPublishStatus: string;
+  progress: number;
+  withdrawnAmount: number;
+  avgStar: number;
 }
-

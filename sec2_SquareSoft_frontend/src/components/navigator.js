@@ -8,14 +8,20 @@ import coinIcon from './coin-icon.png';
 import axios from 'axios'
 import {basedURL} from '../api/index.js';
 import {getToken} from '../api/index.js';
-//
-async function numCoins(token){
+
+import { BellIcon } from '@chakra-ui/icons';
+import { HStack } from '@chakra-ui/react'
+import NotificationModal from './notification-modal';
+// 
+async function numCoins(token, role){
     try{
-        const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {
-            headers: { Authorization: "Bearer " + token }
-        })
-        console.log(response)
-        return response.data.balance;
+        if((role =='projectOwner' | role =='supporter')){
+            const response = await axios.get(basedURL.concat('transaction/getUserBalance'), {
+                headers: { Authorization: "Bearer " + token }
+            })
+            return response.data.balance;
+        }
+        
     }catch(err){
         console.log(err)
         // console.log("sdfdfdf")
@@ -34,15 +40,23 @@ async function numCoins(token){
 class Navigator extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {username: null, isLoggedin: false, role: null, balance: 0}
-        
+        this.state = { 
+            username: null, 
+            isLoggedin: false, 
+            role: null, 
+            balance: 0, 
+            numberOfNotifcation: 0, 
+            notificationIsOpen: false
+        }
+        this.setNumberOfNotification = this.setNumberOfNotification.bind(this);
+        this.setNotificationIsOpen = this.setNotificationIsOpen.bind(this);
     }
     componentDidMount() {
         // Check if logged in
         if (Cookies.get('token')) {
             this.setState({isLoggedin: true})
             this.tick()
-            this.interval = setInterval(() => this.tick(), 100);
+            this.interval = setInterval(() => this.tick(), 1000);
             this.setState({username: Cookies.get('username',), role:Cookies.get('role')})
         }
         
@@ -61,8 +75,16 @@ class Navigator extends React.Component{
     }
     async tick(){
         this.setState({
-            balance: await numCoins(getToken())
+            balance: await numCoins(getToken(), this.state.role)
         });
+    }
+
+    setNumberOfNotification(value){
+        this.setState({numberOfNotifcation: value});
+    }
+
+    setNotificationIsOpen(value){
+        this.setState({notificationIsOpen: value});
     }
 
     render(){
@@ -75,30 +97,48 @@ class Navigator extends React.Component{
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#link">Link</Nav.Link>
-                    {(this.state.isLoggedin && this.props.balance!=="undefined")&&<Nav.Link href='donation'>
+                    <Nav.Link href="/home">Home</Nav.Link>
+                    <Nav.Link href="/link">Link</Nav.Link>
+                    {(this.state.isLoggedin && (this.state.role =='projectOwner' | this.state.role =='supporter') && this.props.balance!=="undefined")&&<Nav.Link href='donation'>
                         <div class = "hstack gap-2">
                             <div> {this.state.balance}</div>
                             <img src={coinIcon} alt="" width="28" height="28"/>
+                            {/* {this.state.role} */}
                         </div>
                     </Nav.Link>}
+                </Nav>
+                <Nav>
+                    {
+                        this.state.numberOfNotifcation!==0&&<button onClick = {() => {this.setNotificationIsOpen(true);}}>
+                            <BellIcon color='red.500'/>
+                        </button>
+                    }
                     <NavDropdown title={(this.state.username === null)? "Guest": this.state.username} id="basic-nav-dropdown">
-                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
-                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
-                    {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up-projectOwner')}}>Sign Up-PO</NavDropdown.Item>}
-                    {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/projects/my-project')}}>My Projects</NavDropdown.Item>}
-                    {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/create-project')}}>Create Project</NavDropdown.Item>}
-                    {(this.state.isLoggedin)&&<NavDropdown.Divider />}
-                    {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogOut()}>Log out</NavDropdown.Item>}
-                    {/* <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
+                        {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/login')}}>Login</NavDropdown.Item>}
+                        {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up')}}>Sign Up</NavDropdown.Item>}
+                        {(!this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/sign-up-projectOwner')}}>Sign Up-PO</NavDropdown.Item>}
+                        {<NavDropdown.Item onClick = {() => {this.setNotificationIsOpen(true);}}>Notification({this.state.numberOfNotifcation})</NavDropdown.Item>}
+                        {(this.state.isLoggedin && this.state.role ==='projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/personal-details')}}>Update Details</NavDropdown.Item>}
+                        {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/projects/my-project')}}>My Projects</NavDropdown.Item>}
+                        {(this.state.isLoggedin && this.state.role === 'projectOwner')&&<NavDropdown.Item onClick = {() => {this.props.navigate('/create-project')}}>Create Project</NavDropdown.Item>}
+                        {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => {this.props.navigate('/change-password')}}>Change Password</NavDropdown.Item>}
+                        {(this.state.isLoggedin)&&<NavDropdown.Divider />}
+                        {(this.state.isLoggedin)&&<NavDropdown.Item onClick = {() => this.onClickLogOut()}>Log out</NavDropdown.Item>}
+                        {/* <NavDropdown.Divider /> <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
                     </NavDropdown>
                 </Nav>
                 </Navbar.Collapse>
             </Container>
             </Navbar>
+
+            {this.state.isLoggedin && <NotificationModal 
+                setNumberOfNotification = {this.setNumberOfNotification} 
+                setNotificationIsOpen = {this.setNotificationIsOpen} 
+                notificationIsOpen = {this.state.notificationIsOpen}
+            />}
+
             {/* <div>{(numCoins(getToken())).toString()}</div> */}
+
         </div>;
     }
 }

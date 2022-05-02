@@ -6,7 +6,7 @@ import { Role } from 'src/enums/role.enum';
 import { project } from 'src/project/project.model';
 import { userDonator, userProjectOwner } from 'src/registration-system/registration-system.model';
 import { RegistrationSystemService } from 'src/registration-system/registration-system.service';
-import { TransactionDTO, TransactionObjective, TransactionStatus, TransactionType, TransactionUserEntity, TransferType } from './transaction.model';
+import { RecieveType, TransactionDTO, TransactionObjective, TransactionStatus, TransactionType, TransactionUserEntity, TransferType } from './transaction.model';
 
 @Injectable()
 export class TransactionService {
@@ -65,9 +65,10 @@ export class TransactionService {
         }
     }
 
-    async adminConfirmTX(username: TransactionUserEntity, internalTXID: string){
+    async adminConfirmTX(internalTXID: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
@@ -88,9 +89,10 @@ export class TransactionService {
         }
     }
 
-    async adminRejectTX(username: TransactionUserEntity, internalTXID: string){
+    async adminRejectTX(internalTXID: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         let user = await this.registrationSystemService.findByUsername(username.username, username.role);
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
@@ -126,8 +128,9 @@ export class TransactionService {
         return result; //await this.newDeposit(username, amount, null, user., bank)
     }
 
-    async adminMarkTxAsInProgress(username: TransactionUserEntity, internalTXID: string){
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+    async adminMarkTxAsInProgress(internalTXID: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         this.validateTX(
             tx, 
             [TransactionType.Deposit, TransactionType.Withdraw],
@@ -144,8 +147,9 @@ export class TransactionService {
         }
     }
 
-    async adminConfirmWithdraw(username: TransactionUserEntity, internalTXID: string, txRef: string){
-        let tx = await this.getUserTransactionByTXID(username, internalTXID);
+    async adminConfirmWithdraw(internalTXID: string, txRef: string){
+        let tx = await this.getUserTransactionByTXID(null, internalTXID);
+        let username = tx.username
         this.validateTX(
             tx, 
             [TransactionType.Withdraw],
@@ -195,6 +199,45 @@ export class TransactionService {
         }
     }
 
+    async projectOwnerWithdrawFromProject(username: TransactionUserEntity, projectID: string, amount: number){
+        let project = undefined
+        try{
+            project = await this.projectModel.findById(projectID);   
+        }
+        catch(err){
+            throw new HttpException({
+                "msg": "invalid projectID"
+            }, HttpStatus.BAD_REQUEST);
+        }
+        if ( project === null ){
+            throw new HttpException({
+                "msg": "project not found"
+            }, HttpStatus.NOT_FOUND);
+        }
+        let user = await this.registrationSystemService.findByUsername(username.username, username.role);
+        if (project.projectOwnerID != user._id ){
+            throw new HttpException({
+                "msg": "this project owner has no permission on this project"
+            }, HttpStatus.FORBIDDEN);
+        }
+        
+        if ( project.fundingMoneyStatus - project.withdrawnAmount < amount ){
+            throw new HttpException({
+                "msg": "insufficient fund"
+            }, HttpStatus.UNPROCESSABLE_ENTITY); 
+        }
+
+        project.withdrawnAmount += amount;
+        await project.save();
+        user.balance += amount;
+        await user.save();
+        let result = await this.newRecieve(username, amount, RecieveType.GetDonation, projectID, TransactionStatus.Completed);
+        return {
+            "status": "withdraw from project successful",
+            "txResult": result
+        }
+    }
+
     validateTX(tx: any, types: Array<TransactionType>, typeErrorMsg: string, status: Array<TransactionStatus>, statusErrorMsg: string): boolean{
         for (let type of types){
             if (type === tx.type){
@@ -225,7 +268,7 @@ export class TransactionService {
         return result
     }
 
-    async getUnfinishedUserTX(limit: number = 10){
+    async getUnfinishedUserTX(limit: number = 100000000){
         const result = await this.transactionModel.find({
             $or:[
                 {
@@ -248,7 +291,7 @@ export class TransactionService {
     }
 
 
-    async getUserTransactionByTXID(username: TransactionUserEntity, internalTXID: string){
+    async getUserTransactionByTXID(username: TransactionUserEntity | null, internalTXID: string){
         let tx = undefined
         try{
             tx = await this.transactionModel.findById(internalTXID);
@@ -263,7 +306,7 @@ export class TransactionService {
                 "msg": "internalTXID not found"
             }, HttpStatus.NOT_FOUND);
         }
-        if ( tx.username.username !== username.username || tx.username.role !== username.role ){
+        if ( username !== null && ( tx.username.username !== username.username || tx.username.role !== username.role ) ){
             throw new HttpException({
                 "msg": "this user has no permission on this internalTXID"
             }, HttpStatus.FORBIDDEN);
@@ -306,13 +349,15 @@ export class TransactionService {
         return await this.newTransaction(new Date(), username, TransactionType.Transfer, amount, data, status)
     }
     
-    async newRecieve(username: TransactionUserEntity, fromUsername: string, objective: TransactionObjective, amount: number, 
-                        transferTXID: any, status: TransactionStatus = TransactionStatus.Pending) {
-        return await this.newTransaction(new Date(), username, TransactionType.Recieve, amount, {
-            fromUsername,
-            objective,
-            transferTXID
-        }, status)
+    async newRecieve(username: TransactionUserEntity, amount: number,
+                        recieveType: RecieveType, fromProjectID: string|null = null, 
+                        status: TransactionStatus = TransactionStatus.Pending) {
+        let data = {}
+        data["recieveType"] = recieveType;
+        if (recieveType === RecieveType.GetDonation){
+            data["data"] = {fromProjectID};
+        }
+        return await this.newTransaction(new Date(), username, TransactionType.Transfer, amount, data, status)
     }
 
     async newDeposit(username: TransactionUserEntity, amount: number, txRef: string, paymentMethod: string, 
@@ -349,6 +394,20 @@ export class TransactionService {
                 "err": err
             }, HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+
+    async checkDonatorForAProject(user: any, projectID: String){
+
+        const result = await this.transactionModel.findOne({
+            'username.username': user.username,
+            'username.role': user.role,
+            'type': TransactionType.Transfer,
+            'data.transferType': TransferType.Donate,
+            'data.data.toProjectID': projectID
+        })
+
+        if (result) return true;
+        else return false;
     }
 
 }

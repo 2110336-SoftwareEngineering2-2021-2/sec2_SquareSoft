@@ -1,0 +1,36 @@
+.grid{
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.box{
+    margin-top: 6px;
+    max-width: 2000px;
+    max-height: 1000px;
+}
+.topic{
+    font-size: 20px;
+}
+.grid2{
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr ;
+    column-gap: 16px;
+}
+.box2{
+    /* margin: px;   */
+    width: 20%;
+    margin-left: 700px;
+    margin-right: 700px;
+    padding: 10px;
+}
+.header{
+    text-align: center;
+    text-transform: uppercase;
+    color: #4CAF50;
+    margin-top: 30px;
+    /* padding: 15px; */
+    font-size: 45px;
+}

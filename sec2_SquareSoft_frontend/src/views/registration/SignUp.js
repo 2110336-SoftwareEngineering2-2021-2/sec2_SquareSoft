@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-import {Navigate, Redirect} from 'react-router-dom'
+import React from 'react'
 import { register } from '../../api/registration/registration';
 import Navigator from "../../components/navigator";
 import {useNavigate} from 'react-router-dom'
@@ -84,7 +83,7 @@ const SignUp = (props) =>{
         let err = ""
         let state = true;
         for(var i=0;i<11;i++)
-            if(e.target[i].value == "") state = false
+            if(e.target[i].value === "") state = false
         if(!state) err+= "Fill in the missing information.\n"
         let accountName = e.target[0].value
         let password = e.target[1].value
@@ -97,13 +96,13 @@ const SignUp = (props) =>{
         let bankAccountSurname = e.target[8].value
         let bankAccountNumber = e.target[9].value
         let bankName = e.target[10].value
-        if (confirmPassword!=password){
+        if (confirmPassword!==password){
             state = false;
             err += "Password isn't equal to Confirm Password\n"
         }
         if(state){
             let result = await register("donator",accountName,password,name,surname,birthdate,email,bankAccountName,bankAccountSurname,bankAccountNumber,bankName);
-            if(result.status == "succeed"){
+            if(result.status === "succeed"){
                 alert("succeed")
                 props.navigate("/login")
             }else{

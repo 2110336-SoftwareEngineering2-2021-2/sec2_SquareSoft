@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import Navigator from "../../components/navigator";
-import { useEffect } from 'react';
 import './Donation.css'
 import { Stack,Select,
     Input, Image,  Table,Button,
@@ -12,7 +11,7 @@ import { Stack,Select,
 import {basedURL, getToken} from "../../api/index.js";
 import axios from 'axios'
 import Cookies from 'js-cookie'
-
+import { useNavigate } from "react-router-dom";
 function HistoryItem(props){
     const {data,state} = props;
     const date = new Date(data.timestamp)
@@ -251,60 +250,10 @@ async function getUserTransaction(){
 }
 
 
-
-function DataDonation(props){
-    let [stateHistory,setStateHistory] = useState(0)
-    // let inp_data = await getUserTransaction();
-    let inp_data = props.data
-    const data_arr = Object.values(inp_data)
-    const filterHistory = data_arr.filter((his) => {
-        if(stateHistory == 0) return (his.type == 'Transfer')
-        if(stateHistory == 1) return (his.type == 'Withdraw')
-        if(stateHistory == 2) return (his.type == 'Deposit')
-        if(stateHistory == 3) return his   
-    }) 
-
-    const historyElement = filterHistory.map((his,index) => {
-        return <HistoryItem key={index} data={his} state={stateHistory}/>
-    }) 
-    const handleChange = (event) => {
-        setStateHistory(event.target.value)
-    }
-    return(
-        <div>
-            <Navigator/>
-            <div className='tran'> 
-                Transaction History
-            </div>
-            <Select placeholder='Select Type' onChange={handleChange} >
-                <option value='0'>Transfer</option>
-                <option value='1'>Withdraw</option>
-                <option value='2'>Deposit</option>
-            </Select>
-            <Table variant='striped' colorScheme='teal'>
-                <Thead>
-                    <Tr>
-                        <Th>Date</Th>
-                        <Th>Time </Th>
-                        <Th>Type</Th>
-                        <Th>Username</Th>
-                        <Th>Status</Th>
-                        <Th>Amount</Th>
-                        <Th>Description</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {historyElement}
-                </Tbody>
-            </Table>
-        </div>
-    )
-}
-
 class Donation extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {data: [], isLoggedin: false}
+        this.state = {data: [], isLoggedin: false,stateHistory: 0}
     }
 
     async componentDidMount() {
@@ -319,8 +268,61 @@ class Donation extends React.Component{
         
     }
     render(){
-        return <DataDonation  data = {this.state.data}/>
+        let inp_data = this.state.data
+        const data_arr = Object.values(inp_data)
+        // const data_arr = test_data
+        const filterHistory = data_arr.filter((his) => {
+            if(this.state.stateHistory == 0) return (his.type == 'Transfer')
+            if(this.state.stateHistory == 1) return (his.type == 'Withdraw')
+            if(this.state.stateHistory == 2) return (his.type == 'Deposit')
+            if(this.state.stateHistory == 3) return his   
+        }) 
+
+        const historyElement = filterHistory.map((his,index) => {
+        return <HistoryItem key={index} data={his} state={this.state.stateHistory}/>
+        }) 
+        const handleChange = (event) => {
+        this.setState({stateHistory:event.target.value})
+        }
+        return <div>
+                    <Navigator/>
+                    <div className='tran'> 
+                        Transaction History
+                    </div>
+                    <div className='button-grid'>
+                        <Button colorScheme='green' variant='solid' onClick={() => {this.props.navigate('/donation/deposit')}}>deposit</Button>
+                        <Button colorScheme='red' variant='solid' onClick={() => {this.props.navigate('/donation/withdraw')}}>withdraw</Button>
+                    </div>
+                    
+                    <Select placeholder='Select Type' onChange={handleChange} >
+                        <option value='0'>Transfer</option>
+                        <option value='1'>Withdraw</option>
+                        <option value='2'>Deposit</option>
+                    </Select>
+                    <Table variant='striped' colorScheme='teal'>
+                        <Thead>
+                            <Tr>
+                                <Th>Date</Th>
+                                <Th>Time </Th>
+                                <Th>Type</Th>
+                                <Th>Username</Th>
+                                <Th>Status</Th>
+                                <Th>Amount</Th>
+                                <Th>Description</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {historyElement}
+                        </Tbody>
+                    </Table>
+                </div>
     }
 }
 
-export default Donation
+function WithDonation(props){
+    let navigate = useNavigate();
+    return <Donation {...props} navigate= {navigate}/>
+}
+
+
+export default WithDonation

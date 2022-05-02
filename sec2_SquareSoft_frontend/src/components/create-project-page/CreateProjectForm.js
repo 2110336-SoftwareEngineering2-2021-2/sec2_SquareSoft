@@ -87,7 +87,8 @@ function CreateProjectForm() {
         projectCategory &&
         projectEndDate &&
         projectTargetAmount &&
-        projectImage &&
+        projectImage !== "null" &&
+        projectImage !== "empty" &&
         projectVideoLink
       ) {
         // Set submit button to loading
@@ -298,6 +299,7 @@ function CreateProjectForm() {
             </FormLabel>
             <ImageUploader
               upload={upload}
+              imageName={projectImage}
               setImageName={setProjectImage}
               setUploaded={setUploaded}
             />

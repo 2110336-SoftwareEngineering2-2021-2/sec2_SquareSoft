@@ -10,11 +10,21 @@
     text-align: center;
     text-transform: uppercase;
     color: #4CAF50;
-    padding: 20px;
-    font-size: 30px;
+    padding: 15px;
+    font-size: 45px;
 }
 .history-grid{
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
 }
+.button-grid {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    column-gap: 16px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }

@@ -1,17 +1,27 @@
 import React, {useState} from 'react'
 import Navigator from "../../components/navigator";
-import VerificcationBox from '../../components/donation-system/admin/transaction-verification';
-import { useNavigate, useParams} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import './ProjectDetail.css'
-import {getProjectById} from '../../api/project-detail/project-detail-api'
-
+import {getProjectById, donate} from '../../api/project-detail/project-detail-api'
+import {getProjectProgressByID} from '../../api/project-detail/update-project-progression'
+import {getImageURL} from '../../api/image/image';
 import { 
-    Button, Image,  Table,AspectRatio ,
+    Button, Image,  Table,
     Thead,
     Tbody,
     Tr,
-    Td,} from '@chakra-ui/react'
+    Td,
+    Box,
+    VStack,
+    Text,
+    HStack,
+    Badge,
+    Progress,
+    Input,
+    Center} from '@chakra-ui/react'
+import CreateReviewBox from './create-review-box';
+import AreaShow from './create-review-show.js';
 
 const data = 
     {
@@ -24,36 +34,66 @@ const data =
         targetMoney:'200,000'
     }
 
-function onSupport(){
-    return (
-        alert('SUPPORT SUCCESS')
-    )
-}
-function onBack(){
-    return (
-        alert('BACK SUCCESS')
-    )
-}
-
 const ProjectDetail =()=>{
     
     const [project,setProject]=useState(0);
+    const [progress,setProgress]=useState(null);
+    const [ imageURL, setImageURL ] = useState(null);
     const { id } = useParams();
 
+    const navigate = useNavigate();
+
+    const onSupport = (id, value) => {
+        donate(id, Number(value))
+        .then(() =>{
+            navigate(-1);
+        })
+        .catch(() => {
+            alert("Insufficient fund.");
+        }); 
+    }
+
+    const [value, setValue] = useState('0')
+    const handleChange = (event) => setValue(event.target.value)
+
     useEffect(() => {
-        getProjectById(id)
-            .then(res => {console.log(res);setProject(res);})
-    }, []);
+        if(!project){
+            getProjectById(id)
+            .then(res => {
+                setProject(res);
+            })
+        }
+        if(project){
+            if(!imageURL){
+                getImageURL(project.projectPicture).then(res => {
+                    setImageURL(res);
+                });
+            }
+            if(!progress){
+                getProjectProgressByID(id)
+                .then((res) => {
+                    setProgress(res.data.progress!==undefined ? res.data.progress:0);
+                })
+                .catch(() => {
+                    setProgress(0);
+                });
+            }
+        }
+    }, [progress, project, imageURL]);
 
     if (project!==undefined)
     return (
         <div>
             <Navigator/>
-            <Image boxSize='300px' objectFit='cover' src={project.imageUrl} className='image-logo'/>
+            <Image boxSize='300px' objectFit='cover' src={imageURL} className='image-logo'/>
             <Table variant='simple'>
                 <Thead>
                 </Thead>
                 <Tbody>
+                    <Tr className='item'>
+                        <Td>Name :</Td>
+                        <Td>{project.projectName}</Td>
+                    </Tr>
                     <Tr className='item'>
                         <Td>Objective :</Td>
                         <Td>{project.objective}</Td>
@@ -84,10 +124,36 @@ const ProjectDetail =()=>{
                     </Tr>                 
                 </Tbody>
             </Table>
+            <Box w = "100%" h = {10} m = {5}>
+                <VStack align="left">
+                    <HStack>
+                        <Text>ความคืบหน้า : </Text>
+                        <Badge>{progress} %</Badge>
+                    </HStack>
+                    <Progress w = "97%" value={progress} colorScheme='purple' isAnimated hasStripe/>
+                </VStack>
+            </Box>
             <div className='button-grid'>  
-                <Button colorScheme='blue' variant='solid' onClick={onBack}> BACK </Button>
-                <Button colorScheme='red' variant='solid' onClick={onSupport}> SUPPORT </Button>
+            <Center>
+                <VStack>
+                    <HStack>
+                        <Text>Donate Amount : </Text>
+                        <Input  w = {100} minH = {10} maxH = {10} 
+                                value={value}
+                                onChange={handleChange}/>
+                    </HStack>
+                    <HStack>
+                        <Button colorScheme='blue' variant='solid' onClick={() => {navigate(-1);}}> BACK </Button>
+                        <Button colorScheme='red' variant='solid' onClick={() => {onSupport(project._id, value);}}> SUPPORT </Button>
+                    </HStack>
+                </VStack>
+            </Center>
             </div>
+            <CreateReviewBox projectID={project._id}/>
+            <br/>
+            <hr></hr>
+            <AreaShow projectID={project._id} avgStar = {project.avgStar}/>
+            
         </div>
     )
     else 
