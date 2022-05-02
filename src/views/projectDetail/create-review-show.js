@@ -1,55 +1,111 @@
 
-import React from "react";
-import { Box, Text } from "@chakra-ui/react";
-import ReactStars from "react-rating-stars-component";
-// import './create-area-show.css'
+import React, { useEffect, useState } from "react";
+import { Box, Button, HStack, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { getReviews, report } from './../../api/review/review';
+import { StarIcon } from "@chakra-ui/icons";
+
+
+function Star({number}){
+    return(<div>
+        {
+            [...Array(number)]
+            .map((_, idx) => (
+                <Icon id = {idx} as={StarIcon} color="yellow.400"/>
+            ))
+        }
+        {
+            [...Array(5-number)]
+            .map((_, idx) => (
+                <Icon id = {idx} as={StarIcon}/>
+            ))
+        }
+    </div>);
+}
+function ReviewModal({isOpen, onClose, text, star, reviewID, setAppear}){
+    return(
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>คุณต้องการรายงานจริงๆ หรอ</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+              <VStack>
+                <Text>ข้อความ : {text}</Text>
+                <HStack>
+                    <Text>ดาว : </Text>
+                    <Star number = {star}/>
+                </HStack>
+              </VStack>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant='ghost' onClick = {()=>{
+                report(reviewID);
+                onClose();
+                setAppear(false);
+            }}>Report</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+}
+
 function ReviewItem(props){
     const {data} = props;
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [ appear, setAppear ] = useState(true);
     return(
-        <Box p="5" maxW="1000px" borderWidth="1px">
-            <ReactStars count={data.star} size={25}/>
-            <Text mt={2} fontSize="xl" fontWeight="semibold" lineHeight="short">
-                {data.txt}
-            </Text>
-            <Text mt={2} fontSize="m" fontWeight="semibold" lineHeight="short">
-                วันที่รีวิว {data.date}
-            </Text>
+        <Box p="5" maxW="100%" borderWidth="1px">
+            <HStack>
+                <Star number = {data.star}/>
+                <Text mt={2} fontSize="xl" lineHeight="short">
+                    {data.text}
+                </Text>
+                <Spacer/>
+                {appear && <Button onClick = {onOpen}>Report</Button>}
+                <ReviewModal    isOpen = {isOpen} 
+                                onClose = {onClose} 
+                                text = {data.text} 
+                                star = {data.star} 
+                                reviewID = {data._id}
+                                setAppear = {setAppear}/>
+            </HStack>
         </Box>
     )
 }
-const data_arr = [
-    {
-        "txt":"Hello 123",
-        "date" :"12-10-21",
-        "star" : 3
-    },
-    {
-        "txt":"Hello 456",
-        "date" :"12-10-21",
-        "star" :5
-    },
-    {
-        "txt":"Hello 456",
-        "date" :"12-10-21",
-        "star" :5
-    },
-    {
-        "txt":"Hello 456",
-        "date" :"12-10-21",
-        "star" :5
-    },
-    {
-        "txt":"Hello 456",
-        "date" :"12-10-21",
-        "star" :5
-    }
 
-]
 function AreaShow({ projectID }){
-        const showReview = data_arr.map((data,index) => {
-            return <ReviewItem key={index} data={data} />
+        const [data, setData ] = useState(null);
+        useEffect(()=>{
+            if(!data & projectID != undefined){
+                getReviews(projectID)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch()
+            }
+        }, [data, projectID]);
+
+        if(!data ){
+            return(<div>Loading</div>);
+        }
+        if(data.length<=0){
+            return(<div>No review yet</div>);
+        }
+
+        var average_star = 0;
+        for (let i = 0; i < data.length; i++) {
+            average_star += data[i].star;
+        }
+        average_star /= data.length;
+        average_star = Math.floor(average_star);
+
+        const showReview = data.map((element,index) => {
+            return <ReviewItem key={index} data={element} />
         }) 
-        const average_star = 4;
         return (
             <div>
                 <div className="text-show">
@@ -57,7 +113,7 @@ function AreaShow({ projectID }){
                             รีวิว
                     </Text>
                     <Text mt={5} fontSize="xl" fontWeight="semibold" lineHeight="short">
-                            Average Rating : {average_star} {<ReactStars count={average_star} size={25} />} 
+                            Average Rating : {average_star} {<Star number = {average_star}/>} 
                     </Text>
                 </div>
                 <br></br>

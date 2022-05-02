@@ -1,4 +1,4 @@
-import { Flex, Center, Text, Container, VStack, AccordionDescendantsProvider } from '@chakra-ui/react'
+import { Flex, Center, Text, Container, VStack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
 import NavigatorAdmin from "../../components/navigator-admin";
 import useForAdmin from '../../components/for-admin';
@@ -7,13 +7,11 @@ import {basedURL, getToken} from "../../api/index.js"
 import axios from 'axios'
 
 async function getReportedReviews() {
-    console.log(2)
     const token = getToken();
     const response = await axios.get(basedURL.concat('review/admin/reported'),{
         headers: { Authorization: "Bearer " + getToken() }
     });
     // console.log(response);
-    console.log(3)
     return await response;
 }
 
@@ -24,7 +22,6 @@ function ReviewReported(){
     //=============================Change here to get all reported reviews =============================
     useEffect(()=>{
         if(!data){
-                console.log(1)
                 getReportedReviews()
                 .then(res => {
                 console.log(res);

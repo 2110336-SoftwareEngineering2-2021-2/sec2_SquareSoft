@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-import {basedURL, getToken} from "../../api/index.js"
+import {basedURL, getConfigWithToken, getToken} from "../../api/index.js"
 async function getReportedReviewByReviewID(reviewID){
     const token = getToken();
     const response = await axios.get(basedURL.concat('review/admin/reported/reviewID?reviewID='+reviewID), {
@@ -18,10 +18,9 @@ async function getReportedReviewByReviewID(reviewID){
     return await response
 
 }
-async function deleteReportedReview(reportID) {
+async function passReportedReview(reportID) {
     
     const token = getToken();
-    console.log("token",token)
     const response = await axios.post(basedURL.concat('review/admin/reported?reportID='+reportID), null, {
         headers: { Authorization: "Bearer " + token }
     }
@@ -30,16 +29,16 @@ async function deleteReportedReview(reportID) {
 }
 
 async function rejectReportedReview(reportID){
-    const token = getToken();
+    const config = getConfigWithToken();
     const response = await axios.delete(basedURL.concat('review/admin/reported?reportID='+reportID), {
-        headers: { Authorization: "Bearer " + token }
+        headers: config
     }
     )
     return await response
 
 }
 
-function ReportedReviewModal({isOpen, onClose, setHide, _id, reportID}){
+function ReportedReviewModal({isOpen, onClose, setHide, reviewID, reportID}){
     const [data, setData] = useState(null);
     const navigate = useNavigate();
 
@@ -53,7 +52,7 @@ function ReportedReviewModal({isOpen, onClose, setHide, _id, reportID}){
             //     "text":"This is review",
             //     "star":4
             // });
-            getReportedReviewByReviewID(_id)
+            getReportedReviewByReviewID(reviewID)
             .then(res => {
             console.log(res);
             setData(res.data);
@@ -63,7 +62,8 @@ function ReportedReviewModal({isOpen, onClose, setHide, _id, reportID}){
 
     const approve = () =>{
         setHide(true);
-        deleteReportedReview(reportID)
+        console.log(reportID)
+        passReportedReview(reportID)
             .then(res => {
             console.log(res);
             })
@@ -101,17 +101,17 @@ function ReportedReviewModal({isOpen, onClose, setHide, _id, reportID}){
                 <ModalContent>
                 <ModalHeader>
                     <HStack spacing={50}>
-                        <Text xs={2} fontWeight="semibold">Report_id : {data._id}</Text>
-                        <Button onClick={()=>{navigate('/projects/'.concat(data.project_id))}}>Goto Project</Button>
+                        <Text xs={2} fontWeight="semibold">Report_id : {reportID}</Text>
+                        <Button onClick={()=>{navigate('/projects/'.concat(data.projectID))}}>Goto Project</Button>
                     </HStack>
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <VStack alignItems="flex-start">
                         <HStack>
-                            <Text xs={2} fontWeight="semibold">Project_id : {data.project_id}</Text>
+                            <Text xs={2} fontWeight="semibold">Project_id : {data.projectID}</Text>
                             <Spacer/>
-                            <Text xs={2} fontWeight="semibold">User_id : {data.user_id}</Text>
+                            <Text xs={2} fontWeight="semibold">User_id : {data.userID}</Text>
                         </HStack>
                         <Text xs={2} fontWeight="semibold">Text : </Text>
                         <HStack>
@@ -137,8 +137,8 @@ function ReportedReviewModal({isOpen, onClose, setHide, _id, reportID}){
                 </ModalBody>
                 <ModalFooter>
                     <Button variant='ghost' onClick={onClose} mx = {1}>Close</Button>
-                    <Button colorScheme='teal' variant='solid' mx = {1} onClick = {reject}>Reject</Button>
-                    <Button colorScheme='pink' variant='solid' mx = {1} onClick = {approve}>Delete</Button>
+                    <Button colorScheme='pink' variant='solid' mx = {1} onClick = {reject}>Delete</Button>
+                    <Button colorScheme='teal' variant='solid' mx = {1} onClick = {approve}>Pass</Button>
                 </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -169,7 +169,7 @@ function ReportedReviewBox({ data }){
                     </GridItem>
                 </Grid>
             </Box>
-            <ReportedReviewModal isOpen={isOpen} onClose={onClose} setHide={setHide} _id={data.reviewID} reportID = {data._id}/>
+            <ReportedReviewModal isOpen={isOpen} onClose={onClose} setHide={setHide} reviewID={data.reviewID} reportID = {data._id}/>
         </>
     );
 }
