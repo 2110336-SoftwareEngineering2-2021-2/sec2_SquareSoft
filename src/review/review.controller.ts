@@ -66,11 +66,10 @@ export class ReviewController {
     @ApiBody({ type: ReportReviewReturnDTO })
     @ApiOkResponse({ description: "Return a reported review", type: ReportedReviewReturnDTO })
     @ApiNotFoundResponse({description: "the review is not found"})
-    @UseGuards(RoleGuard.AdminGuard)
+    @UseGuards(RoleGuard.DonPOGuard)
     @Post('report')
     async reportReview(@Body() body) {
         let results = await this.reviewService.reportReview(body.reviewID);
-
         return results;
     }
 

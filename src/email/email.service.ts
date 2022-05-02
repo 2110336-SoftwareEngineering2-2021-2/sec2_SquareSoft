@@ -25,14 +25,15 @@ export class EmailService {
 
   async sendDonateConfirmation(_id,donationDetail) {
     const user = await this.userService.findByID(_id,Role.Donator)
-    
-    this.mailerService.sendMail({
-      // to: "mondcha1507@gmail.com",
-      to: user.email,
-      from: '"Support Team" <projectlauncher@squaresoft.com>', 
-      subject: 'Project Launcher | ยืนยันการบริจาค',
-        text: "สวัสดีคุณ " + user["firstname"]+"\nท่านได้ทำการบริจาคเงินให้กับโครงการ "+donationDetail["projectName"]+" เป็นจำนวนเงิน "+donationDetail["amount"]+" บาท", // plaintext body
-    });
+    if(user.email){
+      this.mailerService.sendMail({
+        // to: "mondcha1507@gmail.com",
+        to: user.email,
+        from: '"Support Team" <projectlauncher@squaresoft.com>', 
+        subject: 'Project Launcher | ยืนยันการบริจาค',
+          text: "สวัสดีคุณ " + user["firstname"]+"\nท่านได้ทำการบริจาคเงินให้กับโครงการ "+donationDetail["projectName"]+" เป็นจำนวนเงิน "+donationDetail["amount"]+" บาท", // plaintext body
+      });
+    }
 
   }
 }
