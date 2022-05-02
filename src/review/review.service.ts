@@ -17,7 +17,9 @@ export class ReviewService {
         private transactionService: TransactionService
     ) { }
     async getReportedReview() {
-        return this.reportedReviewModel.find();
+        return this.reportedReviewModel.find({status: "unreviewed"});
+        // return this.reportedReviewModel.find({status: "deleted"});
+        // return this.reportedReviewModel.find();
     }
     async deleteReviewByAdmin(reviewID: string) {
         const reviewObject = await this.reviewModel.findOne({ _id: reviewID});
@@ -194,5 +196,14 @@ export class ReviewService {
         }
     }
 
+    async getReviewByReviewID(reviewID: string){
+        const results = await this.reviewModel.findOne({_id: reviewID});
+        if (!results) {
+            throw new HttpException({ "msg": "this review does not exist" }, HttpStatus.BAD_REQUEST)
+        }
+        return results;
+
+    }
+    
 
 }

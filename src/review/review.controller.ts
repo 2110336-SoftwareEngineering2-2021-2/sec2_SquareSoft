@@ -66,7 +66,7 @@ export class ReviewController {
     @ApiBody({ type: ReportReviewReturnDTO })
     @ApiOkResponse({ description: "Return a reported review", type: ReportedReviewReturnDTO })
     @ApiNotFoundResponse({description: "the review is not found"})
-    @UseGuards(RoleGuard.DonPOGuard)
+    @UseGuards(RoleGuard.AdminGuard)
     @Post('report')
     async reportReview(@Body() body) {
         let results = await this.reviewService.reportReview(body.reviewID);
@@ -107,6 +107,13 @@ export class ReviewController {
     @Get('admin/reported')
     async getReportedReview() {
         const results=this.reviewService.getReportedReview();
+        return results;
+    }
+
+    @UseGuards(RoleGuard.AdminGuard)
+    @Get('admin/reported/reviewID')
+    async getReviewByReviewID(@Query() query){
+        const results = this.reviewService.getReviewByReviewID(query['reviewID']);
         return results;
     }
 }
