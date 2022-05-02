@@ -58,7 +58,7 @@ export class ProjectOwnerVerificationController {
   async projectOwnerReject(@Body("id") id: string) {
     const result= await this.projectOwnerService.setVerificationStatus(id, false)
     this.notificationService.createNotification({notificationType:"rejectedVerification",owner:id})
-    this.emailService.sendRejectedVerificationNotification(id);
+    // this.emailService.sendRejectedVerificationNotification(id);
     return result
   }
 
