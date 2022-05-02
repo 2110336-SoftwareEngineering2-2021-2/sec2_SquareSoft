@@ -7,31 +7,73 @@ import {
 import React, { useEffect, useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
+import {basedURL, getToken} from "../../api/index.js"
+async function getReportedReviewByReviewID(reviewID){
+    const token = getToken();
+    const response = await axios.get(basedURL.concat('review/admin/reported/reviewID?reviewID='+reviewID), {
+        headers: { Authorization: "Bearer " + getToken() }
+    }
+    )
+    return await response
 
+}
+async function deleteReportedReview(reportID) {
+    console.log(reportID)
+    const token = getToken();
+    const response = await axios.post(basedURL.concat('review/admin/reported?reportID='+reportID), {
+        headers: { Authorization: "Bearer " + token }
+    }
+    )
+    return await response
+}
 
-function ReportedReviewModal({isOpen, onClose, setHide, _id}){
+async function rejectReportedReview(reportID){
+    const token = getToken();
+    const response = await axios.delete(basedURL.concat('review/admin/reported?reportID='+reportID), {
+        headers: { Authorization: "Bearer " + token }
+    }
+    )
+    return await response
+
+}
+
+function ReportedReviewModal({isOpen, onClose, setHide, _id, reportID}){
     const [data, setData] = useState(null);
     const navigate = useNavigate();
 
     //=============================Change here to get a review detail by review id =============================
     useEffect(()=>{
         if(!data){
-            setData({
-                "_id":_id,
-                "user_id":"1234567890",
-                "project_id" :"62190f37b7065ef37abccf64",
-                "text":"This is review",
-                "star":4
-            });
+            // setData({
+            //     "_id":_id,
+            //     "user_id":"1234567890",
+            //     "project_id" :"62190f37b7065ef37abccf64",
+            //     "text":"This is review",
+            //     "star":4
+            // });
+            getReportedReviewByReviewID(_id)
+            .then(res => {
+            console.log(res);
+            setData(res.data);
+            })
         }
     }, [data]);
 
     const approve = () =>{
         setHide(true);
+        deleteReportedReview(reportID)
+            .then(res => {
+            console.log(res);
+            })
     }
 
     const reject = () =>{
         setHide(true);
+        rejectReportedReview(reportID)
+            .then(res => {
+            console.log(res);
+            })
     }
     
 
@@ -114,7 +156,7 @@ function ReportedReviewBox({ data }){
                     <GridItem colSpan={4}>
                         <HStack>
                             <Text>ID : </Text>
-                            <Text fontWeight="bold">{data.review_id}</Text>
+                            <Text fontWeight="bold">{data.reviewID}</Text>
                             <Text>วัน : </Text>
                             <Text fontWeight="bold">{data.datetime.slice(0, 9)}</Text>
                             <Text>เวลา : </Text>
@@ -126,7 +168,7 @@ function ReportedReviewBox({ data }){
                     </GridItem>
                 </Grid>
             </Box>
-            <ReportedReviewModal isOpen={isOpen} onClose={onClose} setHide={setHide} _id={data.review_id}/>
+            <ReportedReviewModal isOpen={isOpen} onClose={onClose} setHide={setHide} _id={data.reviewID} reportID = {data._id}/>
         </>
     );
 }
