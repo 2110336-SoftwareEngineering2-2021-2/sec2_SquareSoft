@@ -133,7 +133,6 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
         // }).then(res => {if(res){ setData(res.data) }
         // })}, [])
         const data = props.data
-    
         return(
             <div>
             <Box p="5" w="1000px" borderWidth="1px">
@@ -146,7 +145,10 @@ import { VStack, Text, HStack, Box, Button, Badge, useDisclosure,
                         <Text>Username : </Text>
                         <Text fontWeight="bold">{data.username.username}</Text>
                     </HStack>
-                    <Badge borderRadius='full' colorScheme='teal'>เติมเงิน</Badge>
+                    {data.type==="Deposit" ? <Badge borderRadius='full' colorScheme='teal'>เติมเงิน</Badge>
+                    : <Badge borderRadius='full' colorScheme='red'>ถอนเงิน</Badge>
+                    }
+                    
                     <Text fontWeight="bold" >จำนวน : {data.amount}</Text>
                     <Spacer/>
                     <Button onClick={onOpen}>ตรวจสอบ</Button>

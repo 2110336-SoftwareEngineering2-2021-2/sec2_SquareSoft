@@ -19,9 +19,10 @@ async function getReportedReviewByReviewID(reviewID){
 
 }
 async function deleteReportedReview(reportID) {
-    console.log(reportID)
+    
     const token = getToken();
-    const response = await axios.post(basedURL.concat('review/admin/reported?reportID='+reportID), {
+    console.log("token",token)
+    const response = await axios.post(basedURL.concat('review/admin/reported?reportID='+reportID), null, {
         headers: { Authorization: "Bearer " + token }
     }
     )
