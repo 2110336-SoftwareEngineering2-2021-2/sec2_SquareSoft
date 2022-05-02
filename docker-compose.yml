@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: project_launcer_frontend
+    image: project_launcer_frontend
+    build:
+      context: .
+      target: development
+      dockerfile: ./sec2_SquareSoft_frontend/Dockerfile
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3000:3000
+    networks:
+      - project_launcher
+    volumes:
+      - .:/src/app
+      - ./src/app/node_modules
+    restart: unless-stopped
+
+  backend:
+    container_name: project_launcer_backend
+    image: project_launcer_backend
+    build:
+      context: .
+      target: development
+      dockerfile: ./sec2_SquareSoft_backend/Dockerfile
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3001:3001
+    networks:
+      - project_launcher
+    volumes:
+      - .:/src/app
+      - ./src/app/node_modules
+    restart: unless-stopped
+
+networks:
+  project_launcher:
