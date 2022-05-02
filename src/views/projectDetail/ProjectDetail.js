@@ -20,6 +20,7 @@ import {
     Input,
     Center} from '@chakra-ui/react'
 import CreateReviewBox from './create-review-box';
+import AreaShow from './create-review-show.js';
 
 const data = 
     {
@@ -138,6 +139,10 @@ const ProjectDetail =()=>{
             </Center>
             </div>
             <CreateReviewBox projectID={project._id}/>
+            <br/>
+            <hr></hr>
+            <AreaShow projectID={project._id}/>
+            
         </div>
     )
     else 
