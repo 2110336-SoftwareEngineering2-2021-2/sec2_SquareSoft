@@ -29,9 +29,9 @@ async function passReportedReview(reportID) {
 }
 
 async function rejectReportedReview(reportID){
-    const config = getConfigWithToken();
+    const token = getToken();
     const response = await axios.delete(basedURL.concat('review/admin/reported?reportID='+reportID), {
-        headers: config
+        headers: { Authorization: "Bearer " + token }
     }
     )
     return await response

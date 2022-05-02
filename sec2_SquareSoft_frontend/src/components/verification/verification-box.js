@@ -9,15 +9,16 @@ import { getProjectOwner, approveProjectOwner, rejectProjectOwner } from "../../
 function VerificationModal({isOpen, onClose, _id, setHide}){
     const [load, setLoad] = useState(false);
     const [data, setData] = useState({});
+    const [isHide,setIsHide] = useState(false)
 
     const approve = () =>{
         approveProjectOwner(_id);
-        setHide(true);
+        setIsHide(true);
     }
 
     const reject = () =>{
         rejectProjectOwner(_id);
-        setHide(true);
+        setIsHide(true);
     }
     
     useEffect(()=>{
@@ -27,7 +28,7 @@ function VerificationModal({isOpen, onClose, _id, setHide}){
         }
     }, [isOpen, load, _id]);
 
-    if(!load)
+    if(!load && !isHide)
         return(
             <>
                 <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
@@ -42,7 +43,7 @@ function VerificationModal({isOpen, onClose, _id, setHide}){
                 </Modal>
             </>
         )
-        
+    else if(!isHide)
     return(
         <div>
             <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
@@ -128,6 +129,8 @@ function VerificationModal({isOpen, onClose, _id, setHide}){
             </Modal>
         </div>
     );
+    else
+        return (<div></div>);
 }
 
 function VerificcationBox({ _id, firstname, lastname }){
