@@ -55,10 +55,12 @@ const ProjectDetail =()=>{
     const handleChange = (event) => setValue(event.target.value)
 
     useEffect(() => {
-        getProjectById(id)
+        if(!project){
+            getProjectById(id)
             .then(res => {
                 setProject(res);
             })
+        }
         if(!progress && project){
             getProjectProgressByID(id)
             .then((res) => {
