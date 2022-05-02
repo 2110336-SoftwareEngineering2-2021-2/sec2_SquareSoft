@@ -152,7 +152,7 @@ const ProjectDetail =()=>{
             <CreateReviewBox projectID={project._id}/>
             <br/>
             <hr></hr>
-            <AreaShow projectID={project._id}/>
+            <AreaShow projectID={project._id} avgStar = {project.avgStar}/>
             
         </div>
     )

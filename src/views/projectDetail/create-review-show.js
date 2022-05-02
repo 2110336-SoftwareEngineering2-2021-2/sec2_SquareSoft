@@ -77,7 +77,7 @@ function ReviewItem(props){
     )
 }
 
-function AreaShow({ projectID }){
+function AreaShow({ projectID, avgStar}){
         const [data, setData ] = useState(null);
         useEffect(()=>{
             if(!data & projectID != undefined){
@@ -85,7 +85,9 @@ function AreaShow({ projectID }){
                 .then((res) => {
                     setData(res.data);
                 })
-                .catch()
+                .catch(error => {
+                    alert(error);
+                })
             }
         }, [data, projectID]);
 
@@ -113,7 +115,7 @@ function AreaShow({ projectID }){
                             รีวิว
                     </Text>
                     <Text mt={5} fontSize="xl" fontWeight="semibold" lineHeight="short">
-                            Average Rating : {average_star} {<Star number = {average_star}/>} 
+                            Average Rating : {average_star} {<Star number = {Math.floor(avgStar)}/>} 
                     </Text>
                 </div>
                 <br></br>

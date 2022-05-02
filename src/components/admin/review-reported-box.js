@@ -159,7 +159,7 @@ function ReportedReviewBox({ data }){
                             <Text>ID : </Text>
                             <Text fontWeight="bold">{data.reviewID}</Text>
                             <Text>วัน : </Text>
-                            <Text fontWeight="bold">{data.datetime.slice(0, 9)}</Text>
+                            <Text fontWeight="bold">{data.datetime.slice(0, 10)}</Text>
                             <Text>เวลา : </Text>
                             <Text fontWeight="bold">{data.datetime.slice(11, 19)}</Text>
                         </HStack>
