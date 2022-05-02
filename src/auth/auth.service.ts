@@ -30,7 +30,7 @@ export class AuthService {
         return { access_token: this.jwtService.sign(payload) };
     }
 
-    async changePassword(user: any, body: Body){
+    async changePassword(user: any, body: any){
         const oldPass = body["oldPass"];
         const newPass = body["newPass"];
 
@@ -61,7 +61,5 @@ export class AuthService {
             } else throw new PreconditionFailedException("Old password is incorrect.");
         } else throw new BadRequestException("Please provide old password and new password.")
     }
-    async getHello(){
-      return "f"
-    }
+
 }
